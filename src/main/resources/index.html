@@ -4,82 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameHub - Strona Główna</title>
-    <link rel="stylesheet" href="/static/style/style.css">
+    <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-<body> 
-    <nav>
-        <div class="container nav-container">
-            <a href="index.html" class="nav-brand">GameHub</a>
-            <div class="nav-links">
-                <a href="pages/info.html">Info</a>
-                <a href="pages/add-game.html" id="nav-link-add-game" style="display: none;">Dodaj Grę</a>
-                <a href="pages/admin-panel.html" id="nav-link-admin-panel" style="display: none;">Panel Moderatora</a>
-            </div>
-            
-            <div class="nav-controls">
-                <button id="theme-toggle-btn" class="theme-toggle">
-                    <i class="fas fa-moon"></i> 
-                </button>
-                <div id="navbar-user-section">
-                    <a href="pages/login.html" class="btn btn-secondary">Zaloguj się</a>
-                </div>
+<body>
+<nav>
+    <div class="container nav-container">
+        <a href="index.html" class="nav-brand">GameHub</a>
+        <div class="nav-links">
+            <a href="pages/info.html">Info</a>
+            <a href="pages/add-game.html" id="nav-link-add-game" style="display: none;">Dodaj Grę</a>
+            <a href="pages/admin-panel.html" id="nav-link-admin-panel" style="display: none;">Panel Moderatora</a>
+        </div>
+
+        <div class="nav-controls">
+            <button id="theme-toggle-btn" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div id="navbar-user-section">
+                <a href="pages/login.html" class="btn btn-secondary">Zaloguj się</a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="container">
-        
-        <section class="featured-slider">
-            <div id="featured-slider-container">
-                
-                <a href="pages/game.html?id=1" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/007bff/fff?text=Okładka+Gry+1');">
+<main class="container">
+
+    <section class="featured-slider">
+        <div id="featured-slider-container">
+
+            <a href="pages/game.html?id=1" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/007bff/fff?text=Okładka+Gry+1');">
                     <span class="slide-play-btn">
                         <i class="fas fa-play"></i> Graj
                     </span>
-                </a>
-                
-                <a href="pages/game.html?id=2" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/e75e8d/fff?text=Okładka+Gry+2');">
+            </a>
+
+            <a href="pages/game.html?id=2" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/e75e8d/fff?text=Okładka+Gry+2');">
                     <span class="slide-play-btn">
                         <i class="fas fa-play"></i> Graj
                     </span>
-                </a>
+            </a>
+        </div>
+    </section>
+
+    <section class="search-bar-container">
+        <div class="category-dropdown" id="category-dropdown">
+            <button id="category-dropdown-btn" class="category-btn">
+                <span id="category-btn-text">Wszystkie Kategorie</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="category-dropdown-content" class="category-content">
+                <a href="#" data-category="all">Wszystkie Kategorie (Test)</a>
+                <a href="#" data-category="action">Akcja (Test)</a>
             </div>
-        </section>
+        </div>
 
-        <section class="search-bar-container">
-            <div class="category-dropdown" id="category-dropdown">
-                <button id="category-dropdown-btn" class="category-btn">
-                    <span id="category-btn-text">Wszystkie Kategorie</span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div id="category-dropdown-content" class="category-content">
-                    <a href="#" data-category="all">Wszystkie Kategorie (Test)</a>
-                    <a href="#" data-category="action">Akcja (Test)</a>
-                </div>
-            </div>
-            
-            <form id="search-form" class="search-form">
-                <input type="text" id="search-input" placeholder="Wyszukaj grę...">
-                <button type="submit" class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-        </section>
+        <form id="search-form" class="search-form">
+            <input type="text" id="search-input" placeholder="Wyszukaj grę...">
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </section>
 
-        <section class="popular-games-section">
-            <h2>Popularne Gry</h2>
-            <div id="game-grid-container" class="game-grid">
-                </div>
-        </section>
+    <section class="popular-games-section">
+        <h2>Popularne Gry</h2>
+        <div id="game-grid-container" class="game-grid">
+        </div>
+    </section>
 
-    </main>
+</main>
 
-    <footer>
-        <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
-    </footer>
-
-    <script src="js/main.js" defer></script> 
-    <script src="js/index.js" defer></script> 
+<footer>
+    <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
+</footer>
+<script src="js/main.js" defer></script>
+<script src="js/index.js" defer></script>
 </body>
 </html>
