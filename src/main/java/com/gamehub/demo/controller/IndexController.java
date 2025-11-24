@@ -11,14 +11,4 @@ public class IndexController {
     public String index() {
         return "index";
     }
-
-    @GetMapping("/game")
-    public String game() {
-        return "game";
-    }
-
-    @GetMapping("/login")
-    public String login() {
-        return "login";
-    }
 }
