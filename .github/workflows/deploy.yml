@@ -27,8 +27,8 @@ jobs:
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
-          username: ${{ secrets.GHCR_USERNAME_WIKTOR }}
-          password: ${{ secrets.GHCR_TOKEN_WIKTOR }}
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Budowanie i wysylanie obrazu Docker
         uses: docker/build-push-action@v4
@@ -45,15 +45,15 @@ jobs:
       - name: Polaczenie z serwerem i wdrozenie
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.HOST_SSH }}
-          username: ${{ secrets.UZYTKOWNIK_SSH }}
-          key: ${{ secrets.KLUCZ_PRYWATNY_SSH }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo ${{ secrets.GHCR_TOKEN_WIKTOR }} | sudo docker login ghcr.io -u ${{ secrets.GHCR_USERNAME_WIKTOR }} --password-stdin
+            echo ${{ secrets.GHCR_TOKEN }} | sudo docker login ghcr.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             
-            cd /home/${{ secrets.UZYTKOWNIK_SSH }}
+            cd /home/${{ secrets.SSH_USER }}
             
-            ENV_FILE_PATH=/home/${{ secrets.UZYTKOWNIK_SSH }}/.env
+            ENV_FILE_PATH=/home/${{ secrets.SSH_USER }}/.env
             
             sudo env $(cat $ENV_FILE_PATH | xargs) docker compose pull
             
