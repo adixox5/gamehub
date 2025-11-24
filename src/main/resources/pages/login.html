@@ -4,92 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameHub - Zaloguj się</title>
-    <link rel="stylesheet" href="../static/style/style.css">
+    <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <nav class="minimal-nav">
-        <div class="container nav-container">
-            <a href="../templates/index.html" class="nav-brand">GameHub</a>
-            
-            <div class="nav-controls">
-                <button id="theme-toggle-btn" class="theme-toggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
+<nav class="minimal-nav">
+    <div class="container nav-container">
+        <a href="/" class="nav-brand">GameHub</a>
+
+        <div class="nav-controls">
+            <button id="theme-toggle-btn" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="container login-page-container">
-        <div class="auth-card">
-            
-            <div id="login-form-container">
-                <h2>Zaloguj się</h2>
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="login-email">Email:</label>
-                        <input type="email" id="login-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Hasło:</label>
-                        <input type="password" id="login-password" required>
-                    </div>
-                    <div id="login-message"></div>
-                    <button type="submit" class="btn">Zaloguj</button>
-                </form>
-                <p class="auth-link">Nie masz konta? <a href="#" id="show-register-link">Zarejestruj się</a></p>
-            </div>
+<main class="container login-page-container">
+    <div class="auth-card">
 
-            <div id="register-form-container" style="display: none;">
-                <h2>Stwórz konto</h2>
-                <form id="register-form">
-                    <div class="form-group">
-                        <label for="register-username">Nazwa (Imię):</label>
-                        <input type="text" id="register-username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-email">Email:</label>
-                        <input type="email" id="register-email" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="register-password">Hasło:</label>
-                        <input type="password" id="register-password" required>
-                    </div>
-                    <div id="register-message"></div>
-                    <button type="submit" class="btn">Stwórz konto</button>
-                </form>
-                <p class="auth-link">Masz już konto? <a href="#" id="show-login-link">Zaloguj się</a></p>
-            </div>
-        </div> 
-    </main>
+        <div id="login-form-container">
+            <h2>Zaloguj się</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">Email:</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-password">Hasło:</label>
+                    <input type="password" id="login-password" required>
+                </div>
+                <div id="login-message"></div>
+                <button type="submit" class="btn">Zaloguj</button>
+            </form>
+            <p class="auth-link">Nie masz konta? <a href="#" id="show-register-link">Zarejestruj się</a></p>
+        </div>
 
-    <footer>
-        <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
-    </footer>
+        <div id="register-form-container" style="display: none;">
+            <h2>Stwórz konto</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-username">Nazwa (Imię):</label>
+                    <input type="text" id="register-username" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email:</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Hasło:</label>
+                    <input type="password" id="register-password" required>
+                </div>
+                <div id="register-message"></div>
+                <button type="submit" class="btn">Stwórz konto</button>
+            </form>
+            <p class="auth-link">Masz już konto? <a href="#" id="show-login-link">Zaloguj się</a></p>
+        </div>
+    </div>
+</main>
 
-    <script src="../js/main.js" defer></script> 
-    <script src="../js/auth.js" defer></script> 
+<footer>
+    <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
+</footer>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const loginContainer = document.getElementById('login-form-container');
-            const registerContainer = document.getElementById('register-form-container');
-            const showRegisterLink = document.getElementById('show-register-link');
-            const showLoginLink = document.getElementById('show-login-link');
+<script src="../js/main.js" defer></script>
+<script src="../js/auth.js" defer></script>
 
-            showRegisterLink.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                loginContainer.style.display = 'none'; 
-                registerContainer.style.display = 'block'; 
-            });
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const loginContainer = document.getElementById('login-form-container');
+        const registerContainer = document.getElementById('register-form-container');
+        const showRegisterLink = document.getElementById('show-register-link');
+        const showLoginLink = document.getElementById('show-login-link');
 
-            showLoginLink.addEventListener('click', (e) => {
-                e.preventDefault(); 
-                loginContainer.style.display = 'block'; 
-                registerContainer.style.display = 'none'; 
-            });
+        showRegisterLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginContainer.style.display = 'none';
+            registerContainer.style.display = 'block';
         });
-    </script>
+
+        showLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginContainer.style.display = 'block';
+            registerContainer.style.display = 'none';
+        });
+    });
+</script>
 </body>
 </html>

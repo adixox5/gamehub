@@ -4,74 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameHub - Nazwa Gry</title>
-    <link rel="stylesheet" href="../static/style/style.css">
+    <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <nav>
-        <div class="container nav-container">
-            <a href="../templates/index.html" class="nav-brand">GameHub</a>
-            <div class="nav-links">
-                <a href="info.html">Info</a>
-                <a href="add-game.html" id="nav-link-add-game" style="display: none;">Dodaj Grę</a>
-                <a href="admin-panel.html" id="nav-link-admin-panel" style="display:none;">Panel Moderatora</a>
-            </div>
-            <div class="nav-controls">
-                <button id="theme-toggle-btn" class="theme-toggle">
-                    <i class="fas fa-moon"></i>
-                </button>
-                <div id="navbar-user-section">
-                    <a href="login.html" class="btn btn-secondary">Zaloguj się</a>
-                </div>
+<nav>
+    <div class="container nav-container">
+        <a href="/" class="nav-brand">GameHub</a>
+        <div class="nav-links">
+            <a href="info.html">Info</a>
+            <a href="add-game.html" id="nav-link-add-game" style="display: none;">Dodaj Grę</a>
+            <a href="admin-panel.html" id="nav-link-admin-panel" style="display:none;">Panel Moderatora</a>
+        </div>
+        <div class="nav-controls">
+            <button id="theme-toggle-btn" class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </button>
+            <div id="navbar-user-section">
+                <a href="login.html" class="btn btn-secondary">Zaloguj się</a>
             </div>
         </div>
-    </nav>
+    </div>
+</nav>
 
-    <main class="container">
-        
-        <section class="search-bar-container">
-            <div class="category-dropdown">
-                <button id="category-dropdown-btn" class="category-btn">
-                    <span>Wszystkie Kategorie</span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div id="category-dropdown-content" class="category-content">
-                    <a href="#" data-category="all">Wszystkie Kategorie</a>
-                    <a href="#" data-category="action">Akcja</a>
-                    <a href="#" data-category="logic">Logiczne</a>
-                    <a href="#" data-category="strategy">Strategiczne</a>
-                </div>
+<main class="container">
+
+    <section class="search-bar-container">
+        <div class="category-dropdown">
+            <button id="category-dropdown-btn" class="category-btn">
+                <span>Wszystkie Kategorie</span>
+                <i class="fas fa-chevron-down"></i>
+            </button>
+            <div id="category-dropdown-content" class="category-content">
+                <a href="#" data-category="all">Wszystkie Kategorie</a>
+                <a href="#" data-category="action">Akcja</a>
+                <a href="#" data-category="logic">Logiczne</a>
+                <a href="#" data-category="strategy">Strategiczne</a>
             </div>
-            <form id="search-form" class="search-form">
-                <input type="text" id="search-input" placeholder="Wyszukaj grę...">
-                <button type="submit" class="search-btn">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-        </section>
+        </div>
+        <form id="search-form" class="search-form">
+            <input type="text" id="search-input" placeholder="Wyszukaj grę...">
+            <button type="submit" class="search-btn">
+                <i class="fas fa-search"></i>
+            </button>
+        </form>
+    </section>
 
-        <div id="game-frame-container">
-            </div>
+    <div id="game-frame-container">
+    </div>
 
-        <div class="game-info-bar">
-            </div>
-        
-        <p id="game-description">Ładowanie opisu...</p>
-        <hr>
-        <h3>Komentarze</h3>
-        <form id="add-comment-form" style="display: none;">
-            </form>
-        <div id="comments-list-container">
-            </div>
+    <div class="game-info-bar">
+    </div>
 
-    </main>
+    <p id="game-description">Ładowanie opisu...</p>
+    <hr>
+    <h3>Komentarze</h3>
+    <form id="add-comment-form" style="display: none;">
+    </form>
+    <div id="comments-list-container">
+    </div>
 
-    <footer>
-        <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
-    </footer>
-    
-    <script src="../js/main.js" defer></script> 
-    <script src="../js/game.js" defer></script> 
+</main>
+
+<footer>
+    <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
+</footer>
+
+<script src="../js/main.js" defer></script>
+<script src="../js/game.js" defer></script>
 </body>
 </html>
