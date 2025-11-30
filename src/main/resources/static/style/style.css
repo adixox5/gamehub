@@ -49,7 +49,7 @@ body {
     line-height: 1.6;
 }
 main { flex-grow: 1; }
-footer { flex-shrink: 0; }
+/* Footer flex-shrink jest zdefiniowany niżej w sekcji STOPKA */
 
 /* ======================================================
    RESET I USTAWIENIA GLOBALNE
@@ -59,7 +59,7 @@ footer { flex-shrink: 0; }
 hr { margin: 2rem 0; border: 0; border-top: 1px solid var(--color-border); }
 
 /* ======================================================
-   ACTION BAR (Nawigacja) i Stopka
+   ACTION BAR (Nawigacja)
    ====================================================== */
 nav {
     background-color: var(--color-bg-nav);
@@ -101,13 +101,71 @@ body.dark-mode .nav-links a:hover {
     margin-right: 15px;
 }
 nav.minimal-nav .nav-container { justify-content: space-between; }
+
+/* ======================================================
+   NOWA STOPKA (FOOTER) - LEWO / ŚRODEK / PRAWO
+   ====================================================== */
 footer {
-    text-align: center;
-    padding: 2rem;
-    background-color: var(--color-bg-nav);
+    background-color: var(--color-bg-nav); /* Używamy zmiennej motywu */
     color: var(--color-text-nav);
+    padding: 20px 0;
     margin-top: 40px;
     border-top: 1px solid var(--color-border);
+    width: 100%;
+    flex-shrink: 0; /* Ważne dla sticky footer */
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Podział na trzy równe sekcje */
+.footer-left,
+.footer-center,
+.footer-right {
+    flex: 1;
+}
+
+/* Środkowa sekcja z prawami autorskimi */
+.footer-center {
+    text-align: center;
+    font-size: 0.9em;
+    opacity: 0.8; /* Lekkie przygaszenie tekstu */
+}
+
+/* Prawa sekcja z linkami */
+.footer-right {
+    text-align: right;
+}
+
+.footer-right a {
+    color: var(--color-text-nav);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 0.9em;
+    transition: color 0.3s;
+}
+
+.footer-right a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+}
+
+/* Responsywność stopki */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    .footer-right {
+        text-align: center;
+    }
 }
 
 /* ======================================================
@@ -119,7 +177,7 @@ footer {
     color: #fff;
     padding: 0.7rem 1.5rem;
     border: none;
-    border-radius: 20px; 
+    border-radius: 20px;
     cursor: pointer;
     text-decoration: none;
     text-align: center;
@@ -154,7 +212,7 @@ footer {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid var(--color-border);
-    border-radius: 20px; 
+    border-radius: 20px;
     background-color: var(--color-bg);
     color: var(--color-text-primary);
 }
@@ -166,22 +224,22 @@ footer {
    ====================================================== */
 .featured-slider {
     border-radius: 20px;
-    margin-bottom: 20px; 
-    overflow: hidden; 
-    position: relative; 
+    margin-bottom: 20px;
+    overflow: hidden;
+    position: relative;
 }
 #featured-slider-container {
-    display: flex; 
+    display: flex;
 }
 .featured-slide {
     position: relative;
     display: block;
     flex-shrink: 0;
-    width: 100%; 
-    height: 350px; 
+    width: 100%;
+    height: 350px;
     border-radius: 15px;
     overflow: hidden;
-    background-size: cover; 
+    background-size: cover;
     background-position: center;
     text-decoration: none;
 }
@@ -190,14 +248,14 @@ footer {
     position: absolute;
     bottom: 20px;
     right: 20px;
-    background-color: rgba(0, 0, 0, 0.6); 
+    background-color: rgba(0, 0, 0, 0.6);
     color: #fff;
     padding: 0.75rem 1.5rem;
     border-radius: 20px;
     font-size: 1rem;
     font-weight: bold;
     text-decoration: none;
-    backdrop-filter: blur(5px); 
+    backdrop-filter: blur(5px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transition: all 0.2s;
 }
@@ -227,8 +285,8 @@ footer {
 .category-btn {
     display: flex;
     align-items: center;
-    background-color: var(--color-bg); 
-    color: var(--color-text-secondary); 
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
     padding: 0.75rem 1rem;
     border: 1px solid var(--color-border);
     border-radius: 20px;
@@ -237,7 +295,7 @@ footer {
     font-weight: bold;
 }
 body.dark-mode .category-btn {
-    background-color: var(--color-bg-button-nav); 
+    background-color: var(--color-bg-button-nav);
     color: var(--color-text-nav);
     border-color: var(--color-border-nav-button);
 }
@@ -245,7 +303,7 @@ body.dark-mode .category-btn {
 .category-btn span { margin-right: 10px; }
 
 .category-content {
-    display: none; 
+    display: none;
     position: absolute;
     background-color: var(--color-bg-card);
     min-width: 200px;
@@ -271,7 +329,7 @@ body.dark-mode .category-btn {
 
 .search-form {
     display: flex;
-    flex-grow: 1; 
+    flex-grow: 1;
     margin-left: 10px;
 }
 .search-form input {
@@ -294,7 +352,7 @@ body.dark-mode .category-btn {
 
 
 /* ======================================================
-   STRONA GŁÓWNA (Karty Gier)
+   STRONA GŁÓWNA (Karty Gier - Sekcja Popularne)
    ====================================================== */
 .popular-games-section {
     background-color: var(--color-bg-card);
@@ -312,10 +370,10 @@ body.dark-mode .category-btn {
     gap: 20px;
 }
 .game-card {
-    background-color: var(--color-bg); 
-    border-radius: 20px; 
+    background-color: var(--color-bg);
+    border-radius: 20px;
     box-shadow: 0 2px 5px var(--color-shadow);
-    overflow: hidden; 
+    overflow: hidden;
     border: 1px solid var(--color-border);
 }
 .game-card img { width: 100%; }
@@ -342,8 +400,8 @@ body.dark-mode .category-btn {
     width: 100%;
     max-width: 450px;
     background-color: var(--color-bg-card);
-    padding: 2.5rem; 
-    border-radius: 20px; 
+    padding: 2.5rem;
+    border-radius: 20px;
     box-shadow: 0 4px 10px var(--color-shadow);
 }
 .auth-card h2 {
@@ -357,7 +415,7 @@ body.dark-mode .category-btn {
    ====================================================== */
 #game-frame-container {
     width: 100%;
-    height: 600px; 
+    height: 600px;
     background-color: #000;
     border-radius: 20px;
     margin-bottom: 1rem;
@@ -373,7 +431,7 @@ body.dark-mode .category-btn {
     margin-bottom: 1rem;
 }
 .like-dislike-bar button {
-    background: var(--color-bg); 
+    background: var(--color-bg);
     color: var(--color-text-secondary);
     border: 1px solid var(--color-border);
     padding: 0.5rem 1rem;
@@ -402,4 +460,63 @@ body.dark-mode .category-btn {
 }
 .comment strong {
     color: var(--color-accent);
+}
+
+/* ======================================================
+   SIATKA GIER DLA PODSTRONY KATEGORII (NOWE)
+   ====================================================== */
+
+/* Kontener na kafelki gier (generowane przez JS) */
+.games-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    padding: 40px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Stylizacja kafelka w siatce (używamy zmiennych dla trybu ciemnego) */
+.games-grid .game-card {
+    width: 280px;
+    background-color: var(--color-bg-card); /* Zmienna! */
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--color-shadow); /* Zmienna! */
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 20px;
+    border: 1px solid var(--color-border); /* Zmienna! */
+}
+
+.games-grid .game-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.games-grid .game-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-bottom: 2px solid var(--color-border);
+    margin-bottom: 15px;
+}
+
+.games-grid .game-card h3 {
+    font-size: 1.2em;
+    margin: 10px 0;
+    color: var(--color-text-primary); /* Zmienna! */
+}
+
+/* Nagłówek kategorii (np. "Kategoria: Akcja") */
+#page-category-title {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 2.5em;
+    color: var(--color-text-primary); /* Zmienna! */
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }

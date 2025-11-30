@@ -125,5 +125,105 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    /* ==============================================
+       SYMULOWANA BAZA DANYCH GIER
+       ============================================== */
+    const gamesDatabase = [
+        {
+            id: 1,
+            title: "Cyberpunk City",
+            category: "akcja",
+            image: "https://placehold.co/280x180/1a1a1a/FFF?text=Cyber+Action", // Tymczasowy obrazek
+            link: "/pages/game.html?id=1"
+        },
+        {
+            id: 2,
+            title: "Super Rally",
+            category: "wyscigi",
+            image: "https://placehold.co/280x180/e74c3c/FFF?text=Rally",
+            link: "/pages/game.html?id=2"
+        },
+        {
+            id: 3,
+            title: "Chess Master",
+            category: "logiczne",
+            image: "https://placehold.co/280x180/f1c40f/000?text=Chess",
+            link: "/pages/game.html?id=3"
+        },
+        {
+            id: 4,
+            title: "Space Shooter",
+            category: "akcja",
+            image: "https://placehold.co/280x180/2980b9/FFF?text=Space",
+            link: "/pages/game.html?id=4"
+        },
+        {
+            id: 5,
+            title: "Fantasy RPG",
+            category: "rpg",
+            image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG",
+            link: "/pages/game.html?id=5"
+        }
+    ];
+
+    /* ==============================================
+       LOGIKA PODSTRONY KATEGORII (category.html)
+       ============================================== */
+
+    // Funkcja pomocnicza: pobierz parametr z URL (np. ?kategoria=akcja)
+    function getQueryParam(param) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(param);
+    }
+
+    // Główna funkcja ładująca gry
+    function loadCategoryPage() {
+        // Sprawdź, czy istnieje kontener na gry
+        const container = document.getElementById('games-grid-container');
+        if (!container) return; // Jeśli nie, przerwanie
+
+        const category = getQueryParam('kategoria'); // Co wybrano ?
+        const titleElement = document.getElementById('category-title');
+
+        // Filtrowanie
+        let gamesToShow = gamesDatabase;
+
+        if (category) {
+            // Jeśli wybrano konkretną kategorię
+            gamesToShow = gamesDatabase.filter(g => g.category === category);
+            if (titleElement) titleElement.innerText = "Kategoria: " + category.toUpperCase();
+        } else {
+            // Jeśli nie wybrano nic (kliknięto "Wszystkie")
+            if (titleElement) titleElement.innerText = "Wszystkie Gry";
+        }
+
+        // Renderowanie (tworzenie kafelków)
+        container.innerHTML = ""; // Czyścimy kontener
+
+        if (gamesToShow.length === 0) {
+            container.innerHTML = "<p style='text-align:center; width:100%; font-size:1.2rem;'>Brak gier w tej kategorii... na razie!</p>";
+            return;
+        }
+
+        gamesToShow.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `
+                <img src="${game.image}" alt="${game.title}">
+                <h3>${game.title}</h3>
+                <a href="${game.link}" class="btn">Graj</a>
+            `;
+            container.appendChild(card);
+        });
+    }
+
+    // Uruchomienie funkcji po załadowaniu strony
+    document.addEventListener('DOMContentLoaded', function() {
+        // Stare funkcje (jeśli potrzebne przy starcie)
+
+        // Nowa funkcja kategorii
+        loadCategoryPage();
+    });
     
 });
