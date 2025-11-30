@@ -126,67 +126,68 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    /* ==============================================
-       LOGIKA KATEGORII I BAZA GIER
-       ============================================== */
+   /* ==============================================
+          LOGIKA KATEGORII I BAZA GIER
+          ============================================== */
 
-    const gamesDatabase = [
-        { id: 1, title: "Cyberpunk City", category: "akcja", image: "https://placehold.co/280x180/1a1a1a/FFF?text=Action", link: "/pages/game.html?id=1" },
-        { id: 2, title: "Super Rally", category: "wyscigi", image: "https://placehold.co/280x180/e74c3c/FFF?text=Rally", link: "/pages/game.html?id=2" },
-        { id: 3, title: "Chess Master", category: "logiczne", image: "https://placehold.co/280x180/f1c40f/000?text=Chess", link: "/pages/game.html?id=3" },
-        { id: 4, title: "Space Shooter", category: "akcja", image: "https://placehold.co/280x180/2980b9/FFF?text=Space", link: "/pages/game.html?id=4" },
-        { id: 5, title: "Fantasy RPG", category: "rpg", image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG", link: "/pages/game.html?id=5" }
-    ];
+       const gamesDatabase = [
+           { id: 1, title: "Cyberpunk City", category: "akcja", image: "https://placehold.co/280x180/1a1a1a/FFF?text=Action", link: "/pages/game.html?id=1" },
+           { id: 2, title: "Super Rally", category: "wyscigi", image: "https://placehold.co/280x180/e74c3c/FFF?text=Rally", link: "/pages/game.html?id=2" },
+           { id: 3, title: "Chess Master", category: "logiczne", image: "https://placehold.co/280x180/f1c40f/000?text=Chess", link: "/pages/game.html?id=3" },
+           { id: 4, title: "Space Shooter", category: "akcja", image: "https://placehold.co/280x180/2980b9/FFF?text=Space", link: "/pages/game.html?id=4" },
+           { id: 5, title: "Fantasy RPG", category: "rpg", image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG", link: "/pages/game.html?id=5" }
+       ];
 
-    function getQueryParam(param) {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get(param);
-    }
+       // Funkcja uruchamiana automatycznie, jeśli jesteśmy na stronie kategorii
+       function initCategoryPage() {
+           const container = document.getElementById('games-grid-container');
 
-    function loadCategoryPage() {
-        const container = document.getElementById('games-grid-container');
+           // Jeśli nie ma kontenera gier (czyli jesteśmy np. na stronie głównej), przerywamy
+           if (!container) return;
 
-        if (!container) return;
+           // 1. Pobieramy parametr 'kategoria' z URL (tak jak masz w linkach w index.html)
+           const urlParams = new URLSearchParams(window.location.search);
+           const categoryParam = urlParams.get('kategoria'); // Szuka ?kategoria=...
 
-        const category = getQueryParam('kategoria');
-        const titleElement = document.getElementById('category-title');
+           const titleElement = document.getElementById('category-title');
+           let gamesToShow = gamesDatabase;
 
-        let gamesToShow = gamesDatabase;
+           // 2. Logika zmiany tytułu i filtrowania
+           if (categoryParam) {
+               // Zmieniamy tytuł na nazwę kategorii (np. AKCJA)
+               if (titleElement) {
+                   titleElement.textContent = categoryParam.toUpperCase();
+               }
+               // Filtrujemy gry
+               gamesToShow = gamesDatabase.filter(g => g.category === categoryParam);
+           } else {
+               // Jeśli brak parametru, zostaje domyślny tytuł
+               if (titleElement) {
+                   titleElement.textContent = "WSZYSTKIE GRY";
+               }
+           }
 
-        // --- LOGIKA ZMIANY TYTUŁU ---
-        if (category) {
-            // Filtrujemy gry po kategorii
-            gamesToShow = gamesDatabase.filter(g => g.category === category);
+           // 3. Renderowanie gier (to co miałeś wcześniej)
+           container.innerHTML = "";
 
-            // Zmieniamy H1 na nazwę kategorii
-            if (titleElement) {
-                titleElement.innerText = category.toUpperCase();
-            }
-        } else {
-            if (titleElement) {
-                titleElement.innerText = "WSZYSTKIE GRY";
-            }
-        }
+           if (gamesToShow.length === 0) {
+               container.innerHTML = "<p style='text-align:center; width:100%; font-size:1.2rem; margin-top:20px;'>Brak gier w tej kategorii.</p>";
+               return;
+           }
 
-        // --- RENDEROWANIE GIER ---
-        container.innerHTML = "";
+           gamesToShow.forEach(game => {
+               const card = document.createElement('div');
+               card.className = 'game-card';
+               card.innerHTML = `
+                   <img src="${game.image}" alt="${game.title}">
+                   <h3>${game.title}</h3>
+                   <a href="${game.link}" class="btn">Graj</a>
+               `;
+               container.appendChild(card);
+           });
+       }
 
-        if (gamesToShow.length === 0) {
-            container.innerHTML = "<p style='text-align:center; width:100%; font-size:1.2rem; margin-top:20px;'>Brak gier w tej kategorii.</p>";
-            return;
-        }
+       // Wywołujemy funkcję od razu (jesteśmy już wewnątrz DOMContentLoaded z góry pliku)
+       initCategoryPage();
 
-        gamesToShow.forEach(game => {
-            const card = document.createElement('div');
-            card.className = 'game-card';
-            card.innerHTML = `
-                <img src="${game.image}" alt="${game.title}">
-                <h3>${game.title}</h3>
-                <a href="${game.link}" class="btn">Graj</a>
-            `;
-            container.appendChild(card);
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', loadCategoryPage);
-    });
+   });
