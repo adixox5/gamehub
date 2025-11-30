@@ -211,16 +211,21 @@ document.addEventListener('DOMContentLoaded', () => {
                    }
 
                    gamesToShow.forEach(game => {
-                       const card = document.createElement('div');
-                       card.className = 'game-card';
-                       card.innerHTML = `
-                           <img src="${game.image}" alt="${game.title}">
-                           <h3>${game.title}</h3>
-                           <p class="game-desc">${game.description}</p>
-                           <a href="${game.link}" class="btn">Graj</a>
-                       `;
-                       container.appendChild(card);
-                   });
+                               const card = document.createElement('div');
+                               card.className = 'game-card';
+
+                               card.style.width = "280px";
+                               card.style.flex = "0 0 auto";
+                               card.style.marginBottom = "20px";
+
+                               card.innerHTML = `
+                                   <img src="${game.image}" alt="${game.title}">
+                                   <h3>${game.title}</h3>
+                                   <p class="game-desc">${game.description}</p>
+                                   <a href="${game.link}" class="btn">Graj</a>
+                               `;
+                               container.appendChild(card);
+                           });
        }
 
        // Wywoływanie funkcji
