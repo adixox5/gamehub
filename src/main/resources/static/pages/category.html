@@ -4,73 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kategorie - GameHub</title>
-    <!-- Zwróć uwagę na ścieżkę do styli (wychodzimy z folderu pages ../) -->
+    <!-- Wychodzimy folder wyżej (..) żeby dostać się do styli -->
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
-<!-- NAWIGACJA (Skopiowana z Twojego index.html) -->
+<!-- Prosta nawigacja -->
 <nav>
     <div class="nav-container container">
         <a href="/" class="nav-brand">GameHub</a>
-
-        <!-- Pasek wyszukiwania i kategorie -->
-        <div class="search-bar-container">
-            <div class="category-dropdown" onclick="toggleCategoryDropdown()">
-                <button class="category-btn">
-                    <span>Kategorie</span>
-                    <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="category-content" id="categoryContent">
-                    <a href="/pages/category.html">Wszystkie Gry</a>
-                    <a href="/pages/category.html?kategoria=akcja">Akcja</a>
-                    <a href="/pages/category.html?kategoria=wyscigi">Wyścigi</a>
-                    <a href="/pages/category.html?kategoria=logiczne">Logiczne</a>
-                </div>
-            </div>
-            <form class="search-form">
-                <input type="text" placeholder="Szukaj gier...">
-                <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
-            </form>
-        </div>
-
-        <div class="nav-controls">
-            <button class="theme-toggle" onclick="toggleTheme()">
-                <i class="fas fa-moon"></i>
-            </button>
-            <div class="nav-links">
-                <a href="/pages/login.html" class="btn btn-secondary">Zaloguj się</a>
-            </div>
+        <div class="nav-links">
+            <a href="/" class="btn btn-secondary">
+                <i class="fas fa-home"></i> Strona Główna
+            </a>
         </div>
     </div>
 </nav>
 
-<!-- GŁÓWNA TREŚĆ -->
-<main class="container">
-    <!-- Tytuł kategorii zmieniany przez JS -->
-    <h1 id="category-title" style="margin: 30px 0; text-align: center; color: var(--color-text-primary);">
-        Ładowanie...
+<!-- Szeroki kontener na gry -->
+<main class="wide-container">
+    <h1 id="category-title" style="text-align: center; margin: 40px 0 30px 0; text-transform: uppercase; color: var(--color-text-primary);">
+        Wszystkie Gry
     </h1>
 
-    <!-- Kontener na siatkę gier -->
+    <!-- Tu JavaScript wstawi gry -->
     <div id="games-grid-container" class="games-grid">
-        <!-- Tutaj JavaScript wstawi gry -->
+        <p style="text-align: center; width: 100%;">Ładowanie gier...</p>
     </div>
 </main>
 
-<!-- NOWA STOPKA (Z info po prawej) -->
+<!-- Stopka -->
 <footer>
     <div class="footer-content">
-        <!-- Pusta lewa strona dla równowagi -->
         <div class="footer-left"></div>
-
-        <!-- Środek -->
         <div class="footer-center">
             <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
         </div>
-
-        <!-- Prawa strona z linkami -->
         <div class="footer-right">
             <a href="/pages/info.html">Info</a>
             <a href="#">Regulamin</a>
@@ -78,7 +48,6 @@
     </div>
 </footer>
 
-<!-- Skrypty -->
 <script src="../js/main.js"></script>
 </body>
 </html>
