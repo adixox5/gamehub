@@ -128,24 +128,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
    /* ==============================================
           LOGIKA KATEGORII I BAZA GIER
-          ============================================== */
+   ============================================== */
 
        const gamesDatabase = [
-           { id: 1, title: "Cyberpunk City", category: "akcja", image: "https://placehold.co/280x180/1a1a1a/FFF?text=Action", link: "/pages/game.html?id=1" },
-           { id: 2, title: "Super Rally", category: "wyscigi", image: "https://placehold.co/280x180/e74c3c/FFF?text=Rally", link: "/pages/game.html?id=2" },
-           { id: 3, title: "Chess Master", category: "logiczne", image: "https://placehold.co/280x180/f1c40f/000?text=Chess", link: "/pages/game.html?id=3" },
-           { id: 4, title: "Space Shooter", category: "akcja", image: "https://placehold.co/280x180/2980b9/FFF?text=Space", link: "/pages/game.html?id=4" },
-           { id: 5, title: "Fantasy RPG", category: "rpg", image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG", link: "/pages/game.html?id=5" }
-       ];
+               {
+                   id: 1,
+                   title: "Cyberpunk City",
+                   category: "akcja",
+                   description: "Wkrocz do neonowego miasta przyszłości i walcz o przetrwanie.",
+                   image: "https://placehold.co/280x180/1a1a1a/FFF?text=Action",
+                   link: "/pages/game.html?id=1"
+               },
+               {
+                   id: 2,
+                   title: "Super Rally",
+                   category: "wyscigi",
+                   description: "Poczuj prędkość na szutrowych trasach w walce o puchar.",
+                   image: "https://placehold.co/280x180/e74c3c/FFF?text=Rally",
+                   link: "/pages/game.html?id=2"
+               },
+               {
+                   id: 3,
+                   title: "Chess Master",
+                   category: "logiczne",
+                   description: "Klasyczna gra w szachy. Sprawdź swoje umiejętności taktyczne.",
+                   image: "https://placehold.co/280x180/f1c40f/000?text=Chess",
+                   link: "/pages/game.html?id=3"
+               },
+               {
+                   id: 4,
+                   title: "Space Shooter",
+                   category: "akcja",
+                   description: "Broń galaktyki przed inwazją obcych statków.",
+                   image: "https://placehold.co/280x180/2980b9/FFF?text=Space",
+                   link: "/pages/game.html?id=4"
+               },
+               {
+                   id: 5,
+                   title: "Fantasy RPG",
+                   category: "rpg",
+                   description: "Epicka przygoda w świecie magii, smoków i rycerzy.",
+                   image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG",
+                   link: "/pages/game.html?id=5"
+               }
+           ];
 
        // Funkcja uruchamiana automatycznie, jeśli jesteśmy na stronie kategorii
        function initCategoryPage() {
            const container = document.getElementById('games-grid-container');
 
-           // Jeśli nie ma kontenera gier (czyli jesteśmy np. na stronie głównej), przerywamy
+           // Jeśli nie ma kontenera gier, przerwanie
            if (!container) return;
 
-           // 1. Pobieramy parametr 'kategoria' z URL (tak jak masz w linkach w index.html)
+           // 1. Pobieramy parametr 'kategoria' z URL
            const urlParams = new URLSearchParams(window.location.search);
            const categoryParam = urlParams.get('kategoria'); // Szuka ?kategoria=...
 
@@ -154,11 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
            // 2. Logika zmiany tytułu i filtrowania
            if (categoryParam) {
-               // Zmieniamy tytuł na nazwę kategorii (np. AKCJA)
+               // Zmiana tytułu na nazwę kategorii (np. AKCJA)
                if (titleElement) {
                    titleElement.textContent = categoryParam.toUpperCase();
                }
-               // Filtrujemy gry
+               // Filtrowanie gier
                gamesToShow = gamesDatabase.filter(g => g.category === categoryParam);
            } else {
                // Jeśli brak parametru, zostaje domyślny tytuł
@@ -167,27 +202,28 @@ document.addEventListener('DOMContentLoaded', () => {
                }
            }
 
-           // 3. Renderowanie gier (to co miałeś wcześniej)
+           // 3. Renderowanie gier
            container.innerHTML = "";
 
-           if (gamesToShow.length === 0) {
-               container.innerHTML = "<p style='text-align:center; width:100%; font-size:1.2rem; margin-top:20px;'>Brak gier w tej kategorii.</p>";
-               return;
-           }
+                   if (gamesToShow.length === 0) {
+                       container.innerHTML = "<p style='text-align:center; width:100%; font-size:1.2rem; margin-top:20px;'>Brak gier w tej kategorii.</p>";
+                       return;
+                   }
 
-           gamesToShow.forEach(game => {
-               const card = document.createElement('div');
-               card.className = 'game-card';
-               card.innerHTML = `
-                   <img src="${game.image}" alt="${game.title}">
-                   <h3>${game.title}</h3>
-                   <a href="${game.link}" class="btn">Graj</a>
-               `;
-               container.appendChild(card);
-           });
+                   gamesToShow.forEach(game => {
+                       const card = document.createElement('div');
+                       card.className = 'game-card';
+                       card.innerHTML = `
+                           <img src="${game.image}" alt="${game.title}">
+                           <h3>${game.title}</h3>
+                           <p class="game-desc">${game.description}</p>
+                           <a href="${game.link}" class="btn">Graj</a>
+                       `;
+                       container.appendChild(card);
+                   });
        }
 
-       // Wywołujemy funkcję od razu (jesteśmy już wewnątrz DOMContentLoaded z góry pliku)
+       // Wywoływanie funkcji
        initCategoryPage();
 
    });
