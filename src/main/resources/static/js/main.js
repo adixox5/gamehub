@@ -127,82 +127,43 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /* ==============================================
-       2. NOWA LOGIKA: BAZA GIER I KATEGORIE
+       LOGIKA KATEGORII I BAZA GIER
        ============================================== */
 
-    // Baza danych gier (Symulacja)
     const gamesDatabase = [
-        {
-            id: 1,
-            title: "Cyberpunk City",
-            category: "akcja",
-            image: "https://placehold.co/280x180/1a1a1a/FFF?text=Cyber+Action",
-            link: "/pages/game.html?id=1"
-        },
-        {
-            id: 2,
-            title: "Super Rally",
-            category: "wyscigi",
-            image: "https://placehold.co/280x180/e74c3c/FFF?text=Rally",
-            link: "/pages/game.html?id=2"
-        },
-        {
-            id: 3,
-            title: "Chess Master",
-            category: "logiczne",
-            image: "https://placehold.co/280x180/f1c40f/000?text=Chess",
-            link: "/pages/game.html?id=3"
-        },
-        {
-            id: 4,
-            title: "Space Shooter",
-            category: "akcja",
-            image: "https://placehold.co/280x180/2980b9/FFF?text=Space",
-            link: "/pages/game.html?id=4"
-        },
-        {
-            id: 5,
-            title: "Fantasy RPG",
-            category: "rpg",
-            image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG",
-            link: "/pages/game.html?id=5"
-        }
+        { id: 1, title: "Cyberpunk City", category: "akcja", image: "https://placehold.co/280x180/1a1a1a/FFF?text=Action", link: "/pages/game.html?id=1" },
+        { id: 2, title: "Super Rally", category: "wyscigi", image: "https://placehold.co/280x180/e74c3c/FFF?text=Rally", link: "/pages/game.html?id=2" },
+        { id: 3, title: "Chess Master", category: "logiczne", image: "https://placehold.co/280x180/f1c40f/000?text=Chess", link: "/pages/game.html?id=3" },
+        { id: 4, title: "Space Shooter", category: "akcja", image: "https://placehold.co/280x180/2980b9/FFF?text=Space", link: "/pages/game.html?id=4" },
+        { id: 5, title: "Fantasy RPG", category: "rpg", image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG", link: "/pages/game.html?id=5" }
     ];
 
-    // Pobieranie parametru z adresu URL (np. ?kategoria=akcja)
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
         return urlParams.get(param);
     }
 
-    // Funkcja ładująca gry na podstronie category.html
     function loadCategoryPage() {
         const container = document.getElementById('games-grid-container');
-        if (!container) return; // Jeśli nie ma kontenera (np. jesteśmy na index.html), nic nie rób
+        if (!container) return;
 
         const category = getQueryParam('kategoria');
         const titleElement = document.getElementById('category-title');
 
-        // Filtrowanie gier
         let gamesToShow = gamesDatabase;
-
         if (category) {
             gamesToShow = gamesDatabase.filter(g => g.category === category);
             if (titleElement) titleElement.innerText = "Kategoria: " + category.toUpperCase();
-        } else {
-            if (titleElement) titleElement.innerText = "Wszystkie Gry";
         }
 
-        // Wyświetlanie
-        container.innerHTML = ""; // Czyścimy "Ładowanie..."
+        container.innerHTML = "";
 
         if (gamesToShow.length === 0) {
-            container.innerHTML = "<p style='text-align:center; width:100%; font-size:1.2rem; color:var(--color-text-secondary);'>Brak gier w tej kategorii.</p>";
+            container.innerHTML = "<p style='text-align:center; width:100%; margin-top:20px;'>Brak gier w tej kategorii.</p>";
             return;
         }
 
         gamesToShow.forEach(game => {
-            // Tworzenie kafelka
             const card = document.createElement('div');
             card.className = 'game-card';
             card.innerHTML = `
@@ -214,7 +175,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Uruchom po załadowaniu strony
-    document.addEventListener('DOMContentLoaded', function() {
-        loadCategoryPage();
+    document.addEventListener('DOMContentLoaded', loadCategoryPage);
     });

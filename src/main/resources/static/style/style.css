@@ -463,10 +463,9 @@ body.dark-mode .category-btn {
 }
 
 /* ======================================================
-   STYLE DLA PODSTRONY KATEGORII I NOWEJ STOPKI
+   PODSTRONA KATEGORII (WIDOK SZEROKI)
    ====================================================== */
 
-/* Szeroki kontener */
 .wide-container {
     width: 95%;
     max-width: 1600px;
@@ -474,7 +473,10 @@ body.dark-mode .category-btn {
     padding: 20px;
 }
 
-/* Siatka gier bez tła i ramek */
+/* ======================================================
+   SIATKA GIER (BEZ TŁA I RAMKI)
+   ====================================================== */
+
 .games-grid {
     display: flex;
     flex-wrap: wrap;
@@ -483,7 +485,6 @@ body.dark-mode .category-btn {
     padding: 20px 0;
 }
 
-/* Wygląd kafelka w siatce */
 .games-grid .game-card {
     width: 240px;
     background-color: var(--color-bg-card);
@@ -520,7 +521,10 @@ body.dark-mode .category-btn {
     width: 80%;
 }
 
-/* Nowa stopka 3-kolumnowa */
+/* ======================================================
+   NOWA STOPKA (3 KOLUMNY)
+   ====================================================== */
+
 .footer-content {
     display: flex;
     justify-content: space-between;
