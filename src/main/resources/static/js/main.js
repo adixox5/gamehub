@@ -145,21 +145,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadCategoryPage() {
         const container = document.getElementById('games-grid-container');
+
         if (!container) return;
 
         const category = getQueryParam('kategoria');
         const titleElement = document.getElementById('category-title');
 
         let gamesToShow = gamesDatabase;
+
+        // --- LOGIKA ZMIANY TYTUŁU ---
         if (category) {
+            // Filtrujemy gry po kategorii
             gamesToShow = gamesDatabase.filter(g => g.category === category);
-            if (titleElement) titleElement.innerText = "Kategoria: " + category.toUpperCase();
+
+            // Zmieniamy H1 na nazwę kategorii
+            if (titleElement) {
+                titleElement.innerText = category.toUpperCase();
+            }
+        } else {
+            if (titleElement) {
+                titleElement.innerText = "WSZYSTKIE GRY";
+            }
         }
 
+        // --- RENDEROWANIE GIER ---
         container.innerHTML = "";
 
         if (gamesToShow.length === 0) {
-            container.innerHTML = "<p style='text-align:center; width:100%; margin-top:20px;'>Brak gier w tej kategorii.</p>";
+            container.innerHTML = "<p style='text-align:center; width:100%; font-size:1.2rem; margin-top:20px;'>Brak gier w tej kategorii.</p>";
             return;
         }
 
