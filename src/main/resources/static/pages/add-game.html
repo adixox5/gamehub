@@ -16,10 +16,12 @@
     <li><a href="/pages/category.html">Kategorie</a></li>
     <li><a href="/pages/about.html">O nas</a></li>
     <li><a href="/pages/login.html" class="btn-login">Konto</a></li>
+    <li>
+      <button id="theme-toggle" class="theme-btn">
+        <i class="fas fa-moon"></i>
+      </button>
+    </li>
   </ul>
-  <button id="theme-toggle" class="theme-btn">
-    <i class="fas fa-moon"></i>
-  </button>
 </nav>
 
 <div class="container main-content">
@@ -78,12 +80,11 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-      // Obsługa formularza
       const form = document.getElementById('addGameForm');
 
       form.addEventListener('submit', function(e) {
           e.preventDefault();
-
+          // Logika wysyłania - bez zmian
           const formData = new FormData();
           const fileInput = document.getElementById('thumbnail');
 
@@ -94,12 +95,6 @@
 
           if(fileInput.files.length > 0) {
               formData.append('thumbnail', fileInput.files[0]);
-          }
-
-          // Symulacja sukcesu
-          console.log("Wysłano zgłoszenie:");
-          for (var pair of formData.entries()) {
-              console.log(pair[0]+ ', ' + pair[1]);
           }
 
           alert(`Dzięki! Zgłoszenie gry "${document.getElementById('title').value}" zostało wysłane do administratora.`);

@@ -1,577 +1,175 @@
 /* ======================================================
-   DEFINICJE KOLORÓW (MOTYWY)
+   STYL BAZOWY (Z PLIKU RAR)
    ====================================================== */
-
-/* :root (Motyw Jasny) */
-:root {
-    --color-bg: #e9ecef;
-    --color-bg-card: #ffffff;
-    --color-text-primary: #1c1e21;
-    --color-text-secondary: #606770;
-    --color-bg-nav: #343a40;
-    --color-text-nav: #f8f9fa;
-    --color-accent: #007bff;
-    --color-bg-button-nav: #495057;
-    --color-text-button-nav: #f8f9fa;
-    --color-border-nav-button: #6c757d;
-    --color-shadow: rgba(0, 0, 0, 0.1);
-    --color-border: #ddd;
-}
-
-/* body.dark-mode (Motyw Ciemny) */
-body.dark-mode {
-    --color-bg: #1a1d21;
-    --color-bg-card: #242a30;
-    --color-text-primary: #e4e6eb;
-    --color-text-secondary: #b0b3b8;
-    --color-bg-nav: #242a30;
-    --color-text-nav: #e4e6eb;
-    --color-accent: #007bff;
-    --color-bg-button-nav: #3a3b3c;
-    --color-text-button-nav: #e4e6eb;
-    --color-border-nav-button: #3a3b3c;
-    --color-shadow: rgba(0, 0, 0, 0.4);
-    --color-border: #3a3b3c;
-}
-
-/* ======================================================
-   LOGIKA "STICKY FOOTER"
-   ====================================================== */
-html { height: 100%; }
 body {
-    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Ciemne tło z RAR */
+    color: #ffffff;
+
+    /* NAPRAWA STOPKI: To sprawia, że stopka jest zawsze na dole */
     display: flex;
     flex-direction: column;
-    background-color: var(--color-bg);
-    color: var(--color-text-primary);
-    transition: background-color 0.2s, color 0.2s;
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+    min-height: 100vh;
 }
-main { flex-grow: 1; }
-/* Footer flex-shrink jest zdefiniowany niżej w sekcji STOPKA */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
 
 /* ======================================================
-   RESET I USTAWIENIA GLOBALNE
+   NAVBAR (NAPRAWIONY UKŁAD)
    ====================================================== */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-.container { width: 90%; max-width: 1100px; margin: 20px auto; }
-hr { margin: 2rem 0; border: 0; border-top: 1px solid var(--color-border); }
-
-/* ======================================================
-   ACTION BAR (Nawigacja)
-   ====================================================== */
-nav {
-    background-color: var(--color-bg-nav);
-    color: var(--color-text-nav);
-    padding: 1rem 0;
-    box-shadow: 0 2px 5px var(--color-shadow);
-    border-bottom: 1px solid var(--color-border);
-}
-.nav-container {
+.navbar {
+    background-color: #2a2a2a; /* Kolor belki z RAR */
+    padding: 15px 30px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 0 auto;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
 }
-.nav-brand {
-    font-size: 1.5rem;
+
+.logo {
+    font-size: 24px;
     font-weight: bold;
-    color: var(--color-text-nav);
-    text-decoration: none;
-}
-.nav-links { display: flex; align-items: center; }
-.nav-links a {
-    color: var(--color-text-nav);
-    text-decoration: none;
-    margin-left: 15px;
-    padding: 0.5rem;
-    border-radius: 20px;
-    transition: background-color 0.2s;
-}
-.nav-links a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-body.dark-mode .nav-links a:hover {
-     background-color: var(--color-bg-button-nav);
-}
-.nav-controls { display: flex; align-items: center; }
-#navbar-user-section span {
-    color: var(--color-text-nav);
-    margin-right: 15px;
-}
-nav.minimal-nav .nav-container { justify-content: space-between; }
-
-/* ======================================================
-   NOWA STOPKA (FOOTER) - LEWO / ŚRODEK / PRAWO
-   ====================================================== */
-footer {
-    background-color: var(--color-bg-nav); /* Używamy zmiennej motywu */
-    color: var(--color-text-nav);
-    padding: 20px 0;
-    margin-top: 40px;
-    border-top: 1px solid var(--color-border);
-    width: 100%;
-    flex-shrink: 0; /* Ważne dla sticky footer */
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
-.footer-content {
+/* NAPRAWA MENU: Dodanie flex i gap naprawia "nachodzenie na siebie" */
+.nav-links {
     display: flex;
-    justify-content: space-between;
+    gap: 20px;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
 }
 
-/* Podział na trzy równe sekcje */
-.footer-left,
-.footer-center,
-.footer-right {
-    flex: 1;
+.nav-links li a {
+    color: #cccccc;
+    font-size: 16px;
+    transition: color 0.3s ease;
 }
 
-/* Środkowa sekcja z prawami autorskimi */
-.footer-center {
-    text-align: center;
-    font-size: 0.9em;
-    opacity: 0.8; /* Lekkie przygaszenie tekstu */
+.nav-links li a:hover {
+    color: #00d4ff; /* Niebieski akcent z RAR */
 }
 
-/* Prawa sekcja z linkami */
-.footer-right {
-    text-align: right;
+/* Przycisk Konto */
+.btn-login {
+    border: 1px solid #00d4ff;
+    padding: 5px 15px;
+    border-radius: 5px;
+    color: #00d4ff !important;
 }
 
-.footer-right a {
-    color: var(--color-text-nav);
-    text-decoration: none;
-    margin-left: 20px;
-    font-size: 0.9em;
-    transition: color 0.3s;
+.btn-login:hover {
+    background-color: #00d4ff;
+    color: #121212 !important;
 }
 
-.footer-right a:hover {
-    color: var(--color-accent);
-    text-decoration: underline;
-}
-
-/* Responsywność stopki */
-@media (max-width: 768px) {
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-        gap: 15px;
-    }
-    .footer-right {
-        text-align: center;
-    }
-}
-
-/* ======================================================
-   PRZYCISKI I FORMULARZE (Wspólne)
-   ====================================================== */
-.btn {
-    display: inline-block;
-    background: var(--color-accent);
-    color: #fff;
-    padding: 0.7rem 1.5rem;
+/* Przycisk zmiany motywu (ikona) */
+.theme-btn {
+    background: none;
     border: none;
-    border-radius: 20px;
     cursor: pointer;
-    text-decoration: none;
-    text-align: center;
-    font-weight: bold;
-    transition: background-color 0.2s;
+    font-size: 18px;
+    color: #ffffff;
+    margin-left: 10px;
 }
-.btn:hover { filter: brightness(0.9); }
 
-.btn-secondary {
-    background: var(--color-bg-button-nav);
-    color: var(--color-text-button-nav);
-    border: 1px solid var(--color-border-nav-button);
+/* ======================================================
+   UKŁAD TREŚCI I FORMULARZA
+   ====================================================== */
+.main-content {
+    flex: 1; /* Wypycha stopkę */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
 }
-.theme-toggle {
-    background: var(--color-bg-button-nav);
-    color: var(--color-text-button-nav);
-    border: 1px solid var(--color-border-nav-button);
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    font-size: 1.1rem;
-    margin-right: 15px;
+
+.form-container {
+    background-color: #2a2a2a; /* Tło karty zgodne z navbarem */
+    padding: 30px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
-.form-group { margin-bottom: 1rem; }
+
+.form-container h2 {
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.form-info {
+    margin-bottom: 20px;
+    color: #cccccc;
+    font-size: 14px;
+    border-bottom: 1px solid #444;
+    padding-bottom: 10px;
+}
+
+/* Pola formularza */
+.form-group {
+    margin-bottom: 15px;
+}
+
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: var(--color-text-secondary);
-}
-.form-group input {
-    width: 100%;
-    padding: 0.75rem;
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    background-color: var(--color-bg);
-    color: var(--color-text-primary);
-}
-.auth-link { text-align: center; margin-top: 1rem; }
-.auth-link a { color: var(--color-accent); text-decoration: none; }
-
-/* ======================================================
-   SEKCJA: FEATURED SLIDER (index.html)
-   ====================================================== */
-.featured-slider {
-    border-radius: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    position: relative;
-}
-#featured-slider-container {
-    display: flex;
-}
-.featured-slide {
-    position: relative;
-    display: block;
-    flex-shrink: 0;
-    width: 100%;
-    height: 350px;
-    border-radius: 15px;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    text-decoration: none;
+    color: #cccccc;
 }
 
-.slide-play-btn {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgba(0, 0, 0, 0.6);
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    background-color: #ffffff;
+    border: none;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+/* Stylizacja input file */
+.form-group input[type="file"] {
+    background-color: #333;
     color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 20px;
-    font-size: 1rem;
-    font-weight: bold;
-    text-decoration: none;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: all 0.2s;
-}
-.slide-play-btn .fa-play { margin-right: 8px; }
-.featured-slide:hover .slide-play-btn {
-    background-color: var(--color-accent);
-    transform: scale(1.05);
 }
 
-
-/* ======================================================
-   SEKCJA: PASEK WYSZUKIWANIA
-   ====================================================== */
-.search-bar-container {
-    display: flex;
-    background-color: var(--color-bg-card);
-    border-radius: 20px;
-    box-shadow: 0 2px 5px var(--color-shadow);
-    padding: 8px;
-    margin-bottom: 20px;
-}
-
-.category-dropdown {
-    position: relative;
-    display: inline-block;
-}
-.category-btn {
-    display: flex;
-    align-items: center;
-    background-color: var(--color-bg);
-    color: var(--color-text-secondary);
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: bold;
-}
-body.dark-mode .category-btn {
-    background-color: var(--color-bg-button-nav);
-    color: var(--color-text-nav);
-    border-color: var(--color-border-nav-button);
-}
-
-.category-btn span { margin-right: 10px; }
-
-.category-content {
-    display: none;
-    position: absolute;
-    background-color: var(--color-bg-card);
-    min-width: 200px;
-    box-shadow: 0px 8px 16px 0px var(--color-shadow);
-    border-radius: 8px;
-    z-index: 10;
-    margin-top: 5px;
-    border: 1px solid var(--color-border);
-}
-.category-content a {
-    color: var(--color-text-primary);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-.category-content a:hover {
-    background-color: var(--color-bg);
-}
-/* Sterowanie dropdownem przez JS */
-.category-dropdown.active .category-content {
-    display: block;
-}
-
-.search-form {
-    display: flex;
-    flex-grow: 1;
-    margin-left: 10px;
-}
-.search-form input {
+.btn-primary {
     width: 100%;
+    padding: 12px;
+    background-color: #00d4ff; /* Akcent z RAR */
+    color: #121212;
     border: none;
-    background: none;
-    padding: 0.75rem;
-    font-size: 1rem;
-    color: var(--color-text-primary);
-}
-.search-form input:focus { outline: none; }
-.search-form .search-btn {
-    background-color: var(--color-accent);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 0 1.2rem;
+    border-radius: 5px;
+    font-weight: bold;
     cursor: pointer;
+    margin-top: 10px;
 }
 
-
-/* ======================================================
-   STRONA GŁÓWNA (Karty Gier - Sekcja Popularne)
-   ====================================================== */
-.popular-games-section {
-    background-color: var(--color-bg-card);
-    border-radius: 20px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 10px var(--color-shadow);
-}
-.popular-games-section h2 {
-    color: var(--color-text-primary);
-    margin-bottom: 1rem;
-}
-.game-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 20px;
-}
-.game-card {
-    background-color: var(--color-bg);
-    border-radius: 20px;
-    box-shadow: 0 2px 5px var(--color-shadow);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-}
-.game-card img { width: 100%; }
-.game-card h3 {
-    padding: 1rem 1rem 0.5rem 1rem;
-    color: var(--color-text-primary);
-}
-.game-card .btn {
-    width: calc(100% - 2rem);
-    margin: 0.5rem 1rem 1rem 1rem;
+.btn-primary:hover {
+    background-color: #00b8e6;
 }
 
 /* ======================================================
-   STRONA LOGOWANIA (Pływająca Karta)
+   STOPKA (NAPRAWIONA POZYCJA)
    ====================================================== */
-.login-page-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-}
-.auth-card {
-    width: 100%;
-    max-width: 450px;
-    background-color: var(--color-bg-card);
-    padding: 2.5rem;
-    border-radius: 20px;
-    box-shadow: 0 4px 10px var(--color-shadow);
-}
-.auth-card h2 {
+footer {
+    background-color: #1a1a1a;
     text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--color-text-primary);
-}
-
-/* ======================================================
-   STRONA GRY (Pasek Like/Dislike)
-   ====================================================== */
-#game-frame-container {
-    width: 100%;
-    height: 600px;
-    background-color: #000;
-    border-radius: 20px;
-    margin-bottom: 1rem;
-}
-.game-info-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 1.5rem;
-    background-color: var(--color-bg-card);
-    border-radius: 20px;
-    box-shadow: 0 2px 5px var(--color-shadow);
-    margin-bottom: 1rem;
-}
-.like-dislike-bar button {
-    background: var(--color-bg);
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-left: 10px;
-}
-.like-dislike-bar button:hover {
-    filter: brightness(0.95);
-}
-#add-comment-form textarea {
-    width: 100%;
-    border-radius: 20px;
-    padding: 1rem;
-    background-color: var(--color-bg);
-    color: var(--color-text-primary);
-    border: 1px solid var(--color-border);
-}
-.comment {
-    background-color: var(--color-bg-card);
-    padding: 1.5rem;
-    border-radius: 20px;
-    margin-bottom: 1rem;
-    border: 1px solid var(--color-border);
-}
-.comment strong {
-    color: var(--color-accent);
-}
-
-/* ======================================================
-   PODSTRONA KATEGORII (WIDOK SZEROKI)
-   ====================================================== */
-
-.wide-container {
-    width: 95%;
-    max-width: 1600px;
-    margin: 0 auto;
     padding: 20px;
-}
-
-/* ======================================================
-   SIATKA GIER
-   ====================================================== */
-
-.games-grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    padding: 20px 0;
-}
-
-.games-grid .game-card {
-    width: 280px;
-    flex: 0 0 auto;
-
-    background-color: var(--color-bg-card);
-    border-radius: 12px;
-    box-shadow: 0 4px 10px var(--color-shadow);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 20px;
-    border: 1px solid var(--color-border);
-    transition: transform 0.2s;
-}
-
-.games-grid .game-card:hover {
-    transform: translateY(-5px);
-}
-
-.games-grid .game-card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    margin-bottom: 15px;
-}
-
-.games-grid .game-card h3 {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
-    text-align: center;
-    color: var(--color-text-primary);
-    padding: 0 10px;
-}
-
-/* Styl dla opisu gry */
-.games-grid .game-card .game-desc {
-    font-size: 0.9rem;
-    color: var(--color-text-secondary);
-    text-align: center;
-    padding: 0 15px;
-    margin-bottom: 15px;
-    line-height: 1.4;
-
-    /* Przycinanie tekstu jeśli jest za długi */
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.games-grid .game-card .btn {
-    width: 80%;
-    margin-top: auto;
-}
-
-/* ======================================================
-   NOWA STOPKA (3 KOLUMNY)
-   ====================================================== */
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.footer-left,
-.footer-center,
-.footer-right {
-    flex: 1;
-}
-
-.footer-center {
-    text-align: center;
-    font-size: 0.9em;
-    opacity: 0.8;
-}
-
-.footer-right {
-    text-align: right;
-}
-
-.footer-right a {
-    color: var(--color-text-nav);
-    text-decoration: none;
-    margin-left: 20px;
+    border-top: 1px solid #333;
+    margin-top: auto; /* Zabezpieczenie pozycji */
 }
