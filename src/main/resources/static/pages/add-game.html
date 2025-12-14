@@ -17,6 +17,9 @@
     <li><a href="/pages/about.html">O nas</a></li>
     <li><a href="/pages/login.html" class="btn-login">Konto</a></li>
   </ul>
+  <button id="theme-toggle" class="theme-btn">
+    <i class="fas fa-moon"></i>
+  </button>
 </nav>
 
 <div class="container main-content">
@@ -75,42 +78,25 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-
-      // --- Zakomentowana symulacja bezpieczeństwa ---
-      /*
-      const userRole = localStorage.getItem('userRole');
-      if (!userRole) {
-          alert("Musisz być zalogowany, aby zgłaszać gry!");
-          window.location.href = "/pages/login.html";
-      }
-      */
-
+      // Obsługa formularza
       const form = document.getElementById('addGameForm');
 
       form.addEventListener('submit', function(e) {
           e.preventDefault();
 
-          // Zbieranie danych do obiektu FormData (wymagane przy przesyłaniu plików)
           const formData = new FormData();
-
-          // Pobieramy plik
           const fileInput = document.getElementById('thumbnail');
 
-          // Dodajemy pola
           formData.append('title', document.getElementById('title').value);
           formData.append('category', document.getElementById('category').value);
           formData.append('gameLink', document.getElementById('gameLink').value);
           formData.append('description', document.getElementById('description').value);
 
-          // Dodajemy plik tylko jeśli został wybrany
           if(fileInput.files.length > 0) {
               formData.append('thumbnail', fileInput.files[0]);
           }
 
-          // Tutaj w przyszłości będzie fetch() do Twojego backendu Spring Boot
-          // np. fetch('/api/games/submit', { method: 'POST', body: formData }) ...
-
-          // Symulacja sukcesu dla Ciebie teraz:
+          // Symulacja sukcesu
           console.log("Wysłano zgłoszenie:");
           for (var pair of formData.entries()) {
               console.log(pair[0]+ ', ' + pair[1]);
