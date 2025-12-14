@@ -3,9 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameHub - Nazwa Gry</title>
+    <title>GameHub - 2048</title>
+
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link href="../games/2048/style/main.css" rel="stylesheet" type="text/css">
+
+    <style>
+        /* Nadpisanie stylów 2048, aby pasowały do motywu GameHub */
+        body {
+            /* Przywraca tło z GameHub, bo main.css gry próbuje je zmienić */
+            background-color: var(--color-bg);
+            color: var(--color-text-primary);
+        }
+
+        /* Obsługa responsywności gry 2048 */
+        @media screen and (max-width: 520px) {
+            .game-2048-container {
+                width: 280px;
+            }
+            .grid-container {
+                width: 280px;
+                height: 280px;
+            }
+            .grid-cell {
+                width: 57.5px;
+                height: 57.5px;
+                margin-right: 10px;
+            }
+            .tile, .tile .tile-inner {
+                width: 57.5px;
+                height: 57.5px;
+                line-height: 57.5px;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -37,10 +70,10 @@
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div id="category-dropdown-content" class="category-content">
-                <a href="#" data-category="all">Wszystkie Kategorie</a>
-                <a href="#" data-category="action">Akcja</a>
-                <a href="#" data-category="logic">Logiczne</a>
-                <a href="#" data-category="strategy">Strategiczne</a>
+                <a href="category.html" data-category="all">Wszystkie Kategorie</a>
+                <a href="category.html?kategoria=akcja" data-category="action">Akcja</a>
+                <a href="category.html?kategoria=logiczne" data-category="logic">Logiczne</a>
+                <a href="category.html?kategoria=strategiczne" data-category="strategy">Strategiczne</a>
             </div>
         </div>
         <form id="search-form" class="search-form">
@@ -51,14 +84,71 @@
         </form>
     </section>
 
-    <div id="game-frame-container" style="text-align: center; margin-bottom: 20px;">
-        <iframe src="/2048/index.html" width="100%" height="700px" style="border:none; max-width: 600px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);" title="2048 Game"></iframe>
+    <div id="game-display-area" style="text-align: center; margin-bottom: 20px; padding: 20px 0;">
+
+        <div class="game-2048-container">
+            <div class="heading">
+                <h1 class="title" style="color: #776e65;">2048</h1>
+                <div class="scores-container">
+                    <div class="score-container">0</div>
+                    <div class="best-container">0</div>
+                </div>
+            </div>
+
+            <div class="above-game">
+                <p class="game-intro" style="color: inherit;">Połącz liczby, aby uzyskać <strong>2048!</strong></p>
+                <a class="restart-button">Nowa Gra</a>
+            </div>
+
+            <div class="game-container">
+                <div class="game-message">
+                    <p></p>
+                    <div class="lower">
+                        <a class="keep-playing-button">Graj dalej</a>
+                        <a class="retry-button">Spróbuj ponownie</a>
+                    </div>
+                </div>
+
+                <div class="grid-container">
+                    <div class="grid-row">
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                    </div>
+                    <div class="grid-row">
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                    </div>
+                    <div class="grid-row">
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                    </div>
+                    <div class="grid-row">
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                    </div>
+                </div>
+
+                <div class="tile-container">
+                </div>
+            </div>
+
+            <p class="game-explanation" style="margin-top: 20px; color: inherit;">
+                <strong class="important">Instrukcja:</strong> Użyj <strong>strzałek</strong> na klawiaturze, aby przesuwać kafelki.
+            </p>
+        </div>
     </div>
 
     <div class="game-info-bar">
     </div>
 
-    <p id="game-description">Ładowanie opisu...</p>
     <hr>
     <h3>Komentarze</h3>
     <form id="add-comment-form" style="display: none;">
@@ -74,5 +164,17 @@
 
 <script src="../js/main.js" defer></script>
 <script src="../js/game.js" defer></script>
+
+<script src="../games/2048/js/bind_polyfill.js"></script>
+<script src="../games/2048/js/classlist_polyfill.js"></script>
+<script src="../games/2048/js/animframe_polyfill.js"></script>
+<script src="../games/2048/js/keyboard_input_manager.js"></script>
+<script src="../games/2048/js/html_actuator.js"></script>
+<script src="../games/2048/js/grid.js"></script>
+<script src="../games/2048/js/tile.js"></script>
+<script src="../games/2048/js/local_storage_manager.js"></script>
+<script src="../games/2048/js/game_manager.js"></script>
+<script src="../games/2048/js/application.js"></script>
+
 </body>
 </html>
