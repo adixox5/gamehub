@@ -1,14 +1,13 @@
 /* ======================================================
-   STYL BAZOWY (Z PLIKU RAR)
+   USTAWIENIA GŁÓWNE (ZGODNE Z RAR/SCREENEM)
    ====================================================== */
 body {
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    background-color: #121212; /* Ciemne tło z RAR */
-    color: #ffffff;
-
-    /* NAPRAWA STOPKI: To sprawia, że stopka jest zawsze na dole */
+    /* Kolor tła ze screena (jasny szary/błękitny) */
+    background-color: #eaeff2;
+    color: #000;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -26,53 +25,34 @@ ul {
 }
 
 /* ======================================================
-   NAVBAR (NAPRAWIONY UKŁAD)
+   NAVBAR (Czysty, bez tła - jak na screenie)
    ====================================================== */
 .navbar {
-    background-color: #2a2a2a; /* Kolor belki z RAR */
-    padding: 15px 30px;
+    padding: 20px 40px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+    background-color: transparent; /* Brak koloru tła */
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #ffffff;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-size: 20px;
+    font-weight: normal;
+    color: #000;
 }
 
-/* NAPRAWA MENU: Dodanie flex i gap naprawia "nachodzenie na siebie" */
 .nav-links {
     display: flex;
     gap: 20px;
-    align-items: center;
 }
 
 .nav-links li a {
-    color: #cccccc;
+    color: #000;
     font-size: 16px;
-    transition: color 0.3s ease;
 }
 
 .nav-links li a:hover {
-    color: #00d4ff; /* Niebieski akcent z RAR */
-}
-
-/* Przycisk Konto */
-.btn-login {
-    border: 1px solid #00d4ff;
-    padding: 5px 15px;
-    border-radius: 5px;
-    color: #00d4ff !important;
-}
-
-.btn-login:hover {
-    background-color: #00d4ff;
-    color: #121212 !important;
+    text-decoration: underline;
 }
 
 /* Przycisk zmiany motywu (ikona) */
@@ -81,44 +61,38 @@ ul {
     border: none;
     cursor: pointer;
     font-size: 18px;
-    color: #ffffff;
     margin-left: 10px;
+    color: #000;
 }
 
 /* ======================================================
-   UKŁAD TREŚCI I FORMULARZA
+   FORMULARZ DODAWANIA GRY (Dopasowany do stylu)
    ====================================================== */
 .main-content {
-    flex: 1; /* Wypycha stopkę */
+    flex: 1; /* Wypycha stopkę na dół */
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
+    padding-top: 50px;
 }
 
 .form-container {
-    background-color: #2a2a2a; /* Tło karty zgodne z navbarem */
-    padding: 30px;
-    border-radius: 10px;
     width: 100%;
-    max-width: 600px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    max-width: 800px;
+    padding: 20px;
+    /* Brak tła (karty), czysty tekst na tle strony */
 }
 
 .form-container h2 {
-    margin-bottom: 10px;
-    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 24px;
 }
 
 .form-info {
     margin-bottom: 20px;
-    color: #cccccc;
     font-size: 14px;
-    border-bottom: 1px solid #444;
-    padding-bottom: 10px;
+    color: #333;
 }
 
-/* Pola formularza */
 .form-group {
     margin-bottom: 15px;
 }
@@ -126,50 +100,102 @@ ul {
 .form-group label {
     display: block;
     margin-bottom: 5px;
-    color: #cccccc;
+    font-weight: bold;
+    font-size: 14px;
 }
 
-.form-group input,
+/* Stylizacja inputów - prosta, biała, z obramowaniem */
+.form-group input[type="text"],
+.form-group input[type="url"],
 .form-group select,
 .form-group textarea {
     width: 100%;
     padding: 10px;
-    background-color: #ffffff;
-    border: none;
-    border-radius: 3px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
     box-sizing: border-box;
-    font-family: inherit;
 }
 
-/* Stylizacja input file */
 .form-group input[type="file"] {
-    background-color: #333;
-    color: #fff;
+    margin-top: 5px;
 }
 
 .btn-primary {
-    width: 100%;
-    padding: 12px;
-    background-color: #00d4ff; /* Akcent z RAR */
-    color: #121212;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
+    padding: 10px 20px;
+    background-color: #ddd; /* Szary przycisk systemowy */
+    border: 1px solid #999;
+    color: #000;
     cursor: pointer;
+    font-weight: bold;
     margin-top: 10px;
 }
 
 .btn-primary:hover {
-    background-color: #00b8e6;
+    background-color: #ccc;
 }
 
 /* ======================================================
-   STOPKA (NAPRAWIONA POZYCJA)
+   STOPKA (Ciemna - jak na dole screena)
    ====================================================== */
 footer {
-    background-color: #1a1a1a;
+    background-color: #343a40; /* Ciemny grafit */
+    color: #fff;
     text-align: center;
     padding: 20px;
-    border-top: 1px solid #333;
-    margin-top: auto; /* Zabezpieczenie pozycji */
+    margin-top: auto; /* Sticky footer fix */
+    font-size: 14px;
+}
+
+/* ======================================================
+   ELEMENTY Z INDEX.HTML (Slider, Dropdown)
+   Przywracam je, żeby strona główna też działała poprawnie
+   ====================================================== */
+
+/* Dropdown kategorii */
+.category-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.category-content {
+    display: none; /* Domyślnie ukryte */
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Klasa dodawana przez JS */
+.category-content.show {
+    display: block;
+}
+
+.category-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.category-content a:hover {background-color: #f1f1f1}
+
+/* Slider */
+.featured-slider {
+    position: relative;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.featured-slide {
+    display: none; /* JS to zmienia */
+}
+
+/* Pasek wyszukiwania (z indexu) */
+.search-bar-container {
+    margin: 20px 0;
+    text-align: right; /* Na screenie jest po prawej */
+    padding-right: 40px;
 }
