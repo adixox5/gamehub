@@ -575,3 +575,91 @@ body.dark-mode .category-btn {
     text-decoration: none;
     margin-left: 20px;
 }
+
+/* ======================================================
+   STRONA O NAS (INFO.HTML) - STYLE ZESPOŁU
+   ====================================================== */
+
+/* Sekcja opisu projektu */
+.mission-section {
+    text-align: center;
+    padding: 40px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.mission-section h1 {
+    color: var(--color-text-primary);
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+.mission-section p {
+    color: var(--color-text-secondary);
+    font-size: 1.2rem;
+    line-height: 1.6;
+}
+
+/* Sekcja Zespołu - Grid/Flexbox */
+.team-section {
+    padding: 20px 0 60px 0;
+}
+
+.team-title {
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--color-text-primary);
+}
+
+.team-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px; /* Odstępy między kafelkami */
+}
+
+/* Wygląd pojedynczego kafelka */
+.team-card {
+    background-color: var(--color-bg-card);
+    border: 1px solid var(--color-border);
+    border-radius: 15px;
+    padding: 30px 20px;
+    width: 220px; /* Szerokość kafelka */
+    text-align: center;
+    box-shadow: 0 4px 6px var(--color-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efekt najazdu myszką */
+.team-card:hover {
+    transform: translateY(-10px); /* Uniesienie */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    border-color: var(--color-accent); /* Podświetlenie ramki */
+}
+
+/* Ikona/Avatar */
+.team-avatar {
+    width: 80px;
+    height: 80px;
+    background-color: var(--color-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px auto;
+    color: var(--color-accent);
+    font-size: 2.5rem;
+}
+
+.team-card h3 {
+    color: var(--color-text-primary);
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.team-card span {
+    display: block;
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    font-weight: normal;
+}

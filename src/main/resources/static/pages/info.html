@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameHub - O nas</title>
+  <link rel="stylesheet" href="../style/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<nav>
+  <div class="container nav-container">
+    <a href="/" class="nav-brand">GameHub</a>
+
+    <div class="nav-links">
+      <a href="add-game.html" id="nav-link-add-game" style="display: none;">Dodaj Grę</a>
+      <a href="admin-panel.html" id="nav-link-admin-panel" style="display: none;">Panel Moderatora</a>
+
+      <a href="info.html" style="font-weight: bold; color: var(--color-accent);">O nas</a>
+    </div>
+
+    <div class="nav-controls">
+      <button id="theme-toggle-btn" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+      <div id="navbar-user-section">
+        <a href="login.html" class="btn btn-secondary">Zaloguj się</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+
+  <section class="mission-section">
+    <h1>Cel Projektu</h1>
+    <p>
+      Nasz projekt ma na celu stworzenie nowoczesnej i intuicyjnej platformy hostującej
+      proste gry przeglądarkowe. Chcemy zapewnić miejsce, gdzie każdy może zagrać
+      w klasyki (jak 2048) lub podzielić się własną twórczością.
+    </p>
+  </section>
+
+  <hr style="border: 0; border-top: 1px solid var(--color-border); margin: 20px 0;">
+
+  <section class="team-section">
+    <h2 class="team-title">Nasz Zespół</h2>
+
+    <div class="team-grid">
+
+      <div class="team-card">
+        <div class="team-avatar"><i class="fas fa-code"></i></div>
+        <h3>Jakub Data</h3>
+
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar"><i class="fas fa-database"></i></div>
+        <h3>Adrian Kolanko</h3>
+
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar"><i class="fas fa-bug"></i></div>
+        <h3>Mykyta Kachur</h3>
+
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar"><i class="fas fa-paint-brush"></i></div>
+        <h3>Wiktor Głowa</h3>
+
+      </div>
+
+      <div class="team-card">
+        <div class="team-avatar"><i class="fas fa-tasks"></i></div>
+        <h3>Michał Chmura</h3>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-center">
+      <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+
+</body>
+</html>
