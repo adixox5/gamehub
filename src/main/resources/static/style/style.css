@@ -1,5 +1,5 @@
 /* ======================================================
-   1. ZMIENNE I MOTYWY (Zachowane Twoje kolory)
+   1. ZMIENNE I KOLORY (Zachowane z Twojego projektu)
    ====================================================== */
 :root {
     --color-bg: #e9ecef;
@@ -14,7 +14,7 @@
     --color-border-nav-button: #6c757d;
     --color-shadow: rgba(0, 0, 0, 0.1);
     --color-border: #ddd;
-    --color-bg-input: #ffffff; /* Dodane dla formularzy */
+    --color-bg-input: #ffffff;
 }
 
 body.dark-mode {
@@ -30,11 +30,11 @@ body.dark-mode {
     --color-border-nav-button: #3a3b3c;
     --color-shadow: rgba(0, 0, 0, 0.4);
     --color-border: #3a3b3c;
-    --color-bg-input: #2c2c2c; /* Dodane dla formularzy */
+    --color-bg-input: #2c2c2c;
 }
 
 /* ======================================================
-   2. RESET I UKŁAD STRONY (Sticky Footer Fix)
+   2. UKŁAD STRONY (FIX STOPKI)
    ====================================================== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -51,145 +51,188 @@ body {
     transition: background-color 0.2s, color 0.2s;
 }
 
-/* Główny kontener treści */
-.container, .main-content {
-    width: 90%;
-    max-width: 1100px;
-    margin: 20px auto;
+main, .main-content {
     flex: 1; /* Wypycha stopkę */
-}
-
-.wide-container {
-    width: 95%;
-    max-width: 1600px;
-    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    justify-content: center;
     padding: 20px;
 }
 
+.container { width: 90%; max-width: 1200px; margin: 0 auto; }
+
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
-hr { margin: 2rem 0; border: 0; border-top: 1px solid var(--color-border); }
 
 /* ======================================================
-   3. NAWIGACJA (Przywrócony układ z kontenerem)
+   3. NAWIGACJA (PRZYWRÓCONA FUNKCJONALNOŚĆ)
    ====================================================== */
-nav, .navbar {
+.navbar {
     background-color: var(--color-bg-nav);
     color: var(--color-text-nav);
-    padding: 1rem 0;
+    padding: 10px 0;
     box-shadow: 0 2px 5px var(--color-shadow);
-    border-bottom: 1px solid var(--color-border);
 }
 
-/* Ten kontener centruje zawartość navbara - kluczowe dla wyglądu */
-.nav-container, .navbar .nav-container {
+.nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 90%;
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
 }
 
-/* Obsługa navbara, jeśli HTML nie ma diva .nav-container (zabezpieczenie) */
-.navbar {
-    display: flex;
-    justify-content: center;
-}
-.navbar > * {
-    /* Jeśli elementy są bezpośrednio w .navbar, centrujemy je max-widthem */
-    width: 90%;
-    max-width: 1100px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo, .nav-brand {
+.logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: var(--color-text-nav);
     text-transform: uppercase;
 }
 
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 
-.nav-links a, .nav-links li a {
+.nav-links a {
     color: var(--color-text-nav);
-    padding: 0.5rem 10px;
-    border-radius: 20px;
-    transition: background-color 0.2s;
     font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
-.nav-links a:hover, .nav-links li a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+.nav-links a:hover {
+    background-color: rgba(255,255,255,0.1);
 }
 
 /* Przycisk motywu */
-.theme-toggle, .theme-btn {
+.theme-btn {
     background: var(--color-bg-button-nav);
     color: var(--color-text-button-nav);
     border: 1px solid var(--color-border-nav-button);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 35px; height: 35px;
     cursor: pointer;
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     margin-left: 15px;
+    display: flex; justify-content: center; align-items: center;
 }
 
-/* Przycisk Konto */
-.btn-login {
-    background-color: var(--color-accent);
-    color: #fff !important;
-    padding: 8px 20px !important;
-    border-radius: 20px !important;
-    font-weight: bold !important;
+/* --- NAPRAWA MENU ROZWIJANEGO (DROPDOWN) --- */
+/* To jest to, co zepsułem wcześniej - teraz przywrócone */
+.category-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.category-content {
+    display: none; /* Domyślnie ukryte */
+    position: absolute;
+    background-color: var(--color-bg-card);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border-radius: 5px;
+    top: 100%; /* Wyświetl pod przyciskiem */
+    left: 0;
+}
+
+/* JS dodaje klasę .show lub .active - obsługujemy obie */
+.category-dropdown.active .category-content,
+.category-content.show {
+    display: block; /* Pokaż po kliknięciu */
+}
+
+.category-content a {
+    color: var(--color-text-primary);
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.category-content a:hover {
+    background-color: var(--color-bg);
 }
 
 /* ======================================================
-   4. FORMULARZE (Dodaj Grę / Logowanie)
+   4. SLIDER (PRZYWRÓCONA ANIMACJA)
    ====================================================== */
-.form-container, .auth-card {
-    background-color: var(--color-bg-card);
-    padding: 2.5rem;
-    border-radius: 20px;
+/* Kontener slidera */
+.featured-slider {
+    max-width: 1000px;
+    position: relative;
+    margin: 20px auto;
+    border-radius: 10px;
+    overflow: hidden;
     box-shadow: 0 4px 10px var(--color-shadow);
+}
+
+/* WAŻNE: Ukrywamy slajdy domyślnie, JS włącza jeden */
+.featured-slide {
+    display: none;
+    width: 100%;
+    height: 400px; /* Stała wysokość */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Animacja przenikania (Fade) */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+/* Przycisk na sliderze */
+.slide-play-btn {
+    position: absolute;
+    bottom: 20px; right: 20px;
+    background-color: rgba(0,0,0,0.7);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+/* ======================================================
+   5. NOWE STYLE DLA FORMULARZA (ADD-GAME)
+   ====================================================== */
+.form-container {
+    background-color: var(--color-bg-card);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--color-shadow);
     width: 100%;
     max-width: 600px;
-    margin: 2rem auto; /* Wyśrodkowanie */
+    margin: 0 auto;
     border: 1px solid var(--color-border);
 }
 
-.form-container h2, .auth-card h2 {
+.form-container h2 {
     text-align: center;
-    margin-bottom: 1.5rem;
-    color: var(--color-text-primary);
+    margin-bottom: 20px;
+    color: var(--color-accent);
 }
 
 .form-info {
     text-align: center;
-    color: var(--color-text-secondary);
-    font-size: 0.9em;
     margin-bottom: 20px;
-    padding-bottom: 15px;
+    font-size: 0.9em;
+    color: var(--color-text-secondary);
     border-bottom: 1px solid var(--color-border);
+    padding-bottom: 15px;
 }
 
-.form-group { margin-bottom: 1.2rem; }
+.form-group { margin-bottom: 15px; }
 
 .form-group label {
     display: block;
-    margin-bottom: 8px;
-    color: var(--color-text-secondary);
+    margin-bottom: 5px;
     font-weight: bold;
 }
 
@@ -197,13 +240,12 @@ nav, .navbar {
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
     border: 1px solid var(--color-border);
-    border-radius: 20px; /* Zaokrąglenia zgodne z Twoim stylem */
+    border-radius: 5px;
     background-color: var(--color-bg-input);
     color: var(--color-text-primary);
-    font-size: 1rem;
-    font-family: inherit;
+    box-sizing: border-box;
 }
 
 .form-group input:focus,
@@ -213,192 +255,51 @@ nav, .navbar {
     border-color: var(--color-accent);
 }
 
-/* Input Pliku */
+/* Wygląd input file */
 .form-group input[type="file"] {
-    padding: 8px;
-    border-radius: 20px;
+    padding: 5px;
 }
 .form-group input[type="file"]::file-selector-button {
     background-color: var(--color-bg-button-nav);
     color: var(--color-text-button-nav);
     border: none;
-    padding: 8px 15px;
-    border-radius: 15px;
-    margin-right: 15px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin-right: 10px;
     cursor: pointer;
-    transition: filter 0.2s;
-}
-.form-group input[type="file"]::file-selector-button:hover {
-    filter: brightness(1.1);
 }
 
-.form-group small {
-    display: block;
-    margin-top: 5px;
-    font-size: 0.85em;
-    color: var(--color-text-secondary);
-}
-
-/* Przyciski */
-.btn, .btn-primary {
-    display: inline-block;
-    background: var(--color-accent);
-    color: #fff;
-    padding: 0.7rem 1.5rem;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    text-align: center;
+.btn-primary {
     width: 100%;
-    transition: filter 0.2s;
+    padding: 12px;
+    background-color: var(--color-accent);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
 }
-.btn:hover, .btn-primary:hover { filter: brightness(0.9); }
+.btn-primary:hover { opacity: 0.9; }
 
 /* ======================================================
-   5. STOPKA (Naprawiona)
+   6. STOPKA
    ====================================================== */
 footer {
     background-color: var(--color-bg-nav);
     color: var(--color-text-nav);
     padding: 20px 0;
-    margin-top: auto; /* Zabezpieczenie */
+    text-align: center;
+    margin-top: auto; /* Sticky footer */
     border-top: 1px solid var(--color-border);
     width: 100%;
 }
 
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-.footer-right a {
-    color: var(--color-text-nav);
-    margin-left: 20px;
-    transition: color 0.2s;
-}
-.footer-right a:hover { color: var(--color-accent); }
-
 /* ======================================================
-   6. ELEMENTY SPECYFICZNE (Karty gier, Slidery itp.)
+   7. RESPANSYWNOŚĆ
    ====================================================== */
-
-/* Slider (Index) */
-.featured-slider {
-    border-radius: 20px;
-    margin-bottom: 20px;
-    overflow: hidden;
-    position: relative;
-    box-shadow: 0 4px 10px var(--color-shadow);
-}
-.featured-slide {
-    width: 100%;
-    height: 350px;
-    background-size: cover;
-    background-position: center;
-    display: block;
-    position: relative;
-}
-.slide-play-btn {
-    position: absolute;
-    bottom: 20px; right: 20px;
-    background-color: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 20px;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255,255,255,0.2);
-    width: auto; /* Reset szerokości przycisku */
-}
-
-/* Karty Gier */
-.popular-games-section {
-    background-color: var(--color-bg-card);
-    border-radius: 20px;
-    padding: 1.5rem;
-    box-shadow: 0 4px 10px var(--color-shadow);
-    border: 1px solid var(--color-border);
-}
-
-.game-grid, .games-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-    gap: 20px;
-    padding: 20px 0;
-}
-
-.game-card {
-    background-color: var(--color-bg);
-    border-radius: 20px;
-    box-shadow: 0 2px 5px var(--color-shadow);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-    display: flex;
-    flex-direction: column;
-}
-
-body.dark-mode .popular-games-section .game-card {
-    background-color: #2a2a2a; /* Kontrast dla kart w dark mode */
-}
-
-.game-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
-}
-
-.game-card h3 {
-    padding: 1rem;
-    color: var(--color-text-primary);
-    font-size: 1.1rem;
-    margin: 0;
-}
-
-.game-card .game-desc {
-    padding: 0 1rem;
-    color: var(--color-text-secondary);
-    font-size: 0.9em;
-    margin-bottom: 1rem;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.game-card .btn {
-    width: calc(100% - 2rem);
-    margin: auto 1rem 1rem 1rem;
-}
-
-/* Wyszukiwarka */
-.search-bar-container {
-    display: flex;
-    background-color: var(--color-bg-card);
-    border-radius: 20px;
-    box-shadow: 0 2px 5px var(--color-shadow);
-    padding: 8px;
-    margin-bottom: 20px;
-    border: 1px solid var(--color-border);
-}
-.search-form { flex-grow: 1; display: flex; }
-.search-form input {
-    width: 100%; border: none; background: none; padding: 0.75rem; color: var(--color-text-primary);
-}
-.search-form .search-btn {
-    background-color: var(--color-accent); color: white; border: none; border-radius: 20px; padding: 0 1.2rem; cursor: pointer; width: auto;
-}
-
-/* Responsywność */
 @media (max-width: 768px) {
-    .navbar .nav-container, .navbar > * {
-        flex-direction: column;
-        gap: 15px;
-    }
+    .nav-container { flex-direction: column; gap: 15px; }
     .nav-links { flex-direction: column; width: 100%; }
     .nav-links a { width: 100%; text-align: center; }
-    .footer-content { flex-direction: column; text-align: center; gap: 15px; }
 }
