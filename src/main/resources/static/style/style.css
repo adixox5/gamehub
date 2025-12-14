@@ -5,13 +5,13 @@
 /* :root (Motyw Jasny) */
 :root {
     --color-bg: #e9ecef;
-    --color-bg-card: #ffffff; 
-    --color-text-primary: #1c1e21; 
+    --color-bg-card: #ffffff;
+    --color-text-primary: #1c1e21;
     --color-text-secondary: #606770;
-    --color-bg-nav: #343a40; 
-    --color-text-nav: #f8f9fa; 
-    --color-accent: #007bff; 
-    --color-bg-button-nav: #495057; 
+    --color-bg-nav: #343a40;
+    --color-text-nav: #f8f9fa;
+    --color-accent: #007bff;
+    --color-bg-button-nav: #495057;
     --color-text-button-nav: #f8f9fa;
     --color-border-nav-button: #6c757d;
     --color-shadow: rgba(0, 0, 0, 0.1);
@@ -20,9 +20,9 @@
 
 /* body.dark-mode (Motyw Ciemny) */
 body.dark-mode {
-    --color-bg: #1a1d21; 
-    --color-bg-card: #242a30; 
-    --color-text-primary: #e4e6eb; 
+    --color-bg: #1a1d21;
+    --color-bg-card: #242a30;
+    --color-text-primary: #e4e6eb;
     --color-text-secondary: #b0b3b8;
     --color-bg-nav: #242a30;
     --color-text-nav: #e4e6eb;
@@ -39,12 +39,12 @@ body.dark-mode {
    ====================================================== */
 html { height: 100%; }
 body {
-    min-height: 100vh; 
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     background-color: var(--color-bg);
     color: var(--color-text-primary);
-    transition: background-color 0.2s, color 0.2s; 
+    transition: background-color 0.2s, color 0.2s;
     font-family: Arial, sans-serif;
     line-height: 1.6;
 }
