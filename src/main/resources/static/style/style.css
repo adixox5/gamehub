@@ -1,305 +1,138 @@
 /* ======================================================
-   1. ZMIENNE I KOLORY (Zachowane z Twojego projektu)
+   RESET I BAZA (Tło jak na screenie 1)
    ====================================================== */
-:root {
-    --color-bg: #e9ecef;
-    --color-bg-card: #ffffff;
-    --color-text-primary: #1c1e21;
-    --color-text-secondary: #606770;
-    --color-bg-nav: #343a40;
-    --color-text-nav: #f8f9fa;
-    --color-accent: #007bff;
-    --color-bg-button-nav: #495057;
-    --color-text-button-nav: #f8f9fa;
-    --color-border-nav-button: #6c757d;
-    --color-shadow: rgba(0, 0, 0, 0.1);
-    --color-border: #ddd;
-    --color-bg-input: #ffffff;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
-body.dark-mode {
-    --color-bg: #1a1d21;
-    --color-bg-card: #242a30;
-    --color-text-primary: #e4e6eb;
-    --color-text-secondary: #b0b3b8;
-    --color-bg-nav: #242a30;
-    --color-text-nav: #e4e6eb;
-    --color-accent: #007bff;
-    --color-bg-button-nav: #3a3b3c;
-    --color-text-button-nav: #e4e6eb;
-    --color-border-nav-button: #3a3b3c;
-    --color-shadow: rgba(0, 0, 0, 0.4);
-    --color-border: #3a3b3c;
-    --color-bg-input: #2c2c2c;
-}
-
-/* ======================================================
-   2. UKŁAD STRONY (FIX STOPKI)
-   ====================================================== */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { height: 100%; }
-
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column; /* To trzyma stopkę na dole */
+html, body {
+    height: 100%;
     font-family: Arial, sans-serif;
-    line-height: 1.6;
-    background-color: var(--color-bg);
-    color: var(--color-text-primary);
-    transition: background-color 0.2s, color 0.2s;
-}
-
-main, .main-content {
-    flex: 1; /* Wypycha stopkę */
-    width: 100%;
+    background-color: #eaeff2; /* Ten jasnoszary kolor z Twojego screena */
+    color: #000;
     display: flex;
-    justify-content: center;
-    padding: 20px;
+    flex-direction: column;
 }
-
-.container { width: 90%; max-width: 1200px; margin: 0 auto; }
-
-a { text-decoration: none; color: inherit; }
-ul { list-style: none; }
 
 /* ======================================================
-   3. NAWIGACJA (PRZYWRÓCONA FUNKCJONALNOŚĆ)
+   NAGŁÓWEK (Identyczny jak na screenie Opera)
    ====================================================== */
-.navbar {
-    background-color: var(--color-bg-nav);
-    color: var(--color-text-nav);
-    padding: 10px 0;
-    box-shadow: 0 2px 5px var(--color-shadow);
-}
-
-.nav-container {
+.header-container {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+    align-items: flex-start; /* Wyrównanie do góry */
+    padding: 20px 40px;
+    width: 100%;
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
+    font-size: 18px; /* Mniejszy, czysty tekst jak w oryginale */
+    color: #000;
+    text-decoration: none;
+    font-weight: normal;
 }
 
-.nav-links {
+.user-panel {
+    display: flex;
+    flex-direction: column; /* Ikona nad tekstem lub obok, zależnie jak w oryginale */
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #000;
+}
+
+.theme-icon {
+    font-size: 18px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.login-link {
+    text-decoration: none;
+    color: #000;
+}
+
+/* ======================================================
+   FORMULARZ (Wyśrodkowany na stronie)
+   ====================================================== */
+.main-content {
+    flex: 1; /* Wypycha stopkę */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Zaczynamy trochę wyżej niż środek */
+    padding-top: 50px;
+}
+
+.form-box {
+    width: 600px;
+    /* Brak tła lub bardzo delikatne, żeby pasowało do stylu "clean" */
+    padding: 20px;
+}
+
+.form-header {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 }
 
-.nav-links a {
-    color: var(--color-text-nav);
-    font-weight: 500;
-    padding: 5px 10px;
-    border-radius: 5px;
-}
-
-.nav-links a:hover {
-    background-color: rgba(255,255,255,0.1);
-}
-
-/* Przycisk motywu */
-.theme-btn {
-    background: var(--color-bg-button-nav);
-    color: var(--color-text-button-nav);
-    border: 1px solid var(--color-border-nav-button);
-    border-radius: 50%;
-    width: 35px; height: 35px;
-    cursor: pointer;
-    margin-left: 15px;
-    display: flex; justify-content: center; align-items: center;
-}
-
-/* --- NAPRAWA MENU ROZWIJANEGO (DROPDOWN) --- */
-/* To jest to, co zepsułem wcześniej - teraz przywrócone */
-.category-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.category-content {
-    display: none; /* Domyślnie ukryte */
-    position: absolute;
-    background-color: var(--color-bg-card);
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1000;
-    border-radius: 5px;
-    top: 100%; /* Wyświetl pod przyciskiem */
-    left: 0;
-}
-
-/* JS dodaje klasę .show lub .active - obsługujemy obie */
-.category-dropdown.active .category-content,
-.category-content.show {
-    display: block; /* Pokaż po kliknięciu */
-}
-
-.category-content a {
-    color: var(--color-text-primary);
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.category-content a:hover {
-    background-color: var(--color-bg);
-}
-
-/* ======================================================
-   4. SLIDER (PRZYWRÓCONA ANIMACJA)
-   ====================================================== */
-/* Kontener slidera */
-.featured-slider {
-    max-width: 1000px;
-    position: relative;
-    margin: 20px auto;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px var(--color-shadow);
-}
-
-/* WAŻNE: Ukrywamy slajdy domyślnie, JS włącza jeden */
-.featured-slide {
-    display: none;
-    width: 100%;
-    height: 400px; /* Stała wysokość */
-    background-size: cover;
-    background-position: center;
-}
-
-/* Animacja przenikania (Fade) */
-.fade {
-    animation-name: fade;
-    animation-duration: 1.5s;
-}
-
-@keyframes fade {
-    from {opacity: .4}
-    to {opacity: 1}
-}
-
-/* Przycisk na sliderze */
-.slide-play-btn {
-    position: absolute;
-    bottom: 20px; right: 20px;
-    background-color: rgba(0,0,0,0.7);
-    color: white;
-    padding: 10px 20px;
-    border-radius: 20px;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* ======================================================
-   5. NOWE STYLE DLA FORMULARZA (ADD-GAME)
-   ====================================================== */
-.form-container {
-    background-color: var(--color-bg-card);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 15px var(--color-shadow);
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-    border: 1px solid var(--color-border);
-}
-
-.form-container h2 {
-    text-align: center;
+.form-desc {
+    font-size: 12px;
+    color: #666;
     margin-bottom: 20px;
-    color: var(--color-accent);
 }
 
-.form-info {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 0.9em;
-    color: var(--color-text-secondary);
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 15px;
+.form-group {
+    margin-bottom: 15px;
 }
-
-.form-group { margin-bottom: 15px; }
 
 .form-group label {
     display: block;
+    font-size: 13px;
     margin-bottom: 5px;
-    font-weight: bold;
+    color: #333;
 }
 
-.form-group input,
+.form-group input[type="text"],
+.form-group input[type="url"],
 .form-group select,
 .form-group textarea {
     width: 100%;
-    padding: 10px;
-    border: 1px solid var(--color-border);
-    border-radius: 5px;
-    background-color: var(--color-bg-input);
-    color: var(--color-text-primary);
-    box-sizing: border-box;
+    padding: 8px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    border-radius: 4px; /* Lekkie zaokrąglenie jak w oryginale */
+    font-size: 13px;
 }
 
-.form-group input:focus,
-.form-group select:focus,
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--color-accent);
-}
-
-/* Wygląd input file */
+/* Styl input file */
 .form-group input[type="file"] {
-    padding: 5px;
-}
-.form-group input[type="file"]::file-selector-button {
-    background-color: var(--color-bg-button-nav);
-    color: var(--color-text-button-nav);
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    margin-right: 10px;
-    cursor: pointer;
+    font-size: 12px;
 }
 
-.btn-primary {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--color-accent);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-weight: bold;
+.submit-btn {
+    background-color: #ddd; /* Szary przycisk jak "Wyszukaj grę" */
+    border: 1px solid #999;
+    padding: 5px 15px;
     cursor: pointer;
-    margin-top: 10px;
+    font-size: 13px;
+    color: #000;
+    transition: background 0.2s;
 }
-.btn-primary:hover { opacity: 0.9; }
+
+.submit-btn:hover {
+    background-color: #ccc;
+}
 
 /* ======================================================
-   6. STOPKA
+   STOPKA (Ciemna na dole)
    ====================================================== */
 footer {
-    background-color: var(--color-bg-nav);
-    color: var(--color-text-nav);
-    padding: 20px 0;
+    background-color: #343a40; /* Ciemny szary */
+    color: #fff;
     text-align: center;
-    margin-top: auto; /* Sticky footer */
-    border-top: 1px solid var(--color-border);
-    width: 100%;
-}
-
-/* ======================================================
-   7. RESPANSYWNOŚĆ
-   ====================================================== */
-@media (max-width: 768px) {
-    .nav-container { flex-direction: column; gap: 15px; }
-    .nav-links { flex-direction: column; width: 100%; }
-    .nav-links a { width: 100%; text-align: center; }
+    padding: 15px;
+    font-size: 12px;
+    margin-top: auto;
 }
