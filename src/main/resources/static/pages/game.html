@@ -179,115 +179,93 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // ---------------------------------------------------------
-        // 1. KONFIGURACJA GIER (BAZA DANYCH)
-        // ---------------------------------------------------------
-        // WAŻNE: Ścieżki 'path' muszą zaczynać się od "/" (bez kropek na początku)
+        // --- BAZA GIER ---
         const gamesDatabase = {
             "2048": {
                 id: "2048",
                 title: "2048",
-                path: "/games/2048/index.html",  /* <-- ZMIANA: usunięto ".." */
+                // ZMIANA: Ścieżka zaczyna się od ukośnika "/" (szuka od głównego katalogu strony)
+                path: "/games/2048/index.html",
                 icon: "fas fa-th",
-                description: "Połącz kafelki z tymi samymi liczbami, aby uzyskać wynik 2048! Użyj strzałek do sterowania."
+                description: "Połącz kafelki z tymi samymi liczbami!"
             },
             "slot": {
                 id: "slot",
                 title: "Jednoręki Bandyta",
-                path: "/games/slot/index.html",   /* <-- ZMIANA: usunięto ".." */
+                // ZMIANA: Ścieżka zaczyna się od ukośnika "/"
+                path: "/games/slot/index.html",
                 icon: "fas fa-dice",
-                description: "Sprawdź swoje szczęście w klasycznej maszynie losującej."
+                description: "Sprawdź swoje szczęście w maszynie losującej."
             }
         };
 
-        // ---------------------------------------------------------
-        // 2. POBIERANIE ELEMENTÓW
-        // ---------------------------------------------------------
         const urlParams = new URLSearchParams(window.location.search);
         const gameId = urlParams.get('id');
 
         const iframe = document.getElementById('game-iframe');
         const selectorInterface = document.getElementById('game-selector-interface');
         const gameInfoContainer = document.getElementById('game-info-container');
-
         const titleHeader = document.getElementById('game-title-header');
         const descParagraph = document.getElementById('game-description');
 
-        // ---------------------------------------------------------
-        // 3. LOGIKA STERUJĄCA WIDOKIEM
-        // ---------------------------------------------------------
-
         if (gameId && gamesDatabase[gameId]) {
-            // --- SCENARIUSZ A: GRA JEST WYBRANA ---
-            console.log("Uruchamianie gry: " + gameId);
+            console.log("Ładowanie gry ID:", gameId);
             const gameData = gamesDatabase[gameId];
 
-            // Ukryj menu wyboru, Pokaż Iframe
             selectorInterface.style.display = 'none';
             iframe.style.display = 'block';
             gameInfoContainer.style.display = 'block';
 
-            // Ustaw dane
             document.title = "GameHub - " + gameData.title;
             titleHeader.textContent = gameData.title;
             descParagraph.textContent = gameData.description;
 
-            // Ładowanie ścieżki
+            // Przypisanie ścieżki
             iframe.src = gameData.path;
 
-        } else {
-            // --- SCENARIUSZ B: BRAK GRY (POKAŻ MENU W RAMCE) ---
-            console.log("Brak ID - wyświetlanie menu wyboru.");
+            // --- DIAGNOSTYKA BŁĘDÓW (Dodatkowa pomoc) ---
+            iframe.onload = function() {
+                console.log("Iframe załadował się poprawnie.");
+            };
+            iframe.onerror = function() {
+                console.error("Błąd ładowania Iframe. Sprawdź czy plik istnieje pod ścieżką:", gameData.path);
+                alert("Nie udało się załadować gry. Sprawdź konsolę (F12).");
+            };
 
-            // Pokaż menu wyboru, Ukryj Iframe
+        } else {
             selectorInterface.style.display = 'flex';
             iframe.style.display = 'none';
             gameInfoContainer.style.display = 'none';
-
             titleHeader.textContent = "Wybierz Grę";
-
-            // Uruchom wyszukiwarkę
             initGameSelector();
         }
 
-        // ---------------------------------------------------------
-        // 4. FUNKCJA WYSZUKIWARKI WEWNĄTRZ RAMKI
-        // ---------------------------------------------------------
         function initGameSelector() {
             const input = document.getElementById('local-search-input');
             const resultsDiv = document.getElementById('local-search-results');
             const gamesList = Object.values(gamesDatabase);
 
             function renderButtons(filterText = "") {
-                resultsDiv.innerHTML = ""; // Wyczyść listę
-
+                resultsDiv.innerHTML = "";
                 const filtered = gamesList.filter(game =>
                     game.title.toLowerCase().includes(filterText.toLowerCase())
                 );
 
                 if (filtered.length === 0) {
-                    resultsDiv.innerHTML = "<p style='color: #aaa;'>Nie znaleziono gry.</p>";
+                    resultsDiv.innerHTML = "<p style='color: #888;'>Nie znaleziono gry.</p>";
                     return;
                 }
 
                 filtered.forEach(game => {
                     const btn = document.createElement('div');
                     btn.className = 'game-select-card';
-                    btn.innerHTML = `<i class="${game.icon || 'fas fa-gamepad'}"></i> ${game.title}`;
-
-                    btn.onclick = () => {
-                        window.location.href = `game.html?id=${game.id}`;
-                    };
-
+                    btn.innerHTML = `<i class="${game.icon}"></i> <span>${game.title}</span>`;
+                    btn.onclick = () => { window.location.href = `game.html?id=${game.id}`; };
                     resultsDiv.appendChild(btn);
                 });
             }
-
             renderButtons();
-
-            input.addEventListener('input', (e) => {
-                renderButtons(e.target.value);
-            });
+            input.addEventListener('input', (e) => { renderButtons(e.target.value); });
         }
     });
 </script>
