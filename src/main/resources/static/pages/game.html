@@ -182,22 +182,22 @@
         // ---------------------------------------------------------
         // 1. KONFIGURACJA GIER (BAZA DANYCH)
         // ---------------------------------------------------------
+        // WAŻNE: Ścieżki 'path' muszą zaczynać się od "/" (bez kropek na początku)
         const gamesDatabase = {
             "2048": {
                 id: "2048",
                 title: "2048",
-                path: "../games/2048/index.html",
+                path: "/games/2048/index.html",  /* <-- ZMIANA: usunięto ".." */
                 icon: "fas fa-th",
                 description: "Połącz kafelki z tymi samymi liczbami, aby uzyskać wynik 2048! Użyj strzałek do sterowania."
             },
             "slot": {
                 id: "slot",
                 title: "Jednoręki Bandyta",
-                path: "../games/slot/index.html",
+                path: "/games/slot/index.html",   /* <-- ZMIANA: usunięto ".." */
                 icon: "fas fa-dice",
                 description: "Sprawdź swoje szczęście w klasycznej maszynie losującej."
             }
-            // Dodaj kolejne gry tutaj...
         };
 
         // ---------------------------------------------------------
@@ -231,6 +231,8 @@
             document.title = "GameHub - " + gameData.title;
             titleHeader.textContent = gameData.title;
             descParagraph.textContent = gameData.description;
+
+            // Ładowanie ścieżki
             iframe.src = gameData.path;
 
         } else {
@@ -269,12 +271,10 @@
                 }
 
                 filtered.forEach(game => {
-                    // Tworzenie kafelka gry
                     const btn = document.createElement('div');
                     btn.className = 'game-select-card';
                     btn.innerHTML = `<i class="${game.icon || 'fas fa-gamepad'}"></i> ${game.title}`;
 
-                    // Kliknięcie ładuje grę (przeładowuje stronę z ?id=...)
                     btn.onclick = () => {
                         window.location.href = `game.html?id=${game.id}`;
                     };
@@ -283,10 +283,8 @@
                 });
             }
 
-            // Pierwsze renderowanie (wszystkie gry)
             renderButtons();
 
-            // Nasłuchiwanie wpisywania
             input.addEventListener('input', (e) => {
                 renderButtons(e.target.value);
             });
