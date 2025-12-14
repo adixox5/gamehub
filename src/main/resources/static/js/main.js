@@ -232,3 +232,45 @@ document.addEventListener('DOMContentLoaded', () => {
        initCategoryPage();
 
    });
+   /* ======================================================
+      OBSŁUGA WYSZUKIWARKI GIER (SEARCH BAR)
+      ====================================================== */
+   document.addEventListener('DOMContentLoaded', () => {
+       const searchForm = document.getElementById('search-form');
+       const searchInput = document.getElementById('search-input');
+
+       // Lista gier do wyszukiwania (Nazwa -> ID)
+       // ID musi pasować do tego w pliku game.js!
+       const searchableGames = [
+           { name: "2048", id: "2048" },
+           { name: "logiczna", id: "2048" },
+           { name: "cyferki", id: "2048" },
+           { name: "slot", id: "slot" },
+           { name: "bandyta", id: "slot" },
+           { name: "kasyno", id: "slot" },
+           { name: "maszyna", id: "slot" }
+       ];
+
+       if (searchForm) {
+           searchForm.addEventListener('submit', (e) => {
+               e.preventDefault(); // Zatrzymuje przeładowanie strony
+
+               const query = searchInput.value.toLowerCase().trim();
+
+               if (query.length === 0) return;
+
+               // Szukanie gry (sprawdza czy nazwa zawiera wpisaną frazę)
+               const foundGame = searchableGames.find(game => game.name.includes(query));
+
+               if (foundGame) {
+                   // Ustalanie ścieżki (zależnie czy jesteśmy w folderze pages czy w root)
+                   const prefix = window.location.pathname.includes('/pages/') ? '' : 'pages/';
+
+                   // Przekierowanie do gry
+                   window.location.href = `${prefix}game.html?id=${foundGame.id}`;
+               } else {
+                   alert("Nie znaleziono gry o nazwie: " + query);
+               }
+           });
+       }
+   });
