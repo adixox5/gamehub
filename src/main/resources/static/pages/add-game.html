@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GameHub - Dodaj Grę</title>
+  <title>GameHub - Zgłoś Grę</title>
   <link rel="stylesheet" href="../style/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -21,15 +21,17 @@
 
 <div class="container main-content">
   <div class="form-container">
-    <h2><i class="fas fa-gamepad"></i> Zgłoś grę do bazy</h2>
+    <h2><i class="fas fa-upload"></i> Zgłoś swoją grę</h2>
     <p class="form-info">
-      Twoje zgłoszenie trafi do moderatora. Po akceptacji gra pojawi się na stronie.
+      Podziel się swoją twórczością! Prześlij link do plików gry (np. GitHub, Google Drive).
+      Administrator zweryfikuje zgłoszenie i opublikuje grę na serwerze.
     </p>
 
-    <form id="addGameForm">
+    <form id="addGameForm" enctype="multipart/form-data">
+
       <div class="form-group">
         <label for="title">Tytuł gry:</label>
-        <input type="text" id="title" name="title" required placeholder="np. Cyberpunk 2077">
+        <input type="text" id="title" name="title" required placeholder="np. Space Invaders Remake">
       </div>
 
       <div class="form-group">
@@ -39,22 +41,28 @@
           <option value="FPS">FPS</option>
           <option value="Strategy">Strategia</option>
           <option value="Sport">Sportowe</option>
-          <option value="Adventure">Przygodowe</option>
+          <option value="Arcade">Zręcznościowe</option>
           <option value="Indie">Indie</option>
         </select>
       </div>
 
       <div class="form-group">
-        <label for="imageUrl">Link do okładki (URL):</label>
-        <input type="url" id="imageUrl" name="imageUrl" placeholder="https://przyklad.pl/obrazek.jpg">
+        <label for="gameLink">Link do plików gry (GitHub / Drive):</label>
+        <input type="url" id="gameLink" name="gameLink" required placeholder="https://github.com/twoj-nick/gra lub link do Drive">
+        <small style="color: #888;">Administrator pobierze grę z tego linku w celu weryfikacji.</small>
+      </div>
+
+      <div class="form-group">
+        <label for="thumbnail">Miniatura gry (Plik graficzny):</label>
+        <input type="file" id="thumbnail" name="thumbnail" accept="image/png, image/jpeg, image/jpg" required>
       </div>
 
       <div class="form-group">
         <label for="description">Opis gry:</label>
-        <textarea id="description" name="description" rows="5" required placeholder="Krótki opis fabuły i rozgrywki..."></textarea>
+        <textarea id="description" name="description" rows="5" required placeholder="Opisz sterowanie, fabułę i wymagania..."></textarea>
       </div>
 
-      <button type="submit" class="btn-primary">Wyślij do weryfikacji</button>
+      <button type="submit" class="btn-primary">Wyślij zgłoszenie</button>
     </form>
   </div>
 </div>
@@ -68,31 +76,47 @@
 <script>
   document.addEventListener("DOMContentLoaded", function() {
 
-      // --- TU JEST ZAKOMENTOWANY MECHANIZM BEZPIECZEŃSTWA ---
+      // --- Zakomentowana symulacja bezpieczeństwa ---
       /*
-      // Symulacja sprawdzania roli (odkomentuj, gdy będziesz mieć logowanie w JS/LocalStorage)
       const userRole = localStorage.getItem('userRole');
-
       if (!userRole) {
           alert("Musisz być zalogowany, aby zgłaszać gry!");
           window.location.href = "/pages/login.html";
       }
       */
-      // ------------------------------------------------------
 
-      // Obsługa wysyłki formularza (na razie symulacja)
       const form = document.getElementById('addGameForm');
 
       form.addEventListener('submit', function(e) {
-          e.preventDefault(); // Zatrzymuje przeładowanie strony
+          e.preventDefault();
 
-          // Tutaj normalnie zbieramy dane:
-          const title = document.getElementById('title').value;
+          // Zbieranie danych do obiektu FormData (wymagane przy przesyłaniu plików)
+          const formData = new FormData();
 
-          // Symulacja wysyłki
-          alert(`Dzięki! Gra "${title}" została wysłana do moderacji.`);
+          // Pobieramy plik
+          const fileInput = document.getElementById('thumbnail');
 
-          // Opcjonalnie: wyczyść formularz
+          // Dodajemy pola
+          formData.append('title', document.getElementById('title').value);
+          formData.append('category', document.getElementById('category').value);
+          formData.append('gameLink', document.getElementById('gameLink').value);
+          formData.append('description', document.getElementById('description').value);
+
+          // Dodajemy plik tylko jeśli został wybrany
+          if(fileInput.files.length > 0) {
+              formData.append('thumbnail', fileInput.files[0]);
+          }
+
+          // Tutaj w przyszłości będzie fetch() do Twojego backendu Spring Boot
+          // np. fetch('/api/games/submit', { method: 'POST', body: formData }) ...
+
+          // Symulacja sukcesu dla Ciebie teraz:
+          console.log("Wysłano zgłoszenie:");
+          for (var pair of formData.entries()) {
+              console.log(pair[0]+ ', ' + pair[1]);
+          }
+
+          alert(`Dzięki! Zgłoszenie gry "${document.getElementById('title').value}" zostało wysłane do administratora.`);
           form.reset();
       });
   });
