@@ -1,59 +1,40 @@
 /* ======================================================
-   1. DEFINICJE KOLORÓW (ZMIENNE / MOTYWY)
+   1. ZMIENNE I MOTYWY (Zachowane Twoje kolory)
    ====================================================== */
-
-/* :root (Motyw Jasny - Domyślny) */
 :root {
-    /* Tła */
     --color-bg: #e9ecef;
     --color-bg-card: #ffffff;
-    --color-bg-nav: #343a40;
-    --color-bg-input: #ffffff;
-
-    /* Tekst */
     --color-text-primary: #1c1e21;
     --color-text-secondary: #606770;
+    --color-bg-nav: #343a40;
     --color-text-nav: #f8f9fa;
-
-    /* Akcenty i Przyciski */
     --color-accent: #007bff;
-    --color-accent-hover: #0056b3;
     --color-bg-button-nav: #495057;
     --color-text-button-nav: #f8f9fa;
     --color-border-nav-button: #6c757d;
-
-    /* Dodatki */
     --color-shadow: rgba(0, 0, 0, 0.1);
     --color-border: #ddd;
+    --color-bg-input: #ffffff; /* Dodane dla formularzy */
 }
 
-/* body.dark-mode (Motyw Ciemny) */
 body.dark-mode {
-    /* Tła */
-    --color-bg: #121212;
-    --color-bg-card: #1e1e1e;
-    --color-bg-nav: #242a30;
-    --color-bg-input: #2c2c2c;
-
-    /* Tekst */
+    --color-bg: #1a1d21;
+    --color-bg-card: #242a30;
     --color-text-primary: #e4e6eb;
     --color-text-secondary: #b0b3b8;
+    --color-bg-nav: #242a30;
     --color-text-nav: #e4e6eb;
-
-    /* Akcenty i Przyciski */
     --color-accent: #007bff;
-    --color-accent-hover: #0056b3;
     --color-bg-button-nav: #3a3b3c;
     --color-text-button-nav: #e4e6eb;
     --color-border-nav-button: #3a3b3c;
-
-    /* Dodatki */
-    --color-shadow: rgba(0, 0, 0, 0.5);
-    --color-border: #333;
+    --color-shadow: rgba(0, 0, 0, 0.4);
+    --color-border: #3a3b3c;
+    --color-bg-input: #2c2c2c; /* Dodane dla formularzy */
 }
 
 /* ======================================================
-   2. GLOBALNY UKŁAD I RESET (STICKY FOOTER)
+   2. RESET I UKŁAD STRONY (Sticky Footer Fix)
    ====================================================== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -62,75 +43,94 @@ html { height: 100%; }
 body {
     min-height: 100vh;
     display: flex;
-    flex-direction: column; /* Kluczowe dla stopki na dole */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    flex-direction: column; /* To trzyma stopkę na dole */
+    font-family: Arial, sans-serif;
     line-height: 1.6;
     background-color: var(--color-bg);
     color: var(--color-text-primary);
-    transition: background-color 0.3s, color 0.3s;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-/* Główny kontener wypychający stopkę */
-main, .main-content {
-    flex: 1;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    /* align-items: center;  <- Opcjonalne: centruje treść w pionie */
+/* Główny kontener treści */
+.container, .main-content {
+    width: 90%;
+    max-width: 1100px;
+    margin: 20px auto;
+    flex: 1; /* Wypycha stopkę */
+}
+
+.wide-container {
+    width: 95%;
+    max-width: 1600px;
+    margin: 0 auto;
     padding: 20px;
 }
-
-.container { width: 90%; max-width: 1200px; margin: 0 auto; }
-.wide-container { width: 95%; max-width: 1600px; margin: 0 auto; padding: 20px; }
 
 a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 hr { margin: 2rem 0; border: 0; border-top: 1px solid var(--color-border); }
 
 /* ======================================================
-   3. NAWIGACJA (NAVBAR)
+   3. NAWIGACJA (Przywrócony układ z kontenerem)
    ====================================================== */
 nav, .navbar {
     background-color: var(--color-bg-nav);
     color: var(--color-text-nav);
-    padding: 10px 30px;
-    box-shadow: 0 2px 10px var(--color-shadow);
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px var(--color-shadow);
     border-bottom: 1px solid var(--color-border);
+}
+
+/* Ten kontener centruje zawartość navbara - kluczowe dla wyglądu */
+.nav-container, .navbar .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    position: relative;
-    z-index: 100;
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Obsługa navbara, jeśli HTML nie ma diva .nav-container (zabezpieczenie) */
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+.navbar > * {
+    /* Jeśli elementy są bezpośrednio w .navbar, centrujemy je max-widthem */
+    width: 90%;
+    max-width: 1100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo, .nav-brand {
     font-size: 1.5rem;
-    font-weight: 800;
+    font-weight: bold;
     color: var(--color-text-nav);
     text-transform: uppercase;
-    letter-spacing: 1px;
 }
 
 .nav-links {
     display: flex;
-    gap: 25px; /* Odstęp między linkami */
     align-items: center;
+    gap: 15px;
 }
 
-.nav-links a {
+.nav-links a, .nav-links li a {
     color: var(--color-text-nav);
+    padding: 0.5rem 10px;
+    border-radius: 20px;
+    transition: background-color 0.2s;
     font-weight: 500;
-    padding: 0.5rem;
-    border-radius: 5px;
-    transition: color 0.3s, background-color 0.2s;
 }
 
-.nav-links a:hover {
-    color: var(--color-accent);
+.nav-links a:hover, .nav-links li a:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Przycisk zmiany motywu */
+/* Przycisk motywu */
 .theme-toggle, .theme-btn {
     background: var(--color-bg-button-nav);
     color: var(--color-text-button-nav);
@@ -143,16 +143,10 @@ nav, .navbar {
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.3s;
     margin-left: 15px;
 }
 
-.theme-toggle:hover, .theme-btn:hover {
-    transform: rotate(15deg);
-    filter: brightness(1.1);
-}
-
-/* Przycisk "Konto" w nawigacji */
+/* Przycisk Konto */
 .btn-login {
     background-color: var(--color-accent);
     color: #fff !important;
@@ -160,114 +154,43 @@ nav, .navbar {
     border-radius: 20px !important;
     font-weight: bold !important;
 }
-.btn-login:hover {
-    background-color: var(--color-accent-hover);
-    color: #fff !important;
-}
 
 /* ======================================================
-   4. STOPKA (FOOTER)
+   4. FORMULARZE (Dodaj Grę / Logowanie)
    ====================================================== */
-footer {
-    background-color: var(--color-bg-nav);
-    color: var(--color-text-nav);
-    padding: 20px 0;
-    margin-top: auto; /* Zabezpieczenie sticky footer */
-    border-top: 1px solid var(--color-border);
-    width: 100%;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.footer-left, .footer-center, .footer-right { flex: 1; }
-
-.footer-center {
-    text-align: center;
-    font-size: 0.9em;
-    opacity: 0.8;
-}
-
-.footer-right { text-align: right; }
-
-.footer-right a {
-    color: var(--color-text-nav);
-    margin-left: 20px;
-    font-size: 0.9em;
-    transition: color 0.3s;
-}
-
-.footer-right a:hover { color: var(--color-accent); text-decoration: underline; }
-
-/* Responsywność stopki */
-@media (max-width: 768px) {
-    .footer-content { flex-direction: column; gap: 15px; text-align: center; }
-    .footer-right { text-align: center; }
-}
-
-/* ======================================================
-   5. KOMPONENTY UI (Przyciski, Karty, Formularze)
-   ====================================================== */
-
-/* Przyciski */
-.btn, .btn-primary {
-    display: inline-block;
-    background-color: var(--color-accent);
-    color: #fff;
-    padding: 0.7rem 1.5rem;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    text-align: center;
-    transition: background-color 0.3s;
-    width: 100%; /* Domyślnie szerokie w formularzach */
-}
-
-.btn:hover, .btn-primary:hover {
-    background-color: var(--color-accent-hover);
-}
-
-/* Formularze (Uniwersalne style) */
 .form-container, .auth-card {
     background-color: var(--color-bg-card);
-    padding: 30px; /* Zwiększony padding */
-    border-radius: 12px;
-    box-shadow: 0 4px 15px var(--color-shadow);
+    padding: 2.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 10px var(--color-shadow);
     width: 100%;
-    max-width: 600px; /* Standardowa szerokość */
+    max-width: 600px;
+    margin: 2rem auto; /* Wyśrodkowanie */
     border: 1px solid var(--color-border);
-    margin: 20px auto;
 }
 
 .form-container h2, .auth-card h2 {
     text-align: center;
-    margin-bottom: 20px;
-    color: var(--color-accent);
+    margin-bottom: 1.5rem;
+    color: var(--color-text-primary);
 }
 
 .form-info {
     text-align: center;
     color: var(--color-text-secondary);
     font-size: 0.9em;
-    margin-bottom: 25px;
-    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 20px;
     padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-border);
 }
 
-.form-group { margin-bottom: 20px; }
+.form-group { margin-bottom: 1.2rem; }
 
 .form-group label {
     display: block;
     margin-bottom: 8px;
+    color: var(--color-text-secondary);
     font-weight: bold;
-    color: var(--color-text-primary);
 }
 
 .form-group input,
@@ -276,12 +199,11 @@ footer {
     width: 100%;
     padding: 12px;
     border: 1px solid var(--color-border);
-    border-radius: 6px;
-    background-color: var(--color-bg-input); /* Używa zmiennej */
+    border-radius: 20px; /* Zaokrąglenia zgodne z Twoim stylem */
+    background-color: var(--color-bg-input);
     color: var(--color-text-primary);
-    font-size: 15px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
+    font-size: 1rem;
+    font-family: inherit;
 }
 
 .form-group input:focus,
@@ -291,18 +213,23 @@ footer {
     border-color: var(--color-accent);
 }
 
-/* Stylizacja pola pliku (File Input) */
+/* Input Pliku */
 .form-group input[type="file"] {
     padding: 8px;
+    border-radius: 20px;
 }
 .form-group input[type="file"]::file-selector-button {
     background-color: var(--color-bg-button-nav);
     color: var(--color-text-button-nav);
     border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
+    padding: 8px 15px;
+    border-radius: 15px;
     margin-right: 15px;
     cursor: pointer;
+    transition: filter 0.2s;
+}
+.form-group input[type="file"]::file-selector-button:hover {
+    filter: brightness(1.1);
 }
 
 .form-group small {
@@ -310,14 +237,57 @@ footer {
     margin-top: 5px;
     font-size: 0.85em;
     color: var(--color-text-secondary);
-    font-style: italic;
 }
 
+/* Przyciski */
+.btn, .btn-primary {
+    display: inline-block;
+    background: var(--color-accent);
+    color: #fff;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    transition: filter 0.2s;
+}
+.btn:hover, .btn-primary:hover { filter: brightness(0.9); }
+
 /* ======================================================
-   6. ELEMENTY STRONY GŁÓWNEJ I KATEGORII
+   5. STOPKA (Naprawiona)
+   ====================================================== */
+footer {
+    background-color: var(--color-bg-nav);
+    color: var(--color-text-nav);
+    padding: 20px 0;
+    margin-top: auto; /* Zabezpieczenie */
+    border-top: 1px solid var(--color-border);
+    width: 100%;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.footer-right a {
+    color: var(--color-text-nav);
+    margin-left: 20px;
+    transition: color 0.2s;
+}
+.footer-right a:hover { color: var(--color-accent); }
+
+/* ======================================================
+   6. ELEMENTY SPECYFICZNE (Karty gier, Slidery itp.)
    ====================================================== */
 
-/* Slider */
+/* Slider (Index) */
 .featured-slider {
     border-radius: 20px;
     margin-bottom: 20px;
@@ -326,61 +296,26 @@ footer {
     box-shadow: 0 4px 10px var(--color-shadow);
 }
 .featured-slide {
-    position: relative;
-    display: block;
     width: 100%;
     height: 350px;
     background-size: cover;
     background-position: center;
+    display: block;
+    position: relative;
 }
 .slide-play-btn {
     position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background-color: rgba(0, 0, 0, 0.6);
+    bottom: 20px; right: 20px;
+    background-color: rgba(0,0,0,0.6);
     color: #fff;
     padding: 0.75rem 1.5rem;
     border-radius: 20px;
     backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    transition: background 0.3s;
-}
-.slide-play-btn:hover { background-color: var(--color-accent); }
-
-/* Wyszukiwarka */
-.search-bar-container {
-    display: flex;
-    background-color: var(--color-bg-card);
-    border-radius: 20px;
-    box-shadow: 0 2px 5px var(--color-shadow);
-    padding: 8px;
-    margin-bottom: 30px;
-    border: 1px solid var(--color-border);
-}
-.category-btn {
-    background-color: var(--color-bg);
-    color: var(--color-text-secondary);
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--color-border);
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-}
-.search-form input {
-    background: none;
-    border: none;
-    color: var(--color-text-primary);
-}
-.search-form .search-btn {
-    background-color: var(--color-accent);
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 0 1.5rem;
-    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.2);
+    width: auto; /* Reset szerokości przycisku */
 }
 
-/* Karty Gier (Grid) */
+/* Karty Gier */
 .popular-games-section {
     background-color: var(--color-bg-card);
     border-radius: 20px;
@@ -391,30 +326,23 @@ footer {
 
 .game-grid, .games-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 25px;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 20px;
     padding: 20px 0;
 }
 
 .game-card {
-    background-color: var(--color-bg); /* Tło karty */
-    border-radius: 15px;
-    box-shadow: 0 4px 8px var(--color-shadow);
+    background-color: var(--color-bg);
+    border-radius: 20px;
+    box-shadow: 0 2px 5px var(--color-shadow);
     overflow: hidden;
     border: 1px solid var(--color-border);
-    transition: transform 0.2s, box-shadow 0.2s;
     display: flex;
     flex-direction: column;
 }
 
-/* Specyfika dla trybu ciemnego, by karty wyróżniały się od tła sekcji */
 body.dark-mode .popular-games-section .game-card {
-    background-color: #2a2a2a;
-}
-
-.game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px var(--color-shadow);
+    background-color: #2a2a2a; /* Kontrast dla kart w dark mode */
 }
 
 .game-card img {
@@ -424,18 +352,17 @@ body.dark-mode .popular-games-section .game-card {
 }
 
 .game-card h3 {
-    padding: 15px;
+    padding: 1rem;
     color: var(--color-text-primary);
     font-size: 1.1rem;
-    text-align: center;
+    margin: 0;
 }
 
 .game-card .game-desc {
-    padding: 0 15px;
+    padding: 0 1rem;
     color: var(--color-text-secondary);
     font-size: 0.9em;
-    text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 1rem;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -443,82 +370,35 @@ body.dark-mode .popular-games-section .game-card {
 }
 
 .game-card .btn {
-    width: 80%;
-    margin: auto auto 15px auto; /* Centrowanie i dopychanie do dołu */
+    width: calc(100% - 2rem);
+    margin: auto 1rem 1rem 1rem;
 }
 
-/* ======================================================
-   7. STRONA GRY (Szczegóły)
-   ====================================================== */
-#game-frame-container {
-    width: 100%;
-    height: 600px;
-    background-color: #000;
-    border-radius: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 15px var(--color-shadow);
-}
-
-.game-info-bar {
+/* Wyszukiwarka */
+.search-bar-container {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem;
     background-color: var(--color-bg-card);
     border-radius: 20px;
     box-shadow: 0 2px 5px var(--color-shadow);
+    padding: 8px;
     margin-bottom: 20px;
     border: 1px solid var(--color-border);
 }
-
-.like-dislike-bar button {
-    background: var(--color-bg);
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border);
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    cursor: pointer;
-    margin-left: 10px;
-    transition: background 0.2s;
+.search-form { flex-grow: 1; display: flex; }
+.search-form input {
+    width: 100%; border: none; background: none; padding: 0.75rem; color: var(--color-text-primary);
 }
-.like-dislike-bar button:hover {
-    background-color: var(--color-border);
+.search-form .search-btn {
+    background-color: var(--color-accent); color: white; border: none; border-radius: 20px; padding: 0 1.2rem; cursor: pointer; width: auto;
 }
 
-.comment {
-    background-color: var(--color-bg-card);
-    padding: 1.5rem;
-    border-radius: 20px;
-    margin-bottom: 1rem;
-    border: 1px solid var(--color-border);
-}
-.comment strong { color: var(--color-accent); }
-
-/* ======================================================
-   8. RESPANSYWNOŚĆ (Mobile)
-   ====================================================== */
+/* Responsywność */
 @media (max-width: 768px) {
-    .navbar {
+    .navbar .nav-container, .navbar > * {
         flex-direction: column;
         gap: 15px;
-        padding: 15px;
     }
-    .nav-links {
-        flex-direction: column;
-        width: 100%;
-    }
-    .nav-links a { width: 100%; text-align: center; margin: 0; }
-
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .game-grid {
-        grid-template-columns: 1fr; /* Jedna kolumna na mobilkach */
-    }
-
-    .form-container {
-        padding: 20px;
-    }
+    .nav-links { flex-direction: column; width: 100%; }
+    .nav-links a { width: 100%; text-align: center; }
+    .footer-content { flex-direction: column; text-align: center; gap: 15px; }
 }
