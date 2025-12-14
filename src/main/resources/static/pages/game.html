@@ -3,40 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameHub - 2048</title>
-
+    <title>GameHub - Gra</title>
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-    <link href="../games/2048/style/main.css" rel="stylesheet" type="text/css">
-
     <style>
-        /* Nadpisanie stylów 2048, aby pasowały do motywu GameHub */
-        body {
-            /* Przywraca tło z GameHub, bo main.css gry próbuje je zmienić */
-            background-color: var(--color-bg);
-            color: var(--color-text-primary);
+        /* STYLIZACJA OBSZARU GRY */
+        #game-frame-container {
+            position: relative;
+            width: 100%;
+            height: 700px;
+            background: #000; /* Czarne tło jak w konsoli */
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
         }
 
-        /* Obsługa responsywności gry 2048 */
-        @media screen and (max-width: 520px) {
-            .game-2048-container {
-                width: 280px;
-            }
-            .grid-container {
-                width: 280px;
-                height: 280px;
-            }
-            .grid-cell {
-                width: 57.5px;
-                height: 57.5px;
-                margin-right: 10px;
-            }
-            .tile, .tile .tile-inner {
-                width: 57.5px;
-                height: 57.5px;
-                line-height: 57.5px;
-            }
+        /* STYLIZACJA MENU WYBORU (Wewnątrz ramki) */
+        #game-selector-interface {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #game-selector-interface h2 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        #local-search-input {
+            width: 80%;
+            max-width: 400px;
+            padding: 12px 20px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            border: 2px solid #333;
+            background: #222;
+            color: white;
+            margin-bottom: 30px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        #local-search-input:focus {
+            border-color: #007bff;
+        }
+
+        /* Lista kafelków wewnątrz ramki */
+        #local-search-results {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            overflow-y: auto; /* Przewijanie jeśli dużo gier */
+            max-height: 400px;
+            padding: 10px;
+        }
+
+        /* Scrollbar dla listy gier */
+        #local-search-results::-webkit-scrollbar {
+            width: 8px;
+        }
+        #local-search-results::-webkit-scrollbar-thumb {
+            background: #555;
+            border-radius: 4px;
+        }
+
+        /* Kafelki wyboru gry */
+        .game-select-card {
+            background: #333;
+            color: white;
+            border: 1px solid #444;
+            border-radius: 10px;
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            min-width: 200px;
+            text-decoration: none;
+        }
+
+        .game-select-card:hover {
+            background: #007bff;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,123,255,0.4);
+        }
+
+        .game-select-card i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Ramka Iframe */
+        iframe {
+            display: none; /* Domyślnie ukryta */
+            width: 100%;
+            height: 100%;
+            border: none;
         }
     </style>
 </head>
@@ -62,98 +137,35 @@
 </nav>
 
 <main class="container">
-
     <section class="search-bar-container">
-        <div class="category-dropdown">
-            <button id="category-dropdown-btn" class="category-btn">
-                <span>Wszystkie Kategorie</span>
-                <i class="fas fa-chevron-down"></i>
-            </button>
-            <div id="category-dropdown-content" class="category-content">
-                <a href="category.html" data-category="all">Wszystkie Kategorie</a>
-                <a href="category.html?kategoria=akcja" data-category="action">Akcja</a>
-                <a href="category.html?kategoria=logiczne" data-category="logic">Logiczne</a>
-                <a href="category.html?kategoria=strategiczne" data-category="strategy">Strategiczne</a>
-            </div>
-        </div>
-        <form id="search-form" class="search-form">
-            <input type="text" id="search-input" placeholder="Wyszukaj grę...">
-            <button type="submit" class="search-btn">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
+        <a href="/" class="btn btn-secondary" style="border-radius: 20px;"><i class="fas fa-arrow-left"></i> Powrót</a>
+        <h2 id="game-title-header" style="margin-left: 20px;">Wybierz Grę</h2>
     </section>
 
-    <div id="game-display-area" style="text-align: center; margin-bottom: 20px; padding: 20px 0;">
+    <div id="game-frame-container">
 
-        <div class="game-2048-container">
-            <div class="heading">
-                <h1 class="title" style="color: #776e65;">2048</h1>
-                <div class="scores-container">
-                    <div class="score-container">0</div>
-                    <div class="best-container">0</div>
-                </div>
+        <div id="game-selector-interface">
+            <h2><i class="fas fa-gamepad"></i> Dostępne Gry</h2>
+            <input type="text" id="local-search-input" placeholder="Wpisz nazwę gry, aby wyszukać...">
+
+            <div id="local-search-results">
             </div>
-
-            <div class="above-game">
-                <p class="game-intro" style="color: inherit;">Połącz liczby, aby uzyskać <strong>2048!</strong></p>
-                <a class="restart-button">Nowa Gra</a>
-            </div>
-
-            <div class="game-container">
-                <div class="game-message">
-                    <p></p>
-                    <div class="lower">
-                        <a class="keep-playing-button">Graj dalej</a>
-                        <a class="retry-button">Spróbuj ponownie</a>
-                    </div>
-                </div>
-
-                <div class="grid-container">
-                    <div class="grid-row">
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                    </div>
-                    <div class="grid-row">
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                        <div class="grid-cell"></div>
-                    </div>
-                </div>
-
-                <div class="tile-container">
-                </div>
-            </div>
-
-            <p class="game-explanation" style="margin-top: 20px; color: inherit;">
-                <strong class="important">Instrukcja:</strong> Użyj <strong>strzałek</strong> na klawiaturze, aby przesuwać kafelki.
-            </p>
         </div>
+
+        <iframe id="game-iframe" src="" title="Game Frame"></iframe>
+
     </div>
 
-    <div class="game-info-bar">
-    </div>
-
-    <hr>
-    <h3>Komentarze</h3>
-    <form id="add-comment-form" style="display: none;">
-    </form>
-    <div id="comments-list-container">
+    <div id="game-info-container" style="display:none;">
+        <div class="game-info-bar">
+            <div class="like-dislike-bar">
+                <button><i class="far fa-thumbs-up"></i> Lubię to</button>
+            </div>
+        </div>
+        <p id="game-description">Opis gry.</p>
+        <hr>
+        <h3>Komentarze</h3>
+        <div id="comments-list-container">Brak komentarzy.</div>
     </div>
 
 </main>
@@ -163,18 +175,124 @@
 </footer>
 
 <script src="../js/main.js" defer></script>
-<script src="../js/game.js" defer></script>
 
-<script src="../games/2048/js/bind_polyfill.js"></script>
-<script src="../games/2048/js/classlist_polyfill.js"></script>
-<script src="../games/2048/js/animframe_polyfill.js"></script>
-<script src="../games/2048/js/keyboard_input_manager.js"></script>
-<script src="../games/2048/js/html_actuator.js"></script>
-<script src="../games/2048/js/grid.js"></script>
-<script src="../games/2048/js/tile.js"></script>
-<script src="../games/2048/js/local_storage_manager.js"></script>
-<script src="../games/2048/js/game_manager.js"></script>
-<script src="../games/2048/js/application.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        // ---------------------------------------------------------
+        // 1. KONFIGURACJA GIER (BAZA DANYCH)
+        // ---------------------------------------------------------
+        const gamesDatabase = {
+            "2048": {
+                id: "2048",
+                title: "2048",
+                path: "../games/2048/index.html",
+                icon: "fas fa-th",
+                description: "Połącz kafelki z tymi samymi liczbami, aby uzyskać wynik 2048! Użyj strzałek do sterowania."
+            },
+            "slot": {
+                id: "slot",
+                title: "Jednoręki Bandyta",
+                path: "../games/slot/index.html",
+                icon: "fas fa-dice",
+                description: "Sprawdź swoje szczęście w klasycznej maszynie losującej."
+            }
+            // Dodaj kolejne gry tutaj...
+        };
+
+        // ---------------------------------------------------------
+        // 2. POBIERANIE ELEMENTÓW
+        // ---------------------------------------------------------
+        const urlParams = new URLSearchParams(window.location.search);
+        const gameId = urlParams.get('id');
+
+        const iframe = document.getElementById('game-iframe');
+        const selectorInterface = document.getElementById('game-selector-interface');
+        const gameInfoContainer = document.getElementById('game-info-container');
+
+        const titleHeader = document.getElementById('game-title-header');
+        const descParagraph = document.getElementById('game-description');
+
+        // ---------------------------------------------------------
+        // 3. LOGIKA STERUJĄCA WIDOKIEM
+        // ---------------------------------------------------------
+
+        if (gameId && gamesDatabase[gameId]) {
+            // --- SCENARIUSZ A: GRA JEST WYBRANA ---
+            console.log("Uruchamianie gry: " + gameId);
+            const gameData = gamesDatabase[gameId];
+
+            // Ukryj menu wyboru, Pokaż Iframe
+            selectorInterface.style.display = 'none';
+            iframe.style.display = 'block';
+            gameInfoContainer.style.display = 'block';
+
+            // Ustaw dane
+            document.title = "GameHub - " + gameData.title;
+            titleHeader.textContent = gameData.title;
+            descParagraph.textContent = gameData.description;
+            iframe.src = gameData.path;
+
+        } else {
+            // --- SCENARIUSZ B: BRAK GRY (POKAŻ MENU W RAMCE) ---
+            console.log("Brak ID - wyświetlanie menu wyboru.");
+
+            // Pokaż menu wyboru, Ukryj Iframe
+            selectorInterface.style.display = 'flex';
+            iframe.style.display = 'none';
+            gameInfoContainer.style.display = 'none';
+
+            titleHeader.textContent = "Wybierz Grę";
+
+            // Uruchom wyszukiwarkę
+            initGameSelector();
+        }
+
+        // ---------------------------------------------------------
+        // 4. FUNKCJA WYSZUKIWARKI WEWNĄTRZ RAMKI
+        // ---------------------------------------------------------
+        function initGameSelector() {
+            const input = document.getElementById('local-search-input');
+            const resultsDiv = document.getElementById('local-search-results');
+            const gamesList = Object.values(gamesDatabase);
+
+            function renderButtons(filterText = "") {
+                resultsDiv.innerHTML = ""; // Wyczyść listę
+
+                const filtered = gamesList.filter(game =>
+                    game.title.toLowerCase().includes(filterText.toLowerCase())
+                );
+
+                if (filtered.length === 0) {
+                    resultsDiv.innerHTML = "<p style='color: #aaa;'>Nie znaleziono gry.</p>";
+                    return;
+                }
+
+                filtered.forEach(game => {
+                    // Tworzenie kafelka gry
+                    const btn = document.createElement('div');
+                    btn.className = 'game-select-card';
+                    btn.innerHTML = `<i class="${game.icon || 'fas fa-gamepad'}"></i> ${game.title}`;
+
+                    // Kliknięcie ładuje grę (przeładowuje stronę z ?id=...)
+                    btn.onclick = () => {
+                        window.location.href = `game.html?id=${game.id}`;
+                    };
+
+                    resultsDiv.appendChild(btn);
+                });
+            }
+
+            // Pierwsze renderowanie (wszystkie gry)
+            renderButtons();
+
+            // Nasłuchiwanie wpisywania
+            input.addEventListener('input', (e) => {
+                renderButtons(e.target.value);
+            });
+        }
+    });
+</script>
 
 </body>
 </html>

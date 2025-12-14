@@ -538,9 +538,21 @@ hr {
     font-size: 15px; }
 
   body {
-    margin: 20px 0;
-    padding: 0 20px; }
+    margin: 0;
+    padding: 0;
+    background: #faf8ef;
+    color: #776e65;
+    font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+    font-size: 18px;
 
+    /* --- DODANE LINIE DO CENTROWANIA --- */
+    display: flex;             /* Włącz tryb elastyczny */
+    justify-content: center;   /* Wyśrodkuj w poziomie */
+    align-items: center;       /* Wyśrodkuj w pionie */
+    min-height: 100vh;         /* Rozciągnij ciało na całą wysokość ramki */
+    width: 100%;               /* Szerokość 100% */
+    overflow: hidden;          /* Ukryj ewentualne paski przewijania */
+  }
   h1.title {
     font-size: 27px;
     margin-top: 15px; }
