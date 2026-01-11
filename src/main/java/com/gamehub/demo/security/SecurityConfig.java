@@ -48,9 +48,17 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/static/**",
                                 "/auth/register"
+                                "/pages/**",
+                                "/games/**",  // Dodano dostep do gier
+                                "/js/**",
+                                "/style/**",
+                                "/css/**",
+                                "/static/**",
+                                "/auth/register"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // Pozwolenie na iframe
                 .formLogin(form -> form
                         .loginPage("/pages/login.html")
                         .loginProcessingUrl("/login")
