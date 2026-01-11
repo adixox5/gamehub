@@ -171,6 +171,14 @@ document.addEventListener('DOMContentLoaded', () => {
                    image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG",
                    link: "/pages/game.html?id=5"
                }
+               {
+                       id: 6,
+                       title: "Hextris",
+                       category: "logiczne",
+                       description: "Obracaj sześciokąt i dopasowuj kolory w tej szybkiej grze logicznej.",
+                       image: "https://placehold.co/280x180/2c3e50/FFF?text=Hextris",
+                       link: "/pages/game.html?id=hextris"
+                   }
            ];
 
        // Funkcja uruchamiana automatycznie, jeśli jesteśmy na stronie kategorii
@@ -249,6 +257,9 @@ document.addEventListener('DOMContentLoaded', () => {
            { name: "bandyta", id: "slot" },
            { name: "kasyno", id: "slot" },
            { name: "maszyna", id: "slot" }
+           { name: "hextris", id: "hextris" },
+           { name: "sześciokąt", id: "hextris" },
+           { name: "logiczna", id: "hextris" }
        ];
 
        if (searchForm) {
