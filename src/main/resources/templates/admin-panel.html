@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -99,10 +99,10 @@
 
 <nav>
     <div class="container nav-container">
-        <a href="/" class="nav-brand">GameHub <span style="font-size: 0.5em; background: var(--color-accent); padding: 2px 6px; border-radius: 4px; vertical-align: middle;">ADMIN</span></a>
+        <a th:href="@{/}" class="nav-brand">GameHub <span style="font-size: 0.5em; background: var(--color-accent); padding: 2px 6px; border-radius: 4px; vertical-align: middle;">ADMIN</span></a>
 
         <div class="nav-links">
-            <a href="/">Wróć do strony głównej</a>
+            <a th:href="@{/}">Wróć do strony głównej</a>
         </div>
 
         <div class="nav-controls">
@@ -110,7 +110,7 @@
                 <i class="fas fa-moon"></i>
             </button>
             <div id="navbar-user-section">
-                <a href="/logout" class="btn btn-secondary">Wyloguj</a>
+                <a th:href="@{/logout}" class="btn btn-secondary">Wyloguj</a>
             </div>
         </div>
     </div>
@@ -165,22 +165,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="sub : ${submissions}">
-                    <td th:text="${sub.submissionDate}">2025-01-11</td>
-                    <td><strong th:text="${sub.title}">Super Gra RPG</strong></td>
-                    <td th:text="${sub.username}">user123</td>
-                    <td><span class="status-badge" th:text="${sub.category}">RPG</span></td>
-                    <td>
-                        <a th:href="${sub.gameLink}" target="_blank" style="color: var(--color-accent);">
-                            <i class="fas fa-external-link-alt"></i> Zobacz
-                        </a>
-                    </td>
-                    <td>
-                        <button class="action-btn btn-approve" title="Zatwierdź"><i class="fas fa-check"></i></button>
-                        <button class="action-btn btn-reject" title="Odrzuć"><i class="fas fa-times"></i></button>
-                    </td>
-                </tr>
-
                 <tr th:if="${submissions == null}">
                     <td>2025-01-12</td>
                     <td><strong>Cyber Tank 2077</strong></td>
@@ -190,6 +174,22 @@
                     <td>
                         <button class="action-btn btn-approve"><i class="fas fa-check"></i></button>
                         <button class="action-btn btn-reject"><i class="fas fa-times"></i></button>
+                    </td>
+                </tr>
+
+                <tr th:each="sub : ${submissions}">
+                    <td th:text="${sub.submissionDate}"></td>
+                    <td><strong th:text="${sub.title}"></strong></td>
+                    <td th:text="${sub.username}"></td>
+                    <td><span class="status-badge" th:text="${sub.category}"></span></td>
+                    <td>
+                        <a th:href="${sub.gameLink}" target="_blank" style="color: var(--color-accent);">
+                            <i class="fas fa-external-link-alt"></i> Zobacz
+                        </a>
+                    </td>
+                    <td>
+                        <button class="action-btn btn-approve" title="Zatwierdź"><i class="fas fa-check"></i></button>
+                        <button class="action-btn btn-reject" title="Odrzuć"><i class="fas fa-times"></i></button>
                     </td>
                 </tr>
                 </tbody>
@@ -209,7 +209,7 @@
     </div>
 </footer>
 
-<script src="/js/main.js"></script>
+<script th:src="@{/js/main.js}"></script>
 
 </body>
 </html>
