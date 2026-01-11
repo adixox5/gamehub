@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameHub - Gra</title>
-    <link rel="stylesheet" href="../style/style.css">
+    <link rel="stylesheet" href="/style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* --- STYLIZACJA OBSZARU GRY (CZARNA RAMKA) --- */
+        /* STYLIZACJA OKNA GRY */
         #game-frame-container {
             position: relative;
             width: 100%;
@@ -19,7 +19,7 @@
             margin-bottom: 20px;
         }
 
-        /* --- STYLIZACJA MENU WYBORU (WEWNĄTRZ RAMKI) --- */
+        /* MENU WYBORU GRY */
         #game-selector-interface {
             width: 100%;
             height: 100%;
@@ -28,89 +28,22 @@
             align-items: center;
             justify-content: center;
             color: white;
-            padding: 20px;
-            box-sizing: border-box;
         }
 
-        #game-selector-interface h2 {
-            margin-bottom: 20px;
-            font-size: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: #fff;
-        }
-
-        /* Wyszukiwarka wewnątrz ramki */
-        #local-search-input {
-            width: 80%;
-            max-width: 400px;
-            padding: 12px 20px;
-            font-size: 1.1rem;
-            border-radius: 30px;
-            border: 2px solid #333;
-            background: #222;
-            color: white;
-            margin-bottom: 30px;
-            outline: none;
-            transition: border-color 0.3s;
-        }
-
-        #local-search-input:focus {
-            border-color: #007bff;
-        }
-
-        /* Lista kafelków wewnątrz ramki */
-        #local-search-results {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            overflow-y: auto;
-            max-height: 400px;
-            padding: 10px;
-        }
-
-        #local-search-results::-webkit-scrollbar { width: 8px; }
-        #local-search-results::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
-
-        /* Kafelki wyboru gry */
         .game-select-card {
             background: #333;
             color: white;
-            border: 1px solid #444;
-            border-radius: 10px;
             padding: 15px 25px;
+            margin: 10px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.2s;
-            display: flex;
-            align-items: center;
+            border: 1px solid #444;
             min-width: 200px;
-            text-decoration: none;
-        }
-
-        .game-select-card:hover {
-            background: #007bff;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,123,255,0.4);
-        }
-
-        .game-select-card i { margin-right: 10px; font-size: 1.2rem; }
-
-        /* Ramka Iframe */
-        iframe {
-            display: none;
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* Stopka */
-        footer {
             text-align: center;
-            padding: 20px 0;
         }
+        .game-select-card:hover { background: #007bff; }
+
+        iframe { display: none; width: 100%; height: 100%; border: none; }
     </style>
 </head>
 <body>
@@ -119,167 +52,73 @@
     <div class="container nav-container">
         <a href="/" class="nav-brand">GameHub</a>
         <div class="nav-links">
-            <a href="info.html">Info</a>
-            <a href="add-game.html" id="nav-link-add-game" style="display: none;">Dodaj Grę</a>
-            <a href="admin-panel.html" id="nav-link-admin-panel" style="display:none;">Panel Moderatora</a>
+            <a href="/info.html">Info</a>
         </div>
         <div class="nav-controls">
-            <button id="theme-toggle-btn" class="theme-toggle">
-                <i class="fas fa-moon"></i>
-            </button>
-            <div id="navbar-user-section">
-                <a href="login.html" class="btn btn-secondary">Zaloguj się</a>
-            </div>
+            <a href="/login" class="btn btn-secondary">Zaloguj się</a>
         </div>
     </div>
 </nav>
 
 <main class="container">
-
     <div style="display: flex; align-items: center; margin-bottom: 20px; margin-top: 20px;">
-        <a href="/" id="back-btn" class="btn btn-secondary" style="border-radius: 20px; padding: 10px 20px;">
-            <i class="fas fa-arrow-left"></i> Powrót
-        </a>
+        <a href="/game.html" id="back-btn" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Lista gier</a>
         <h2 id="game-title-header" style="margin-left: 20px; margin-bottom: 0;">Wybierz Grę</h2>
     </div>
 
     <div id="game-frame-container">
         <div id="game-selector-interface">
-            <h2><i class="fas fa-gamepad"></i> Dostępne Gry</h2>
-            <input type="text" id="local-search-input" placeholder="Wpisz nazwę gry...">
+            <h2>Dostępne Gry</h2>
             <div id="local-search-results"></div>
         </div>
         <iframe id="game-iframe" src="" title="Game Frame"></iframe>
     </div>
-
-    <div id="game-info-container" style="display:none;">
-        <div class="game-info-bar">
-            <div class="like-dislike-bar">
-                <button><i class="far fa-thumbs-up"></i> Lubię to</button>
-            </div>
-        </div>
-        <p id="game-description">Opis gry.</p>
-        <hr>
-        <h3>Komentarze</h3>
-        <div id="comments-list-container">Brak komentarzy.</div>
-    </div>
-
 </main>
-
-<footer>
-    <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
-</footer>
-
-<script src="../js/main.js" defer></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-
-        // ---------------------------------------------------------
-        // 1. KONFIGURACJA GIER
-        // ---------------------------------------------------------
+        // BAZA DANYCH GIER
         const gamesDatabase = {
             "2048": {
-                id: "2048",
-                title: "2048",
-                path: "/games/2048/index.html",
-                icon: "fas fa-th",
-                description: "Połącz kafelki z tymi samymi liczbami, aby uzyskać wynik 2048!"
+                id: "2048", title: "2048", path: "/games/2048/index.html", icon: "fas fa-th"
             },
             "clumsy": {
-                id: "clumsy",
-                title: "Clumsy Bird",
-                path: "/games/clumsy/index.html",
-                icon: "fas fa-feather-alt",
-                description: "Lataj i omijaj rury! Czy pobijesz rekord?"
+                id: "clumsy", title: "Clumsy Bird", path: "/games/clumsy/index.html", icon: "fas fa-feather-alt"
             },
             "hextris": {
-                id: "hextris",
-                title: "Hextris",
-                path: "/games/hextris/index.html",
-                icon: "fas fa-cube",
-                description: "Obracaj sześciokąt i łącz kolory!"
+                id: "hextris", title: "Hextris", path: "/games/hextris/index.html", icon: "fas fa-cube"
             },
             "mk": {
-            id: "mk",
-            title: "Mortal Kombat",
-            path: "/games/mk/index.html",
-            icon: "fas fa-fist-raised",
-            description: "Klasyczna bijatyka w JS. Sterowanie: Strzałki + A/S/D."
+                id: "mk", title: "Mortal Kombat", path: "/games/mk/index.html", icon: "fas fa-fist-raised"
             }
         };
 
-        // ---------------------------------------------------------
-        // 2. LOGIKA GŁÓWNA
-        // ---------------------------------------------------------
         const urlParams = new URLSearchParams(window.location.search);
         const gameId = urlParams.get('id');
-
         const iframe = document.getElementById('game-iframe');
-        const selectorInterface = document.getElementById('game-selector-interface');
-        const gameInfoContainer = document.getElementById('game-info-container');
+        const selector = document.getElementById('game-selector-interface');
+        const resultsDiv = document.getElementById('local-search-results');
         const titleHeader = document.getElementById('game-title-header');
-        const descParagraph = document.getElementById('game-description');
-        const backBtn = document.getElementById('back-btn');
 
         if (gameId && gamesDatabase[gameId]) {
-            // --- GRA WYBRANA ---
-            const gameData = gamesDatabase[gameId];
-
-            selectorInterface.style.display = 'none';
+            // POKAŻ GRĘ
+            const game = gamesDatabase[gameId];
+            selector.style.display = 'none';
             iframe.style.display = 'block';
-            gameInfoContainer.style.display = 'block';
-
-            document.title = "GameHub - " + gameData.title;
-            titleHeader.textContent = gameData.title;
-            descParagraph.textContent = gameData.description;
-            iframe.src = gameData.path;
-
-            backBtn.href = "game.html";
-            backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Lista gier';
-
+            iframe.src = game.path;
+            titleHeader.textContent = game.title;
         } else {
-            // --- MENU WYBORU ---
-            selectorInterface.style.display = 'flex';
+            // POKAŻ LISTĘ
+            selector.style.display = 'flex';
             iframe.style.display = 'none';
-            gameInfoContainer.style.display = 'none';
 
-            titleHeader.textContent = "Wybierz Grę";
-            backBtn.href = "/";
-            backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Powrót';
-
-            initGameSelector();
-        }
-
-        // ---------------------------------------------------------
-        // 3. OBSŁUGA MENU W RAMCE
-        // ---------------------------------------------------------
-        function initGameSelector() {
-            const input = document.getElementById('local-search-input');
-            const resultsDiv = document.getElementById('local-search-results');
-            const gamesList = Object.values(gamesDatabase);
-
-            function renderButtons(filterText = "") {
-                resultsDiv.innerHTML = "";
-                const filtered = gamesList.filter(game =>
-                    game.title.toLowerCase().includes(filterText.toLowerCase())
-                );
-
-                if (filtered.length === 0) {
-                    resultsDiv.innerHTML = "<p style='color: #888;'>Nie znaleziono gry.</p>";
-                    return;
-                }
-
-                filtered.forEach(game => {
-                    const btn = document.createElement('div');
-                    btn.className = 'game-select-card';
-                    btn.innerHTML = `<i class="${game.icon || 'fas fa-gamepad'}"></i> ${game.title}`;
-                    btn.onclick = () => { window.location.href = `game.html?id=${game.id}`; };
-                    resultsDiv.appendChild(btn);
-                });
-            }
-            renderButtons();
-            input.addEventListener('input', (e) => { renderButtons(e.target.value); });
+            Object.values(gamesDatabase).forEach(game => {
+                const btn = document.createElement('div');
+                btn.className = 'game-select-card';
+                btn.innerHTML = `<i class="${game.icon}"></i> ${game.title}`;
+                btn.onclick = () => window.location.href = `game.html?id=${game.id}`;
+                resultsDiv.appendChild(btn);
+            });
         }
     });
 </script>
