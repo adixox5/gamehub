@@ -43,26 +43,25 @@ public class SecurityConfig {
                                 "/",
                                 "/index",
                                 "/pages/**",
+                                "/games/**", // Dodano dostep do gier
                                 "/js/**",
                                 "/style/**",
                                 "/css/**",
                                 "/static/**",
-                                "/auth/register"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                )
+                                "/auth/register")
+                        .permitAll()
+                        .anyRequest().authenticated())
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // Pozwolenie na iframe
                 .formLogin(form -> form
                         .loginPage("/pages/login.html")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/", true)
                         .failureUrl("/pages/login.html?error=true")
-                        .permitAll()
-                )
+                        .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/pages/login.html?logout=true")
-                        .permitAll()
-                )
+                        .permitAll())
                 .httpBasic(basic -> basic.disable());
 
         return http.build();

@@ -49,14 +49,25 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login ghcr.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin # Użyto DOCKER_PASSWORD
+            echo ${{ secrets.DOCKER_PASSWORD }} | sudo docker login ghcr.io -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             
             cd /home/${{ secrets.SSH_USER }}
             
-            ENV_FILE_PATH=/home/${{ secrets.SSH_USER }}/.env
+            # Tworzenie pliku docker-compose.yml bezposrednio na serwerze
+            cat <<EOF > docker-compose.yml
+            version: '3.8'
+            services:
+              app:
+                container_name: gamehub-instance
+                image: ghcr.io/adixox5/gamehub:latest
+                network_mode: host
+                env_file: ".env"
+                environment:
+                  - SERVER_PORT=80
+                restart: always
+            EOF
             
-            sudo env $(cat $ENV_FILE_PATH | xargs) docker compose pull
-            
-            sudo env $(cat $ENV_FILE_PATH | xargs) docker compose up -d --force-recreate
-            
+            # Uzycie nowego pliku
+            sudo docker compose pull
+            sudo docker compose up -d --force-recreate
             sudo docker image prune -f
