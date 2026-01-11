@@ -12,7 +12,7 @@
             position: relative;
             width: 100%;
             height: 700px;
-            background: #000; /* Czarne tło */
+            background: #000;
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
@@ -144,17 +144,12 @@
     </div>
 
     <div id="game-frame-container">
-
         <div id="game-selector-interface">
             <h2><i class="fas fa-gamepad"></i> Dostępne Gry</h2>
             <input type="text" id="local-search-input" placeholder="Wpisz nazwę gry...">
-
-            <div id="local-search-results">
-            </div>
+            <div id="local-search-results"></div>
         </div>
-
         <iframe id="game-iframe" src="" title="Game Frame"></iframe>
-
     </div>
 
     <div id="game-info-container" style="display:none;">
@@ -184,29 +179,27 @@
         // 1. KONFIGURACJA GIER
         // ---------------------------------------------------------
         const gamesDatabase = {
-            const gamesDatabase = {
-        "2048": {
-            id: "2048",
-            title: "2048",
-            path: "/games/2048/index.html",
-            icon: "fas fa-th",
-            description: "Opis..."
-        },
-        "clumsy": {
-            id: "clumsy",
-            title: "Clumsy Bird",
-            path: "/games/clumsy/index.html",
-            icon: "fas fa-feather-alt",
-            description: "Opis..."
-        },
-        "hextris": {
-            id: "hextris",
-            title: "Hextris",
-            path: "/games/hextris/index.html",
-            icon: "fas fa-cube",
-            description: "Opis..."
-        }
-    };
+            "2048": {
+                id: "2048",
+                title: "2048",
+                path: "/games/2048/index.html",
+                icon: "fas fa-th",
+                description: "Połącz kafelki z tymi samymi liczbami, aby uzyskać wynik 2048!"
+            },
+            "clumsy": {
+                id: "clumsy",
+                title: "Clumsy Bird",
+                path: "/games/clumsy/index.html",
+                icon: "fas fa-feather-alt",
+                description: "Lataj i omijaj rury! Czy pobijesz rekord?"
+            },
+            "hextris": {
+                id: "hextris",
+                title: "Hextris",
+                path: "/games/hextris/index.html",
+                icon: "fas fa-cube",
+                description: "Obracaj sześciokąt i łącz kolory!"
+            }
         };
 
         // ---------------------------------------------------------
@@ -223,7 +216,7 @@
         const backBtn = document.getElementById('back-btn');
 
         if (gameId && gamesDatabase[gameId]) {
-            // --- SCENARIUSZ A: GRA WYBRANA ---
+            // --- GRA WYBRANA ---
             const gameData = gamesDatabase[gameId];
 
             selectorInterface.style.display = 'none';
@@ -235,19 +228,16 @@
             descParagraph.textContent = gameData.description;
             iframe.src = gameData.path;
 
-            // Przycisk "Powrót" cofa teraz do listy gier
             backBtn.href = "game.html";
             backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Lista gier';
 
         } else {
-            // --- SCENARIUSZ B: WYBIERANIE GRY ---
+            // --- MENU WYBORU ---
             selectorInterface.style.display = 'flex';
             iframe.style.display = 'none';
             gameInfoContainer.style.display = 'none';
 
             titleHeader.textContent = "Wybierz Grę";
-
-            // Przycisk "Powrót" cofa na stronę główną
             backBtn.href = "/";
             backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Powrót';
 
@@ -264,7 +254,6 @@
 
             function renderButtons(filterText = "") {
                 resultsDiv.innerHTML = "";
-
                 const filtered = gamesList.filter(game =>
                     game.title.toLowerCase().includes(filterText.toLowerCase())
                 );
@@ -278,19 +267,12 @@
                     const btn = document.createElement('div');
                     btn.className = 'game-select-card';
                     btn.innerHTML = `<i class="${game.icon || 'fas fa-gamepad'}"></i> ${game.title}`;
-
-                    btn.onclick = () => {
-                        window.location.href = `game.html?id=${game.id}`;
-                    };
-
+                    btn.onclick = () => { window.location.href = `game.html?id=${game.id}`; };
                     resultsDiv.appendChild(btn);
                 });
             }
-
             renderButtons();
-            input.addEventListener('input', (e) => {
-                renderButtons(e.target.value);
-            });
+            input.addEventListener('input', (e) => { renderButtons(e.target.value); });
         }
     });
 </script>

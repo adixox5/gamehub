@@ -41,17 +41,15 @@
         }
 
         body {
-             transform: scale(0.8);
+             transform: scale(0.85);
              transform-origin: center center;
         }
 
-        /* UKRYWANIE ELEMENTÓW, KTÓRYCH NIE CHCEMY WIDZIEĆ */
-        /* Ale muszą istnieć w kodzie HTML, żeby JS nie wywalał błędu! */
+        /* UKRYWANIE ELEMENTÓW, ALE POZOSTAWIENIE ICH W DOM */
         .rrssb-buttons, #badges, #socialShare, #openSideBar {
             display: none !important;
         }
 
-        /* Centrowanie Canvasa */
         canvas {
             display: block;
             margin: 0 auto;
@@ -92,7 +90,9 @@
 
 	<div id='bottomContainer'>
 		<img id='restart' src='./images/btn_restart.svg' height='57px'>
-		<div id='socialShare'></div> <div id='buttonCont'></div> </div>
+		<div id='socialShare'></div>
+		<div id='buttonCont'></div>
+	</div>
 </div>
 </body>
 </html>
