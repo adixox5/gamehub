@@ -23,7 +23,7 @@ jobs:
           cache: 'maven'
 
       - name: Build with Maven (Create JAR)
-        # Wymuszenie pominięcia testów (jeśli testy wciąż sprawiają problemy)
+        # Wymuszenie pominięcia tdestów (jeśli testy wciąż sprawiają problemy)
         run: ./mvnw clean install -DskipTests
 
       - name: Login to Docker Hub
