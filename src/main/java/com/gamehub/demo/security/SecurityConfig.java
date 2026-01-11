@@ -39,28 +39,26 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/",
-                                "/index",
-                                "/pages/**",
-                                "/games/**", // Dodano dostep do gier
-                                "/js/**",
-                                "/style/**",
-                                "/css/**",
-                                "/static/**",
-                                "/auth/register")
-                        .permitAll()
+                        // Zasoby statyczne (CSS, JS, Obrazki, Pliki gier w iframe)
+                        .requestMatchers("/style/**", "/js/**", "/css/**", "/static/**", "/images/**", "/games/**").permitAll()
+                        // Strony dostępne dla wszystkich
+                        .requestMatchers("/", "/index", "/login", "/register", "/auth/**").permitAll()
+                        .requestMatchers("/info", "/regulamin", "/category", "/game").permitAll()
+                        // Strony wymagające logowania
+                        .requestMatchers("/add-game").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        // Wszystko inne wymaga autoryzacji
                         .anyRequest().authenticated())
-                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // Pozwolenie na iframe
+                .headers(headers -> headers.frameOptions(frame -> frame.sameOrigin())) // Pozwolenie na iframe z grami
                 .formLogin(form -> form
-                        .loginPage("/pages/login.html")
+                        .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/", true)
-                        .failureUrl("/pages/login.html?error=true")
+                        .failureUrl("/login?error=true")
                         .permitAll())
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/pages/login.html?logout=true")
+                        .logoutSuccessUrl("/login?logout=true")
                         .permitAll())
                 .httpBasic(basic -> basic.disable());
 
