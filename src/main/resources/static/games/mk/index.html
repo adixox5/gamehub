@@ -11,38 +11,41 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #000; /* Czarne tło */
+            background-color: #000; /* Czarne tło pasujące do ramki */
             width: 100vw;
             height: 100vh;
-            display: flex;
+            display: flex;       /* Centrowanie w pionie i poziomie */
             justify-content: center;
             align-items: center;
-            overflow: hidden;
+            overflow: hidden;    /* Ukrycie suwaków */
         }
 
         /* Kontener gry */
-        #game {
+        #parent {
             position: relative;
-            transform: scale(0.85); /* Skalowanie, żeby zmieściło się w ramce */
+            transform: scale(0.85); /* Skalowanie, żeby zmieściło się w oknie */
             transform-origin: center center;
-            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4); /* Czerwona poświata */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
         }
 
-        /* Ukrycie paska ładowania po starcie */
+        /* Styl paska ładowania */
         .loading {
             color: white;
             font-family: Arial, sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             text-align: center;
+            margin-top: 20px;
         }
     </style>
 
     <script src="src/mk.js"></script>
     <script src="src/game.js"></script>
     <script src="src/basic/utils.js"></script>
-    <script src="src/basic/sound.js"></script> <script src="src/movement/animation.js"></script>
+    <script src="src/basic/sound.js"></script>
+    <script src="src/movement/animation.js"></script>
     <script src="src/movement/game.js"></script>
-    <script src="src/movement/player.js"></script> </head>
+    <script src="src/movement/player.js"></script>
+</head>
 <body>
 
 <div id="parent">
@@ -55,29 +58,29 @@
     <div id="arena">
     </div>
     <div id="loading" class="loading">
-        <p>Loading Mortal Kombat...</p>
+        <p>Loading...</p>
     </div>
 </div>
 
 <script>
     (function() {
-        // Konfiguracja i start gry
         var startGame = function() {
-            document.getElementById('loading').style.display = 'none';
+            var loadingEl = document.getElementById('loading');
+            if(loadingEl) loadingEl.style.display = 'none';
 
-            // Uruchomienie gry z opcjami
+            // Uruchomienie gry
             mk.start({
                 gameType: 'basic',
-                sounds: true
+                sounds: false  // WYŁĄCZONE DŹWIĘKI (bo brakuje folderu sounds)
             });
         };
 
-        // Oczekiwanie na załadowanie zasobów
+        // Czekamy na załadowanie zasobów
         window.addEventListener('load', function() {
             setTimeout(startGame, 1000);
         });
 
-        // Fix dla focusu klawiatury w iframe
+        // Kliknięcie w grę ustawia focus (dla sterowania klawiaturą)
         window.addEventListener('click', function() {
             window.focus();
         });
