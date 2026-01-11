@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameHub - Regulamin</title>
+  <link rel="stylesheet" href="../style/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <style>
+    /* Lekkie style lokalne dla czytelności tekstu */
+    .policy-container {
+        background-color: var(--color-bg-card);
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 4px 10px var(--color-shadow);
+        margin-top: 40px;
+        border: 1px solid var(--color-border);
+        color: var(--color-text-primary);
+    }
+    .policy-container h1 {
+        color: var(--color-accent);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .policy-container h2 {
+        margin-top: 25px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 5px;
+        font-size: 1.4rem;
+    }
+    .policy-container p {
+        margin-bottom: 10px;
+        line-height: 1.6;
+        color: var(--color-text-secondary);
+    }
+    .policy-container ul {
+        margin-left: 20px;
+        margin-bottom: 15px;
+        color: var(--color-text-secondary);
+    }
+    .policy-container li {
+        margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-container">
+    <a href="/" class="nav-brand">GameHub</a>
+
+    <div class="nav-links">
+      <a href="add-game.html" id="nav-link-add-game" style="display: none;">Dodaj Grę</a>
+      <a href="/admin/panel" id="nav-link-admin-panel" style="display: none;">Panel Moderatora</a>
+    </div>
+
+    <div class="nav-controls">
+      <button id="theme-toggle-btn" class="theme-toggle">
+        <i class="fas fa-moon"></i>
+      </button>
+      <div id="navbar-user-section">
+        <a href="login.html" class="btn btn-secondary">Zaloguj się</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="policy-container">
+    <h1>Regulamin Serwisu GameHub</h1>
+    <p style="text-align: center; font-style: italic;">Ostatnia aktualizacja: 11.01.2026</p>
+
+    <h2>§1. Postanowienia ogólne</h2>
+    <p>1. Niniejszy regulamin określa zasady korzystania z serwisu internetowego <strong>GameHub</strong>, zwanego dalej "Serwisem".</p>
+    <p>2. Serwis jest projektem realizowanym w celach <strong>edukacyjnych</strong> w ramach zaliczenia przedmiotu na studiach. Nie prowadzi działalności komercyjnej ani zarobkowej.</p>
+    <p>3. Korzystanie z Serwisu jest całkowicie darmowe.</p>
+
+    <h2>§2. Zasady korzystania</h2>
+    <p>Użytkownik zobowiązuje się do:</p>
+    <ul>
+      <li>Korzystania z Serwisu w sposób zgodny z prawem i dobrymi obyczajami.</li>
+      <li>Niepublikowania treści obraźliwych, wulgarnych lub naruszających prawa autorskie osób trzecich (np. w opisach gier czy komentarzach).</li>
+      <li>Niedokonywania prób łamania zabezpieczeń Serwisu (chyba że jesteś prowadzącym i testujesz nasze zabezpieczenia 😉).</li>
+    </ul>
+
+    <h2>§3. Konta użytkowników</h2>
+    <p>1. Utworzenie konta w Serwisie jest dobrowolne.</p>
+    <p>2. Administratorzy zastrzegają sobie prawo do usunięcia konta użytkownika, który narusza postanowienia niniejszego Regulaminu.</p>
+    <p>3. Serwis nie gwarantuje trwałości danych (np. zapisanych wyników gier) – baza danych może być resetowana w celach technicznych.</p>
+
+    <h2>§4. Własność intelektualna</h2>
+    <p>1. Gry udostępniane w serwisie są własnością ich twórców.</p>
+    <p>2. Kod źródłowy samej platformy GameHub jest dostępny dla celów weryfikacji projektu.</p>
+
+    <h2>§5. Postanowienia końcowe</h2>
+    <p>1. W sprawach nieuregulowanych niniejszym Regulaminem decydujący głos ma zespół deweloperski (czyli my).</p>
+    <p>2. Korzystając z Serwisu, akceptujesz fakt, że mogą w nim występować błędy (tzw. "ficzery").</p>
+
+    <div style="text-align: center; margin-top: 30px;">
+      <a href="/" class="btn">Rozumiem, wracam do grania</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-content">
+    <div class="footer-left"></div>
+
+    <div class="footer-center">
+      <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
+    </div>
+
+    <div class="footer-right">
+      <a href="info.html">Info</a>
+      <a href="regulamin.html" style="color: var(--color-accent); font-weight: bold;">Regulamin</a>
+    </div>
+  </div>
+</footer>
+
+<script src="../js/main.js"></script>
+
+</body>
+</html>
