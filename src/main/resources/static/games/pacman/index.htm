@@ -2,34 +2,35 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<title>Pacman Canvas</title>
+	<title>Pacman</title>
 	<link rel="stylesheet" type="text/css" href="css/pacman-canvas.css" />
+
 	<style>
-		/* Style integracyjne dla GameHub */
 		body {
-			background-color: #000;
-			margin: 0;
-			padding: 0;
-			overflow: hidden;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			height: 100vh;
-			width: 100vw;
-		}
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
 
-		/* Skalowanie gry, aby zmieściła się w ramce */
-		#game-content {
-			transform: scale(0.85);
-			transform-origin: center center;
-			width: 600px; /* Oryginalna szerokość gry */
-			height: 650px;
-		}
+        /* Skalowanie planszy */
+        #game-content {
+            transform: scale(0.85);
+            transform-origin: center center;
+            width: 600px;
+            height: 650px;
+            position: relative;
+        }
 
-		/* Ukrycie zbędnych elementów oryginalnego interfejsu */
-		.github-banner, footer, .description {
-			display: none !important;
-		}
+        /* Ukrycie zbędnych elementów z oryginału */
+        header, footer, .github-banner, #description {
+            display: none !important;
+        }
 	</style>
 </head>
 <body>
