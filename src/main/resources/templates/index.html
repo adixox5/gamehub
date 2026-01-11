@@ -4,26 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GameHub - Strona Główna</title>
-    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" th:href="@{/style/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+
 <nav th:replace="~{fragments :: navbar}"></nav>
+
 <main class="container">
 
     <section class="featured-slider">
         <div id="featured-slider-container">
 
-            <a href="../pages/game.html?id=1" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/007bff/fff?text=Okładka+Gry+1');">
-                    <span class="slide-play-btn">
-                        <i class="fas fa-play"></i> Graj
-                    </span>
+            <a th:href="@{/game(id=1)}" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/007bff/fff?text=2048');">
+                <span class="slide-play-btn">
+                    <i class="fas fa-play"></i> Graj
+                </span>
             </a>
 
-            <a href="../pages/game.html?id=2" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/e75e8d/fff?text=Okładka+Gry+2');">
-                    <span class="slide-play-btn">
-                        <i class="fas fa-play"></i> Graj
-                    </span>
+            <a th:href="@{/game(id=2)}" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/e75e8d/fff?text=Clumsy+Bird');">
+                <span class="slide-play-btn">
+                    <i class="fas fa-play"></i> Graj
+                </span>
             </a>
         </div>
     </section>
@@ -35,11 +37,11 @@
                 <i class="fas fa-chevron-down"></i>
             </button>
             <div class="category-content" id="categoryContent">
-                <a href="/pages/category.html">Wszystkie Gry</a>
-                <a href="/pages/category.html?kategoria=akcja">Akcja</a>
-                <a href="/pages/category.html?kategoria=wyscigi">Wyścigi</a>
-                <a href="/pages/category.html?kategoria=logiczne">Logiczne</a>
-                <a href="/pages/category.html?kategoria=rpg">RPG</a>
+                <a th:href="@{/category}">Wszystkie Gry</a>
+                <a th:href="@{/category(kategoria='akcja')}">Akcja</a>
+                <a th:href="@{/category(kategoria='wyscigi')}">Wyścigi</a>
+                <a th:href="@{/category(kategoria='logiczne')}">Logiczne</a>
+                <a th:href="@{/category(kategoria='rpg')}">RPG</a>
             </div>
         </div>
 
@@ -59,7 +61,10 @@
 
 </main>
 
-<script src="../js/main.js" defer></script>
-<script src="js/index.js" defer></script>
+<footer th:replace="~{fragments :: footer}"></footer>
+
+<script th:src="@{/js/main.js}" defer></script>
+<script th:src="@{/js/index.js}" defer></script>
+
 </body>
 </html>

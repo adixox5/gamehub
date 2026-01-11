@@ -8,7 +8,7 @@
         <a href="/" class="nav-brand">GameHub</a>
 
         <div class="nav-links">
-            <a th:href="@{/add-game}">Dodaj Grę</a>
+            <a sec:authorize="isAuthenticated()" th:href="@{/add-game}">Dodaj Grę</a>
             <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/panel}" style="color: var(--color-accent);">Panel Moderatora</a>
         </div>
 
@@ -35,7 +35,7 @@
 <footer th:fragment="footer">
     <div class="footer-content">
         <div class="footer-center">
-            <p>&copy; 2026 GameHub. Wszelkie prawa zastrzeżone.</p>
+            <p><div style="text-align: center;">&copy; 2026 GameHub. Wszelkie prawa zastrzeżone.</div></p>
         </div>
         <div class="footer-right">
             <a th:href="@{/info}">Info</a>
