@@ -7,19 +7,19 @@
     <link rel="stylesheet" href="../style/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* STYLIZACJA OBSZARU GRY */
+        /* --- STYLIZACJA OBSZARU GRY (CZARNA RAMKA) --- */
         #game-frame-container {
             position: relative;
             width: 100%;
             height: 700px;
-            background: #000; /* Czarne tło jak w konsoli */
+            background: #000; /* Czarne tło */
             border-radius: 10px;
             overflow: hidden;
             box-shadow: 0 4px 15px rgba(0,0,0,0.5);
             margin-bottom: 20px;
         }
 
-        /* STYLIZACJA MENU WYBORU (Wewnątrz ramki) */
+        /* --- STYLIZACJA MENU WYBORU (WEWNĄTRZ RAMKI) --- */
         #game-selector-interface {
             width: 100%;
             height: 100%;
@@ -40,6 +40,7 @@
             color: #fff;
         }
 
+        /* Wyszukiwarka wewnątrz ramki */
         #local-search-input {
             width: 80%;
             max-width: 400px;
@@ -66,19 +67,13 @@
             flex-wrap: wrap;
             justify-content: center;
             gap: 15px;
-            overflow-y: auto; /* Przewijanie jeśli dużo gier */
+            overflow-y: auto;
             max-height: 400px;
             padding: 10px;
         }
 
-        /* Scrollbar dla listy gier */
-        #local-search-results::-webkit-scrollbar {
-            width: 8px;
-        }
-        #local-search-results::-webkit-scrollbar-thumb {
-            background: #555;
-            border-radius: 4px;
-        }
+        #local-search-results::-webkit-scrollbar { width: 8px; }
+        #local-search-results::-webkit-scrollbar-thumb { background: #555; border-radius: 4px; }
 
         /* Kafelki wyboru gry */
         .game-select-card {
@@ -101,17 +96,20 @@
             box-shadow: 0 5px 15px rgba(0,123,255,0.4);
         }
 
-        .game-select-card i {
-            margin-right: 10px;
-            font-size: 1.2rem;
-        }
+        .game-select-card i { margin-right: 10px; font-size: 1.2rem; }
 
         /* Ramka Iframe */
         iframe {
-            display: none; /* Domyślnie ukryta */
+            display: none;
             width: 100%;
             height: 100%;
             border: none;
+        }
+
+        /* Stopka */
+        footer {
+            text-align: center;
+            padding: 20px 0;
         }
     </style>
 </head>
@@ -121,6 +119,7 @@
     <div class="container nav-container">
         <a href="/" class="nav-brand">GameHub</a>
         <div class="nav-links">
+            <a href="info.html">Info</a>
             <a href="add-game.html" id="nav-link-add-game" style="display: none;">Dodaj Grę</a>
             <a href="admin-panel.html" id="nav-link-admin-panel" style="display:none;">Panel Moderatora</a>
         </div>
@@ -136,16 +135,19 @@
 </nav>
 
 <main class="container">
-    <section class="search-bar-container">
-        <a href="/" class="btn btn-secondary" style="border-radius: 20px;"><i class="fas fa-arrow-left"></i> Powrót</a>
-        <h2 id="game-title-header" style="margin-left: 20px;">Wybierz Grę</h2>
-    </section>
+
+    <div style="display: flex; align-items: center; margin-bottom: 20px; margin-top: 20px;">
+        <a href="/" id="back-btn" class="btn btn-secondary" style="border-radius: 20px; padding: 10px 20px;">
+            <i class="fas fa-arrow-left"></i> Powrót
+        </a>
+        <h2 id="game-title-header" style="margin-left: 20px; margin-bottom: 0;">Wybierz Grę</h2>
+    </div>
 
     <div id="game-frame-container">
 
         <div id="game-selector-interface">
             <h2><i class="fas fa-gamepad"></i> Dostępne Gry</h2>
-            <input type="text" id="local-search-input" placeholder="Wpisz nazwę gry, aby wyszukać...">
+            <input type="text" id="local-search-input" placeholder="Wpisz nazwę gry...">
 
             <div id="local-search-results">
             </div>
@@ -169,7 +171,7 @@
 
 </main>
 
-<footer style="text-align: center; padding: 20px;">
+<footer>
     <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
 </footer>
 
@@ -178,33 +180,43 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
 
-        // --- BAZA GIER ---
+        // ---------------------------------------------------------
+        // 1. KONFIGURACJA GIER
+        // ---------------------------------------------------------
         const gamesDatabase = {
             "2048": {
                 id: "2048",
                 title: "2048",
-                // ZMIANA: Ścieżka zaczyna się od ukośnika "/" (szuka od głównego katalogu strony)
                 path: "/games/2048/index.html",
                 icon: "fas fa-th",
-                description: "Połącz kafelki z tymi samymi liczbami!"
+                description: "Połącz kafelki z tymi samymi liczbami, aby uzyskać wynik 2048!"
+            },
+            "slot": {
+                id: "slot",
+                title: "Jednoręki Bandyta",
+                path: "/games/slot/index.html",
+                icon: "fas fa-dice",
+                description: "Sprawdź swoje szczęście w klasycznej maszynie losującej."
             },
             "clumsy": {
-            id: "clumsy",
-            title: "Clumsy Bird",
-            // Pamiętaj: ścieżka od ukośnika "/"
-            path: "/games/clumsy/index.html",
-            icon: "fas fa-feather-alt", // Ikona piórka
-            description: "Lataj i omijaj rury! Czy pobijesz rekord?"
-            }
+                id: "clumsy",
+                title: "Clumsy Bird",
+                path: "/games/clumsy/index.html",
+                icon: "fas fa-feather-alt",
+                description: "Lataj i omijaj rury! Czy pobijesz rekord?"
+            },
             "hextris": {
-            id: "hextris",
-            title: "Hextris",
-            path: "/games/hextris/index.html",
-            icon: "fas fa-cube",
-            description: "Obracaj sześciokąt i łącz kolory!"
-}
+                id: "hextris",
+                title: "Hextris",
+                path: "/games/hextris/index.html",
+                icon: "fas fa-cube",
+                description: "Obracaj sześciokąt i łącz kolory!"
+            }
         };
 
+        // ---------------------------------------------------------
+        // 2. LOGIKA GŁÓWNA
+        // ---------------------------------------------------------
         const urlParams = new URLSearchParams(window.location.search);
         const gameId = urlParams.get('id');
 
@@ -213,9 +225,10 @@
         const gameInfoContainer = document.getElementById('game-info-container');
         const titleHeader = document.getElementById('game-title-header');
         const descParagraph = document.getElementById('game-description');
+        const backBtn = document.getElementById('back-btn');
 
         if (gameId && gamesDatabase[gameId]) {
-            console.log("Ładowanie gry ID:", gameId);
+            // --- SCENARIUSZ A: GRA WYBRANA ---
             const gameData = gamesDatabase[gameId];
 
             selectorInterface.style.display = 'none';
@@ -225,27 +238,30 @@
             document.title = "GameHub - " + gameData.title;
             titleHeader.textContent = gameData.title;
             descParagraph.textContent = gameData.description;
-
-            // Przypisanie ścieżki
             iframe.src = gameData.path;
 
-            // --- DIAGNOSTYKA BŁĘDÓW (Dodatkowa pomoc) ---
-            iframe.onload = function() {
-                console.log("Iframe załadował się poprawnie.");
-            };
-            iframe.onerror = function() {
-                console.error("Błąd ładowania Iframe. Sprawdź czy plik istnieje pod ścieżką:", gameData.path);
-                alert("Nie udało się załadować gry. Sprawdź konsolę (F12).");
-            };
+            // Przycisk "Powrót" cofa teraz do listy gier, a nie na stronę główną
+            backBtn.href = "game.html";
+            backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Lista gier';
 
         } else {
+            // --- SCENARIUSZ B: WYBIERANIE GRY ---
             selectorInterface.style.display = 'flex';
             iframe.style.display = 'none';
             gameInfoContainer.style.display = 'none';
+
             titleHeader.textContent = "Wybierz Grę";
+
+            // Przycisk "Powrót" cofa na stronę główną
+            backBtn.href = "/";
+            backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Powrót';
+
             initGameSelector();
         }
 
+        // ---------------------------------------------------------
+        // 3. OBSŁUGA MENU W RAMCE
+        // ---------------------------------------------------------
         function initGameSelector() {
             const input = document.getElementById('local-search-input');
             const resultsDiv = document.getElementById('local-search-results');
@@ -253,6 +269,7 @@
 
             function renderButtons(filterText = "") {
                 resultsDiv.innerHTML = "";
+
                 const filtered = gamesList.filter(game =>
                     game.title.toLowerCase().includes(filterText.toLowerCase())
                 );
@@ -265,13 +282,20 @@
                 filtered.forEach(game => {
                     const btn = document.createElement('div');
                     btn.className = 'game-select-card';
-                    btn.innerHTML = `<i class="${game.icon}"></i> <span>${game.title}</span>`;
-                    btn.onclick = () => { window.location.href = `game.html?id=${game.id}`; };
+                    btn.innerHTML = `<i class="${game.icon || 'fas fa-gamepad'}"></i> ${game.title}`;
+
+                    btn.onclick = () => {
+                        window.location.href = `game.html?id=${game.id}`;
+                    };
+
                     resultsDiv.appendChild(btn);
                 });
             }
+
             renderButtons();
-            input.addEventListener('input', (e) => { renderButtons(e.target.value); });
+            input.addEventListener('input', (e) => {
+                renderButtons(e.target.value);
+            });
         }
     });
 </script>
