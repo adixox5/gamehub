@@ -36,22 +36,25 @@
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
             background: #e0e0e0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow: hidden;
         }
 
-        /* Skalowanie całej planszy gry (Canvas) i elementów UI */
-        #canvas, #overlay, #gameoverscreen, #startBtn, #helpScreen {
-            transform: scale(0.85); /* Pomniejszenie do 85% */
-            transform-origin: center center;
+        body {
+             transform: scale(0.8);
+             transform-origin: center center;
         }
 
-        /* Ukrycie zbędnych elementów (przyciski społecznościowe) */
+        /* UKRYWANIE ELEMENTÓW, KTÓRYCH NIE CHCEMY WIDZIEĆ */
+        /* Ale muszą istnieć w kodzie HTML, żeby JS nie wywalał błędu! */
         .rrssb-buttons, #badges, #socialShare, #openSideBar {
             display: none !important;
+        }
+
+        /* Centrowanie Canvasa */
+        canvas {
+            display: block;
+            margin: 0 auto;
         }
 	</style>
 </head>
@@ -86,10 +89,10 @@
 		<div class='score'><span class='scoreNum'>2.</span> <div id="2place" style="display:inline;">0</div></div>
 		<div class='score'><span class='scoreNum'>3.</span> <div id="3place" style="display:inline;">0</div></div>
 	</div>
+
 	<div id='bottomContainer'>
 		<img id='restart' src='./images/btn_restart.svg' height='57px'>
-	</div>
+		<div id='socialShare'></div> <div id='buttonCont'></div> </div>
 </div>
-
 </body>
 </html>
