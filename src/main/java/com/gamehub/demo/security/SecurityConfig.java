@@ -15,38 +15,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // Wyłączenie CSRF ułatwia pracę z formularzami w prostych projektach
-                .csrf(csrf -> csrf.disable())
-
+                .csrf(csrf -> csrf.disable()) // Wyłączenie CSRF dla uproszczenia
                 .authorizeHttpRequests(auth -> auth
-                        // --- 1. ZASOBY STATYCZNE (Kluczowe dla działania gier i wyglądu) ---
-                        // "games/**" pozwala ładować pliki gier (2048, hextris itp.) w iframe
+                        // 1. Zasoby statyczne (style, skrypty, pliki gier w iframe)
+                        // "games/**" jest kluczowe dla działania gier (2048, Hextris, MK)
                         .requestMatchers("/style/**", "/js/**", "/css/**", "/images/**", "/games/**", "/static/**").permitAll()
 
-                        // --- 2. STRONY DOSTĘPNE DLA WSZYSTKICH ---
-                        // Dodaliśmy wersje z ".html" i bez, aby uniknąć błędów 404
+                        // 2. Strony publiczne (dostępne bez logowania)
                         .requestMatchers("/", "/index", "/index.html").permitAll()
-                        .requestMatchers("/info", "/info.html").permitAll()
-                        .requestMatchers("/regulamin", "/regulamin.html").permitAll()
-                        .requestMatchers("/game", "/game.html").permitAll() // <--- TU BYŁ BŁĄD, TERAZ JEST OK
-                        .requestMatchers("/category", "/category.html").permitAll()
+                        .requestMatchers("/info.html", "/regulamin.html").permitAll()
+                        .requestMatchers("/game.html").permitAll() // Dostęp do ramki z grą
+                        .requestMatchers("/category.html").permitAll()
 
-                        // Logowanie i Rejestracja
+                        // 3. Logowanie i Rejestracja
                         .requestMatchers("/login", "/login.html", "/register", "/register.html").permitAll()
-                        .requestMatchers("/auth/**").permitAll() // Endpointy backendowe
+                        .requestMatchers("/auth/**").permitAll()
 
-                        // --- 3. STRONY CHRONIONE (WYMAGAJĄ ZALOGOWANIA) ---
-                        .requestMatchers("/add-game", "/add-game.html").authenticated()
-                        .requestMatchers("/admin-panel", "/admin-panel.html").hasRole("ADMIN")
+                        // 4. Strony chronione (wymagają logowania)
+                        .requestMatchers("/add-game").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                        // Wszystko inne wymaga bycia zalogowanym
+                        // Wszystko inne wymaga logowania
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Ścieżka do Twojego kontrolera zwracającego widok logowania
-                        .loginProcessingUrl("/login") // Gdzie formularz wysyła dane POST
-                        .defaultSuccessUrl("/", true) // Przekierowanie na stronę główną po sukcesie
+                        .loginPage("/login") // Używa metody login() z PageController
+                        .loginProcessingUrl("/login")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
                 )
                 .logout(logout -> logout
@@ -58,7 +53,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Bean potrzebny do szyfrowania haseł (jeśli używasz UserDetailsService)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

@@ -11,6 +11,11 @@ public class PageController {
         return "index";
     }
 
+    @GetMapping("/index.html")
+    public String indexHtml() {
+        return "index";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -21,17 +26,20 @@ public class PageController {
         return "add-game";
     }
 
-    // --- DODAJ TEN FRAGMENT PONIŻEJ ---
-    @GetMapping("/game.html")
-    public String game() {
-        return "game"; // To mówi Springowi: "wyświetl plik templates/game.html"
-    }
-    // ----------------------------------
-
-    // Jeśli masz inne podstrony (np. info, regulamin), też dodaj je tutaj:
     @GetMapping("/info.html")
-    public String info() { return "info"; }
+    public String info() {
+        return "info";
+    }
 
     @GetMapping("/regulamin.html")
-    public String regulamin() { return "regulamin"; }
+    public String regulamin() {
+        return "regulamin";
+    }
+
+    // --- KLUCZOWE: Obsługa gry ---
+    // Dzięki temu adres /game.html wyświetli plik templates/game.html
+    @GetMapping("/game.html")
+    public String game() {
+        return "game";
+    }
 }
