@@ -36,10 +36,9 @@ public class PageController {
         return "regulamin";
     }
 
-    // --- KLUCZOWE: Obsługa gry ---
-    // Dzięki temu adres /game.html wyświetli plik templates/game.html
+    // --- TO JEST WAŻNE ---
     @GetMapping("/game.html")
     public String game() {
-        return "game";
+        return "game"; // Szuka pliku src/main/resources/templates/game.html
     }
 }

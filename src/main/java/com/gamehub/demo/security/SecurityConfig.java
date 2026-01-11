@@ -18,13 +18,13 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Wyłączenie CSRF dla uproszczenia
                 .authorizeHttpRequests(auth -> auth
                         // 1. Zasoby statyczne (style, skrypty, pliki gier w iframe)
-                        // "games/**" jest kluczowe dla działania gier (2048, Hextris, MK)
+                        // "games/**" pozwala ładować pliki gier (2048, Hextris itp.)
                         .requestMatchers("/style/**", "/js/**", "/css/**", "/images/**", "/games/**", "/static/**").permitAll()
 
-                        // 2. Strony publiczne (dostępne bez logowania)
+                        // 2. Strony publiczne (Dostępne dla każdego)
                         .requestMatchers("/", "/index", "/index.html").permitAll()
                         .requestMatchers("/info.html", "/regulamin.html").permitAll()
-                        .requestMatchers("/game.html").permitAll() // Dostęp do ramki z grą
+                        .requestMatchers("/game.html").permitAll() // <--- TO NAPRAWIA PROBLEM PRZEKIEROWANIA
                         .requestMatchers("/category.html").permitAll()
 
                         // 3. Logowanie i Rejestracja
@@ -35,11 +35,11 @@ public class SecurityConfig {
                         .requestMatchers("/add-game").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                        // Wszystko inne wymaga logowania
+                        // Wszystko inne wymaga bycia zalogowanym
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
-                        .loginPage("/login") // Używa metody login() z PageController
+                        .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .defaultSuccessUrl("/", true)
                         .permitAll()
