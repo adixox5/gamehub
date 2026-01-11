@@ -9,17 +9,7 @@
 </head>
 <body>
 
-<nav class="minimal-nav">
-    <div class="container nav-container">
-        <a href="/" class="nav-brand">GameHub</a>
-
-        <div class="nav-controls">
-            <button id="theme-toggle-btn" class="theme-toggle">
-                <i class="fas fa-moon"></i>
-            </button>
-        </div>
-    </div>
-</nav>
+<nav th:replace="~{fragments :: navbar}"></nav>
 
 <main class="container login-page-container">
     <div class="auth-card">
@@ -64,13 +54,9 @@
     </div>
 </main>
 
-<footer>
-    <p>&copy; 2025 GameHub. Projekt zespołowy.</p>
-</footer>
+<footer th:replace="~{fragments :: footer}"></footer>
 
 <script src="../static/js/main.js" defer></script>
-<!-- auth.js отсутствует, поэтому не подключаем -->
-<!-- <script src="../js/auth.js" defer></script> -->
 
 <script>
     document.addEventListener('DOMContentLoaded', () => {
