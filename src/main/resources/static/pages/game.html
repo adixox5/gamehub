@@ -191,13 +191,6 @@
                 icon: "fas fa-th",
                 description: "Połącz kafelki z tymi samymi liczbami, aby uzyskać wynik 2048!"
             },
-            "slot": {
-                id: "slot",
-                title: "Jednoręki Bandyta",
-                path: "/games/slot/index.html",
-                icon: "fas fa-dice",
-                description: "Sprawdź swoje szczęście w klasycznej maszynie losującej."
-            },
             "clumsy": {
                 id: "clumsy",
                 title: "Clumsy Bird",
@@ -240,7 +233,7 @@
             descParagraph.textContent = gameData.description;
             iframe.src = gameData.path;
 
-            // Przycisk "Powrót" cofa teraz do listy gier, a nie na stronę główną
+            // Przycisk "Powrót" cofa teraz do listy gier
             backBtn.href = "game.html";
             backBtn.innerHTML = '<i class="fas fa-arrow-left"></i> Lista gier';
 
