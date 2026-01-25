@@ -46,26 +46,26 @@ public class GameService {
     public List<Game> getGames(String category, String search) {
         List<Game> games;
 
-        // 1. Jeśli jest wyszukiwanie
+        // 1. Logika wyszukiwania
         if (search != null && !search.isBlank()) {
-            // 1a. Jeśli jest też kategoria, szukaj wewnątrz kategorii
+            // Jeśli wybrano też kategorię, szukaj wewnątrz niej
             if (category != null && !category.isBlank() && !category.equals("all")) {
                 games = gameRepository.findByCategoryAndTitleContainingIgnoreCase(category, search);
             } else {
-                // 1b. Szukaj we wszystkich grach
+                // Szukaj we wszystkich grach
                 games = gameRepository.findByTitleContainingIgnoreCase(search);
             }
         }
-        // 2. Jeśli nie ma wyszukiwania, ale jest kategoria
+        // 2. Logika samej kategorii (bez wyszukiwania)
         else if (category != null && !category.isBlank() && !category.equals("all")) {
             games = gameRepository.findByCategory(category);
         }
-        // 3. Pobierz wszystko
+        // 3. Brak filtrów - zwróć wszystko
         else {
             games = gameRepository.findAll();
         }
 
-        // Filtrowanie Pacmana
+        // Filtrowanie Pacmana (zgodnie z poprzednim życzeniem)
         return games.stream()
                 .filter(g -> !g.getTitle().equalsIgnoreCase("Pacman"))
                 .collect(Collectors.toList());
