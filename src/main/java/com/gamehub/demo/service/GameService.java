@@ -26,6 +26,7 @@ public class GameService {
             gameRepository.save(new Game("Hextris", "Logiczne", "Sześciokątny Tetris o szybkim tempie.", "/games/hextris/images/icons/apple-touch-120.png", "/games/hextris/index.html"));
             gameRepository.save(new Game("Clumsy Bird", "Zręcznościowe", "Lataj i omijaj rury (klon Flappy Bird).", "/games/clumsy/data/img/clumsy.png", "/games/clumsy/index.html"));
             gameRepository.save(new Game("Pacman", "Zręcznościowe", "Klasyczna gra zręcznościowa.", "/games/pacman/img/icon-128.png", "/games/pacman/index.htm"));
+            gameRepository.save(new Game("Tetris", "Logiczne", "Klasyczny Tetris w HTML5 Canvas.", "/games/tetris/icon.png", "/games/tetris/index.html"));
         }
     }
 

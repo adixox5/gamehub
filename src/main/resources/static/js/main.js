@@ -187,6 +187,14 @@ document.addEventListener('DOMContentLoaded', () => {
                            image: "https://placehold.co/280x180/f1c40f/000?text=Pacman",
                            link: "/game?id=pacman"
                }
+               {
+                       id: 8,
+                       title: "Tetris",
+                       category: "logiczne",
+                       description: "Układaj spadające klocki i bij rekordy w tej ponadczasowej grze.",
+                       image: "https://placehold.co/280x180/9b59b6/FFF?text=Tetris",
+                       link: "/pages/game.html?id=tetris"
+               }
            ];
 
        // Funkcja uruchamiana automatycznie, jeśli jesteśmy na stronie kategorii
@@ -270,7 +278,10 @@ document.addEventListener('DOMContentLoaded', () => {
            { name: "logiczna", id: "hextris" },
            { name: "pacman", id: "pacman" },
            { name: "duszki", id: "pacman" },
-           { name: "zjadacz kropek", id: "pacman" }
+           { name: "zjadacz kropek", id: "pacman" },
+           { name: "tetris", id: "tetris" },
+           { name: "klocki", id: "tetris" },
+           { name: "układanka", id: "tetris" }
        ];
 
        if (searchForm) {
