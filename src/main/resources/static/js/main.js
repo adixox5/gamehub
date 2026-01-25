@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                    description: "Epicka przygoda w świecie magii, smoków i rycerzy.",
                    image: "https://placehold.co/280x180/8e44ad/FFF?text=RPG",
                    link: "/pages/game.html?id=5"
-               }
+               },
                {
                        id: 6,
                        title: "Hextris",
@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
            { name: "slot", id: "slot" },
            { name: "bandyta", id: "slot" },
            { name: "kasyno", id: "slot" },
-           { name: "maszyna", id: "slot" }
+           { name: "maszyna", id: "slot" },
            { name: "hextris", id: "hextris" },
            { name: "sześciokąt", id: "hextris" },
            { name: "logiczna", id: "hextris" }
