@@ -63,7 +63,7 @@ jobs:
                 network_mode: host
                 env_file: ".env"
                 environment:
-                  - SERVER_PORT=80
+                  - SERVER_PORT=8081
                 restart: always
             EOF
             
