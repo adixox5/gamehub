@@ -178,7 +178,15 @@ document.addEventListener('DOMContentLoaded', () => {
                        description: "Obracaj sześciokąt i dopasowuj kolory w tej szybkiej grze logicznej.",
                        image: "https://placehold.co/280x180/2c3e50/FFF?text=Hextris",
                        link: "/pages/game.html?id=hextris"
-                   }
+               }
+               {
+                           id: 7,
+                           title: "Pacman",
+                           category: "akcja",
+                           description: "Legenda gier wideo powraca w wersji HTML5.",
+                           image: "https://placehold.co/280x180/f1c40f/000?text=Pacman",
+                           link: "/game?id=pacman"
+               }
            ];
 
        // Funkcja uruchamiana automatycznie, jeśli jesteśmy na stronie kategorii
@@ -260,6 +268,9 @@ document.addEventListener('DOMContentLoaded', () => {
            { name: "hextris", id: "hextris" },
            { name: "sześciokąt", id: "hextris" },
            { name: "logiczna", id: "hextris" }
+           { name: "pacman", id: "pacman" },
+           { name: "duszki", id: "pacman" },
+           { name: "zjadacz kropek", id: "pacman" }
        ];
 
        if (searchForm) {
