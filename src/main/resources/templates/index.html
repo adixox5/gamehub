@@ -52,6 +52,8 @@
         </div>
 
         <form id="search-form" class="search-form d-flex gap-2" th:action="@{/}" method="get">
+            <input type="hidden" name="category" th:value="${currentCategory}" th:if="${currentCategory != null}">
+
             <input type="text" name="search" id="search-input" class="form-control" placeholder="Wyszukaj grę" th:value="${search}">
 
             <button type="submit" class="btn btn-outline-secondary">
@@ -86,7 +88,7 @@
 
             <div class="col-12 text-center" th:if="${games.empty}">
                 <div class="alert alert-info">
-                    Brak gier w tej kategorii. <a th:href="@{/}" class="alert-link">Pokaż wszystkie</a>.
+                    Brak gier spełniających kryteria. <a th:href="@{/}" class="alert-link">Pokaż wszystkie</a>.
                 </div>
             </div>
         </div>
