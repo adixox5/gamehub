@@ -51,8 +51,9 @@
             </div>
         </div>
 
-        <form id="search-form" class="search-form d-flex gap-2">
-            <input type="text" id="search-input" class="form-control" placeholder="Wyszukaj grę">
+        <form id="search-form" class="search-form d-flex gap-2" th:action="@{/}" method="get">
+            <input type="text" name="search" id="search-input" class="form-control" placeholder="Wyszukaj grę" th:value="${search}">
+
             <button type="submit" class="btn btn-outline-secondary">
                 <i class="fas fa-search"></i>
             </button>

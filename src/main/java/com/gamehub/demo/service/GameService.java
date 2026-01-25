@@ -44,4 +44,23 @@ public class GameService {
     public List<String> getAllCategories() {
         return gameRepository.findDistinctCategories();
     }
+    public List<Game> getGames(String category, String search) {
+        // 1. Jeśli jest wyszukiwanie
+        if (search != null && !search.isBlank()) {
+            // 1a. Jeśli jest też kategoria, szukaj wewnątrz kategorii
+            if (category != null && !category.isBlank() && !category.equals("all")) {
+                return gameRepository.findByCategoryAndTitleContainingIgnoreCase(category, search);
+            }
+            // 1b. Szukaj we wszystkich grach
+            return gameRepository.findByTitleContainingIgnoreCase(search);
+        }
+
+        // 2. Jeśli nie ma wyszukiwania, ale jest kategoria
+        if (category != null && !category.isBlank() && !category.equals("all")) {
+            return gameRepository.findByCategory(category);
+        }
+
+        // 3. Zwróć wszystko
+        return gameRepository.findAll();
+    }
 }
