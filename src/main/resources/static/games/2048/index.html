@@ -1,48 +1,79 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-  <meta charset="utf-8" />
-  <title>Pacman</title>
-  <link rel="stylesheet" type="text/css" href="css/pacman-canvas.css" />
+  <meta charset="utf-8">
+  <title>2048</title>
 
-  <style>
-    body {
-        background-color: #000;
-        margin: 0;
-        padding: 0;
-        overflow: hidden; /* Ukrywa paski przewijania */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100vw;
-    }
+  <link href="style/main.css" rel="stylesheet" type="text/css">
+  <link href="style/fonts/clear-sans.css" rel="stylesheet" type="text/css">
 
-    /* Kontener gry - skalujemy go, żeby pasował do ramki */
-    #game-content {
-        width: 600px;
-        height: 650px;
-        transform: scale(0.85); /* Lekkie pomniejszenie */
-        transform-origin: center center;
-        position: relative;
-    }
-
-    /* Ukrycie zbędnych elementów z oryginalnego projektu */
-    header, footer, .github-banner, #description {
-        display: none !important;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0, maximum-scale=1, user-scalable=no, minimal-ui">
 </head>
 <body>
+<div class="container">
+  <div class="heading">
+    <h1 class="title">2048</h1>
+    <div class="scores-container">
+      <div class="score-container">0</div>
+      <div class="best-container">0</div>
+    </div>
+  </div>
 
-<div id="game-content">
-  <div id="game-canvas"></div>
+  <div class="above-game">
+    <p class="game-intro">Połącz liczby, aby uzyskać <strong>2048!</strong></p>
+    <a class="restart-button">Nowa gra</a>
+  </div>
+
+  <div class="game-container">
+    <div class="game-message">
+      <p></p>
+      <div class="lower">
+        <a class="keep-playing-button">Graj dalej</a>
+        <a class="retry-button">Spróbuj ponownie</a>
+      </div>
+    </div>
+
+    <div class="grid-container">
+      <div class="grid-row">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+      <div class="grid-row">
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+        <div class="grid-cell"></div>
+      </div>
+    </div>
+
+    <div class="tile-container">
+    </div>
+  </div>
 </div>
 
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/jquery.hammer.min.js"></script>
-
-<script src="js/pacman-canvas.js"></script>
-
+<script src="js/bind_polyfill.js"></script>
+<script src="js/classlist_polyfill.js"></script>
+<script src="js/animframe_polyfill.js"></script>
+<script src="js/keyboard_input_manager.js"></script>
+<script src="js/html_actuator.js"></script>
+<script src="js/grid.js"></script>
+<script src="js/tile.js"></script>
+<script src="js/local_storage_manager.js"></script>
+<script src="js/game_manager.js"></script>
+<script src="js/application.js"></script>
 </body>
 </html>
