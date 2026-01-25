@@ -14,30 +14,30 @@ public class PageController {
 
     private final GameService gameService;
 
-    // Wstrzykujemy GameService przez konstruktor
     public PageController(GameService gameService) {
         this.gameService = gameService;
     }
 
     @GetMapping("/")
-    public String index(@RequestParam(name = "category", required = false) String category, Model model) {
-        // 1. Pobierz gry (wszystkie lub filtrowane)
-        List<Game> games = gameService.getGamesByCategory(category);
-
-        // 2. Pobierz listę kategorii do menu
+    public String index(@RequestParam(name = "category", required = false) String category,
+                        @RequestParam(name = "search", required = false) String search,
+                        Model model) {
+        List<Game> games = gameService.getGames(category, search);
         List<String> categories = gameService.getAllCategories();
 
-        // 3. Przekaż dane do widoku HTML
         model.addAttribute("games", games);
         model.addAttribute("categories", categories);
         model.addAttribute("currentCategory", category);
+        model.addAttribute("search", search);
 
         return "index";
     }
 
     @GetMapping("/index.html")
-    public String indexHtml(@RequestParam(name = "category", required = false) String category, Model model) {
-        return index(category, model);
+    public String indexHtml(@RequestParam(name = "category", required = false) String category,
+                            @RequestParam(name = "search", required = false) String search,
+                            Model model) {
+        return index(category, search, model);
     }
 
     @GetMapping("/login")
