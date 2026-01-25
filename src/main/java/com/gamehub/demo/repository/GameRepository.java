@@ -10,6 +10,7 @@ public interface GameRepository extends JpaRepository<Game, Long> {
     // Pobierz gry z danej kategorii
     List<Game> findByCategory(String category);
 
+
     // Pobierz listę wszystkich dostępnych kategorii (bez powtórzeń)
     @Query("SELECT DISTINCT g.category FROM Game g")
     List<String> findDistinctCategories();
