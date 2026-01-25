@@ -25,6 +25,7 @@ public class GameService {
             gameRepository.save(new Game("2048", "Logiczne", "Połącz płytki, aby uzyskać 2048!", "/games/2048/style/img/favicon.ico", "/games/2048/index.html"));
             gameRepository.save(new Game("Hextris", "Logiczne", "Sześciokątny Tetris o szybkim tempie.", "/games/hextris/images/icons/apple-touch-120.png", "/games/hextris/index.html"));
             gameRepository.save(new Game("Clumsy Bird", "Zręcznościowe", "Lataj i omijaj rury (klon Flappy Bird).", "/games/clumsy/data/img/clumsy.png", "/games/clumsy/index.html"));
+            gameRepository.save(new Game("Pacman", "Zręcznościowe", "Klasyczna gra zręcznościowa.", "/games/pacman/img/icon-128.png", "/games/pacman/index.htm"));
         }
     }
 
@@ -43,11 +44,9 @@ public class GameService {
         return gameRepository.findDistinctCategories();
     }
 
-    // NOWA METODA: Pobiera tytuły do podpowiedzi (bez Pacmana)
     public List<String> getAllGameTitles() {
         return gameRepository.findAll().stream()
                 .map(Game::getTitle)
-                .filter(title -> !title.equalsIgnoreCase("Pacman"))
                 .collect(Collectors.toList());
     }
 
@@ -66,8 +65,6 @@ public class GameService {
             games = gameRepository.findAll();
         }
 
-        return games.stream()
-                .filter(g -> !g.getTitle().equalsIgnoreCase("Pacman"))
-                .collect(Collectors.toList());
+        return games;
     }
 }
