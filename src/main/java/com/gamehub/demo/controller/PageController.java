@@ -25,10 +25,14 @@ public class PageController {
         List<Game> games = gameService.getGames(category, search);
         List<String> categories = gameService.getAllCategories();
 
+        // Dodajemy listę tytułów do podpowiedzi
+        List<String> allTitles = gameService.getAllGameTitles();
+
         model.addAttribute("games", games);
         model.addAttribute("categories", categories);
         model.addAttribute("currentCategory", category);
         model.addAttribute("search", search);
+        model.addAttribute("suggestionTitles", allTitles); // Przekazanie do widoku
 
         return "index";
     }

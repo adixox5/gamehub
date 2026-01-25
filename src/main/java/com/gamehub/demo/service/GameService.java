@@ -43,29 +43,29 @@ public class GameService {
         return gameRepository.findDistinctCategories();
     }
 
+    // NOWA METODA: Pobiera tytuły do podpowiedzi (bez Pacmana)
+    public List<String> getAllGameTitles() {
+        return gameRepository.findAll().stream()
+                .map(Game::getTitle)
+                .filter(title -> !title.equalsIgnoreCase("Pacman"))
+                .collect(Collectors.toList());
+    }
+
     public List<Game> getGames(String category, String search) {
         List<Game> games;
 
-        // 1. Logika wyszukiwania
         if (search != null && !search.isBlank()) {
-            // Jeśli wybrano też kategorię, szukaj wewnątrz niej
             if (category != null && !category.isBlank() && !category.equals("all")) {
                 games = gameRepository.findByCategoryAndTitleContainingIgnoreCase(category, search);
             } else {
-                // Szukaj we wszystkich grach
                 games = gameRepository.findByTitleContainingIgnoreCase(search);
             }
-        }
-        // 2. Logika samej kategorii (bez wyszukiwania)
-        else if (category != null && !category.isBlank() && !category.equals("all")) {
+        } else if (category != null && !category.isBlank() && !category.equals("all")) {
             games = gameRepository.findByCategory(category);
-        }
-        // 3. Brak filtrów - zwróć wszystko
-        else {
+        } else {
             games = gameRepository.findAll();
         }
 
-        // Filtrowanie Pacmana (zgodnie z poprzednim życzeniem)
         return games.stream()
                 .filter(g -> !g.getTitle().equalsIgnoreCase("Pacman"))
                 .collect(Collectors.toList());
