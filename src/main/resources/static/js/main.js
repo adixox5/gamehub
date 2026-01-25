@@ -186,7 +186,7 @@ document.addEventListener('DOMContentLoaded', () => {
                            description: "Legenda gier wideo powraca w wersji HTML5.",
                            image: "https://placehold.co/280x180/f1c40f/000?text=Pacman",
                            link: "/game?id=pacman"
-               }
+               },
                {
                        id: 8,
                        title: "Tetris",
