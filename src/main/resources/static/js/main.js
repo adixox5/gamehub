@@ -178,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
                        description: "Obracaj sześciokąt i dopasowuj kolory w tej szybkiej grze logicznej.",
                        image: "https://placehold.co/280x180/2c3e50/FFF?text=Hextris",
                        link: "/pages/game.html?id=hextris"
-               }
+               },
                {
                            id: 7,
                            title: "Pacman",
@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', () => {
            { name: "maszyna", id: "slot" },
            { name: "hextris", id: "hextris" },
            { name: "sześciokąt", id: "hextris" },
-           { name: "logiczna", id: "hextris" }
+           { name: "logiczna", id: "hextris" },
            { name: "pacman", id: "pacman" },
            { name: "duszki", id: "pacman" },
            { name: "zjadacz kropek", id: "pacman" }
