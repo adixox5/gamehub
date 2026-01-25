@@ -26,7 +26,7 @@ public class GameService {
             gameRepository.save(new Game("2048", "Logiczne", "Połącz płytki, aby uzyskać 2048!", "/games/2048/style/img/favicon.ico", "/games/2048/index.html"));
             gameRepository.save(new Game("Hextris", "Logiczne", "Sześciokątny Tetris o szybkim tempie.", "/games/hextris/images/icons/apple-touch-120.png", "/games/hextris/index.html"));
             gameRepository.save(new Game("Clumsy Bird", "Zręcznościowe", "Lataj i omijaj rury (klon Flappy Bird).", "/games/clumsy/data/img/clumsy.png", "/games/clumsy/index.html"));
-            gameRepository.save(new Game("Pacman", "Klasyczne", "Zjedz kropki i unikaj duchów.", "/games/pacman/img/Pacman-Icon.svg", "/games/pacman/index.htm"));
+            // USUNIĘTO: Pacman
         }
     }
 
