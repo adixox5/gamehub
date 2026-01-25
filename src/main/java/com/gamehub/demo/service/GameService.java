@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -17,16 +18,13 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    // Metoda uruchamia się przy starcie aplikacji
     @PostConstruct
     @Transactional
     public void initGames() {
         if (gameRepository.count() == 0) {
-            // Dodajemy gry wykryte w Twoich plikach
             gameRepository.save(new Game("2048", "Logiczne", "Połącz płytki, aby uzyskać 2048!", "/games/2048/style/img/favicon.ico", "/games/2048/index.html"));
             gameRepository.save(new Game("Hextris", "Logiczne", "Sześciokątny Tetris o szybkim tempie.", "/games/hextris/images/icons/apple-touch-120.png", "/games/hextris/index.html"));
             gameRepository.save(new Game("Clumsy Bird", "Zręcznościowe", "Lataj i omijaj rury (klon Flappy Bird).", "/games/clumsy/data/img/clumsy.png", "/games/clumsy/index.html"));
-            // USUNIĘTO: Pacman
         }
     }
 
@@ -44,23 +42,24 @@ public class GameService {
     public List<String> getAllCategories() {
         return gameRepository.findDistinctCategories();
     }
+
     public List<Game> getGames(String category, String search) {
-        // 1. Jeśli jest wyszukiwanie
+        List<Game> games;
+
         if (search != null && !search.isBlank()) {
-            // 1a. Jeśli jest też kategoria, szukaj wewnątrz kategorii
             if (category != null && !category.isBlank() && !category.equals("all")) {
-                return gameRepository.findByCategoryAndTitleContainingIgnoreCase(category, search);
+                games = gameRepository.findByCategoryAndTitleContainingIgnoreCase(category, search);
+            } else {
+                games = gameRepository.findByTitleContainingIgnoreCase(search);
             }
-            // 1b. Szukaj we wszystkich grach
-            return gameRepository.findByTitleContainingIgnoreCase(search);
+        } else if (category != null && !category.isBlank() && !category.equals("all")) {
+            games = gameRepository.findByCategory(category);
+        } else {
+            games = gameRepository.findAll();
         }
 
-        // 2. Jeśli nie ma wyszukiwania, ale jest kategoria
-        if (category != null && !category.isBlank() && !category.equals("all")) {
-            return gameRepository.findByCategory(category);
-        }
-
-        // 3. Zwróć wszystko
-        return gameRepository.findAll();
+        return games.stream()
+                .filter(g -> !g.getTitle().equalsIgnoreCase("Pacman"))
+                .collect(Collectors.toList());
     }
 }
