@@ -21,7 +21,7 @@ public class GameService {
     @PostConstruct
     @Transactional
     public void initGames() {
-        // 1. Standardowa inicjalizacja dla czystej bazy danych
+        // 1. Inicjalizacja podstawowa
         if (gameRepository.count() == 0) {
             gameRepository.save(new Game("2048", "Logiczne", "Połącz płytki, aby uzyskać 2048!", "/games/2048/style/img/favicon.ico", "/games/2048/index.html"));
             gameRepository.save(new Game("Hextris", "Logiczne", "Sześciokątny Tetris o szybkim tempie.", "/games/hextris/images/icons/apple-touch-120.png", "/games/hextris/index.html"));
@@ -29,14 +29,20 @@ public class GameService {
             gameRepository.save(new Game("Pacman", "Zręcznościowe", "Klasyczna gra zręcznościowa.", "/games/pacman/img/icon-128.png", "/games/pacman/index.htm"));
         }
 
-        List<Game> existingTetris = gameRepository.findByTitleContainingIgnoreCase("Tetris");
-
-        boolean tetrisExists = existingTetris.stream()
-                .anyMatch(g -> g.getTitle().equalsIgnoreCase("Tetris"));
-
-        if (!tetrisExists) {
+        if (gameRepository.findByTitleContainingIgnoreCase("Tetris").isEmpty()) {
             gameRepository.save(new Game("Tetris", "Logiczne", "Klasyczny Tetris w HTML5 Canvas.", "/games/tetris/icon.png", "/games/tetris/index.html"));
-            System.out.println("Dodano grę Tetris do istniejącej bazy danych.");
+            System.out.println("Dodano grę Tetris do bazy danych.");
+        }
+
+        if (gameRepository.findByTitleContainingIgnoreCase("Ohh1").isEmpty()) {
+            gameRepository.save(new Game(
+                    "Ohh1",
+                    "Logiczne",
+                    "Uzupełnij planszę kolorami (niebieskie i czerwone).",
+                    "/games/ohh1/icon.png",
+                    "/games/ohh1/index.html"
+            ));
+            System.out.println("Dodano grę Ohh1 do bazy danych.");
         }
     }
 

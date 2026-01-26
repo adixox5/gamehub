@@ -194,6 +194,14 @@ document.addEventListener('DOMContentLoaded', () => {
                        description: "Układaj spadające klocki i bij rekordy w tej ponadczasowej grze.",
                        image: "https://placehold.co/280x180/9b59b6/FFF?text=Tetris",
                        link: "/pages/game.html?id=tetris"
+               },
+               {
+                        id: 9,
+                        title: "0h h1",
+                        category: "logiczne",
+                        description: "Prosta, ale wymagająca gra logiczna. Nie pozwól na trzy takie same kolory obok siebie!",
+                        image: "https://placehold.co/280x180/e74c3c/3498db?text=0h+h1", // Możesz zmienić na screen z gry
+                        link: "/pages/game.html?id=0hh1"
                }
            ];
 
@@ -281,7 +289,10 @@ document.addEventListener('DOMContentLoaded', () => {
            { name: "zjadacz kropek", id: "pacman" },
            { name: "tetris", id: "tetris" },
            { name: "klocki", id: "tetris" },
-           { name: "układanka", id: "tetris" }
+           { name: "układanka", id: "tetris" },
+           { name: "0hh1", id: "0hh1" },
+           { name: "ohhi", id: "0hh1" },
+           { name: "kolory", id: "0hh1" }
        ];
 
        if (searchForm) {
