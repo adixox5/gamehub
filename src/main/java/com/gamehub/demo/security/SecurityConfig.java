@@ -15,27 +15,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Wyłączenie CSRF dla uproszczenia
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Zasoby statyczne (style, skrypty, pliki gier w iframe)
-                        // "games/**" pozwala ładować pliki gier (2048, Hextris itp.)
+                        // 1. Zasoby statyczne
                         .requestMatchers("/style/**", "/js/**", "/css/**", "/images/**", "/games/**", "/static/**").permitAll()
 
-                        // 2. Strony publiczne (Dostępne dla każdego)
-                        .requestMatchers("/", "/index", "/index.html").permitAll()
+
+                        .requestMatchers("/", "/index", "/index.html", "/error").permitAll() // <-- Dodano /error
                         .requestMatchers("/info.html", "/regulamin.html").permitAll()
-                        .requestMatchers("/game.html").permitAll() // <--- TO NAPRAWIA PROBLEM PRZEKIEROWANIA
+                        .requestMatchers("/game.html").permitAll()
                         .requestMatchers("/category.html").permitAll()
 
                         // 3. Logowanie i Rejestracja
                         .requestMatchers("/login", "/login.html", "/register", "/register.html").permitAll()
                         .requestMatchers("/auth/**").permitAll()
 
-                        // 4. Strony chronione (wymagają logowania)
+                        // 4. Strony chronione
                         .requestMatchers("/add-game").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
 
-                        // Wszystko inne wymaga bycia zalogowanym
+                        // Wszystko inne wymaga logowania
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
@@ -51,10 +50,5 @@ public class SecurityConfig {
                 );
 
         return http.build();
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }
