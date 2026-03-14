@@ -132,6 +132,19 @@
         </div>
     </section>
 
+    <section style="margin-bottom: 40px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h2 style="margin: 0;">Statystyki logowań</h2>
+            <div>
+                <button class="action-btn" style="background-color: var(--color-accent);" onclick="updateChart('week')">Tydzień</button>
+                <button class="action-btn" style="background-color: var(--color-accent);" onclick="updateChart('month')">Miesiąc</button>
+                <button class="action-btn" style="background-color: var(--color-accent);" onclick="updateChart('year')">Rok</button>
+            </div>
+        </div>
+        <div class="admin-table-container">
+            <canvas id="loginChart" height="80"></canvas>
+        </div>
+    </section>
     <section>
         <h2 style="margin-bottom: 20px;">Oczekujące zgłoszenia gier</h2>
 
@@ -186,5 +199,51 @@
 
 <script th:src="@{/js/main.js}"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let loginChart;
+    let chartData = {};
+
+    function initChart(data) {
+        const ctx = document.getElementById('loginChart').getContext('2d');
+        loginChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.week.labels,
+                datasets: [{
+                    label: 'Logins',
+                    data: data.week.data,
+                    borderColor: '#e94560',
+                    backgroundColor: 'rgba(233, 69, 96, 0.2)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { labels: { color: '#a0a0a0' } } },
+                scales: {
+                    x: { ticks: { color: '#a0a0a0' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+                    y: { ticks: { color: '#a0a0a0', stepSize: 1 }, grid: { color: 'rgba(255,255,255,0.05)' } }
+                }
+            }
+        });
+    }
+
+    function updateChart(period) {
+        if (!loginChart || !chartData[period]) return;
+        loginChart.data.labels = chartData[period].labels;
+        loginChart.data.datasets[0].data = chartData[period].data;
+        loginChart.update();
+    }
+
+    fetch('/api/admin/stats/logins')
+        .then(response => response.json())
+        .then(data => {
+            chartData = data;
+            initChart(data);
+        });
+</script>
 </body>
 </html>
