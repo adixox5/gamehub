@@ -21,15 +21,22 @@ public class GameService {
     @PostConstruct
     @Transactional
     public void initGames() {
-        if (gameRepository.count() == 0) {
-            gameRepository.save(new Game("2048", "Logiczne", "Połącz płytki, aby uzyskać 2048!", "/games/2048/style/img/favicon.ico", "/games/2048/index.html"));
-            gameRepository.save(new Game("Hextris", "Logiczne", "Sześciokątny Tetris o szybkim tempie.", "/games/hextris/images/icons/apple-touch-120.png", "/games/hextris/index.html"));
-            gameRepository.save(new Game("Clumsy Bird", "Zręcznościowe", "Lataj i omijaj rury (klon Flappy Bird).", "/games/clumsy/data/img/clumsy.png", "/games/clumsy/index.html"));
-            gameRepository.save(new Game("Pacman", "Zręcznościowe", "Klasyczna gra zręcznościowa.", "/games/pacman/img/icon-128.png", "/games/pacman/index.htm"));
-            gameRepository.save(new Game("Tetris", "Logiczne", "Klasyczny Tetris w HTML5 Canvas.", "/games/tetris/icon.png", "/games/tetris/index.html"));
-            gameRepository.save(new Game("0hh1", "Logiczne", "Uzupełnij planszę kolorami (niebieskie i czerwone).", "/games/0hh1/icon.png", "/games/0hh1/index.html"));
+        addGameIfNotExists("2048", "Logiczne", "Połącz płytki, aby uzyskać 2048!", "/games/2048/style/img/favicon.ico", "/games/2048/index.html");
+        addGameIfNotExists("Hextris", "Logiczne", "Sześciokątny Tetris o szybkim tempie.", "/games/hextris/images/icons/apple-touch-120.png", "/games/hextris/index.html");
+        addGameIfNotExists("Clumsy Bird", "Zręcznościowe", "Lataj i omijaj rury (klon Flappy Bird).", "/games/clumsy/data/img/clumsy.png", "/games/clumsy/index.html");
+        addGameIfNotExists("Pacman", "Zręcznościowe", "Klasyczna gra zręcznościowa.", "/games/pacman/img/icon-128.png", "/games/pacman/index.htm");
+        addGameIfNotExists("Tetris", "Logiczne", "Klasyczny Tetris w HTML5 Canvas.", "/games/tetris/icon.png", "/games/tetris/index.html");
+        addGameIfNotExists("0hh1", "Logiczne", "Uzupełnij planszę kolorami (niebieskie i czerwone).", "/games/0hh1/icon.png", "/games/0hh1/index.html");
+    }
 
-            System.out.println("Zainicjalizowano wszystkie podstawowe gry!");
+    private void addGameIfNotExists(String title, String category, String description, String imageUrl, String gameUrl) {
+        List<Game> existing = gameRepository.findByTitleContainingIgnoreCase(title);
+        if (existing.isEmpty()) {
+            gameRepository.save(new Game(title, category, description, imageUrl, gameUrl));
+        } else if (existing.size() > 1) {
+            for (int i = 1; i < existing.size(); i++) {
+                gameRepository.delete(existing.get(i));
+            }
         }
     }
 
