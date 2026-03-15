@@ -184,8 +184,8 @@
                         </a>
                     </td>
                     <td>
-                        <button class="action-btn btn-approve" title="Zatwierdź"><i class="fas fa-check"></i></button>
-                        <button class="action-btn btn-reject" title="Odrzuć"><i class="fas fa-times"></i></button>
+                        <button class="action-btn btn-approve" th:attr="onclick='approveGame(' + ${sub.id} + ')'" title="Zatwierdź"><i class="fas fa-check"></i></button>
+                        <button class="action-btn btn-reject" th:attr="onclick='rejectGame(' + ${sub.id} + ')'" title="Odrzuć"><i class="fas fa-times"></i></button>
                     </td>
                 </tr>
                 </tbody>
@@ -244,6 +244,20 @@
             chartData = data;
             initChart(data);
         });
+
+    function approveGame(id) {
+        fetch('/api/admin/submissions/' + id + '/approve', { method: 'POST' })
+            .then(response => {
+                if (response.ok) location.reload();
+            });
+    }
+
+    function rejectGame(id) {
+        fetch('/api/admin/submissions/' + id + '/reject', { method: 'POST' })
+            .then(response => {
+                if (response.ok) location.reload();
+            });
+    }
 </script>
 </body>
 </html>

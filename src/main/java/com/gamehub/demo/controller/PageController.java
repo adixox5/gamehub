@@ -1,6 +1,9 @@
 package com.gamehub.demo.controller;
 
 import com.gamehub.demo.entity.Game;
+import com.gamehub.demo.entity.GameSubmission;
+import com.gamehub.demo.repository.GameSubmissionRepository;
+import com.gamehub.demo.repository.UserRepository;
 import com.gamehub.demo.service.GameService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,34 +16,36 @@ import java.util.List;
 public class PageController {
 
     private final GameService gameService;
+    private final UserRepository userRepository;
+    private final GameSubmissionRepository submissionRepository;
 
-    public PageController(GameService gameService) {
+    public PageController(GameService gameService, UserRepository userRepository, GameSubmissionRepository submissionRepository) {
         this.gameService = gameService;
+        this.userRepository = userRepository;
+        this.submissionRepository = submissionRepository;
     }
 
     @GetMapping("/")
     public String index(@RequestParam(name = "category", required = false) String category,
-            @RequestParam(name = "search", required = false) String search,
-            Model model) {
+                        @RequestParam(name = "search", required = false) String search,
+                        Model model) {
         List<Game> games = gameService.getGames(category, search);
         List<String> categories = gameService.getAllCategories();
-
-        // Dodajemy listę tytułów do podpowiedzi
         List<String> allTitles = gameService.getAllGameTitles();
 
         model.addAttribute("games", games);
         model.addAttribute("categories", categories);
         model.addAttribute("currentCategory", category);
         model.addAttribute("search", search);
-        model.addAttribute("suggestionTitles", allTitles); // Przekazanie do widoku
+        model.addAttribute("suggestionTitles", allTitles);
 
         return "index";
     }
 
     @GetMapping("/index.html")
     public String indexHtml(@RequestParam(name = "category", required = false) String category,
-            @RequestParam(name = "search", required = false) String search,
-            Model model) {
+                            @RequestParam(name = "search", required = false) String search,
+                            Model model) {
         return index(category, search, model);
     }
 
@@ -65,7 +70,17 @@ public class PageController {
     }
 
     @GetMapping("/admin/panel")
-    public String adminPanel() {
+    public String adminPanel(Model model) {
+        long totalGames = gameService.getGames(null, null).size();
+        long totalUsers = userRepository.count();
+        long pendingSubmissions = submissionRepository.countByStatus("PENDING");
+        List<GameSubmission> submissions = submissionRepository.findByStatus("PENDING");
+
+        model.addAttribute("totalGames", totalGames);
+        model.addAttribute("totalUsers", totalUsers);
+        model.addAttribute("pendingSubmissions", pendingSubmissions);
+        model.addAttribute("submissions", submissions);
+
         return "admin-panel";
     }
 
