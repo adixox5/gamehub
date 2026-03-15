@@ -102,7 +102,7 @@
             </div>
 
             <div class="game-actions-group">
-                <div class="btn-group me-3" role="group">
+                <div class="btn-group me-3" role="group" id="vote-buttons-group">
                     <button type="button" class="btn btn-outline-success" th:onclick="'reactGame(' + ${game.id} + ', \'like\')'">
                         <i class="fas fa-thumbs-up"></i> <span id="like-count" th:text="${game.likes}">0</span>
                     </button>
@@ -135,7 +135,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/main.js}"></script>
 
-<script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var currentGameId = /*[[${game != null ? game.id : null}]]*/ null;
+
     document.addEventListener("DOMContentLoaded", function() {
         const gameIframe = document.getElementById("game-iframe");
         if (gameIframe) {
@@ -143,9 +146,28 @@
                 gameIframe.contentWindow.focus();
             };
         }
+
+        if (currentGameId && localStorage.getItem('voted_game_' + currentGameId)) {
+            disableVoteButtons();
+        }
     });
 
+    function disableVoteButtons() {
+        var group = document.getElementById('vote-buttons-group');
+        if(group) {
+            var buttons = group.querySelectorAll('button');
+            buttons.forEach(function(btn) {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            });
+        }
+    }
+
     function reactGame(gameId, action) {
+        if (localStorage.getItem('voted_game_' + gameId)) {
+            return;
+        }
+
         fetch(`/api/games/${gameId}/${action}`, {
             method: 'POST'
         })
@@ -159,9 +181,13 @@
             } else {
                 document.getElementById('dislike-count').innerText = newCount;
             }
+
+            localStorage.setItem('voted_game_' + gameId, 'true');
+            disableVoteButtons();
         })
         .catch(error => console.error('Error:', error));
     }
+    /*]]>*/
 </script>
 </body>
 </html>
