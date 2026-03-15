@@ -102,6 +102,14 @@
             </div>
 
             <div class="game-actions-group">
+                <div class="btn-group me-3" role="group">
+                    <button type="button" class="btn btn-outline-success" th:onclick="'reactGame(' + ${game.id} + ', \'like\')'">
+                        <i class="fas fa-thumbs-up"></i> <span id="like-count" th:text="${game.likes}">0</span>
+                    </button>
+                    <button type="button" class="btn btn-outline-danger" th:onclick="'reactGame(' + ${game.id} + ', \'dislike\')'">
+                        <i class="fas fa-thumbs-down"></i> <span id="dislike-count" th:text="${game.dislikes}">0</span>
+                    </button>
+                </div>
                 <a th:href="@{/}" class="btn btn-outline-danger">
                     <i class="fas fa-arrow-left"></i> Wróć do strony głównej
                 </a>
@@ -136,6 +144,24 @@
             };
         }
     });
+
+    function reactGame(gameId, action) {
+        fetch(`/api/games/${gameId}/${action}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if(response.ok) return response.text();
+            throw new Error('Network error');
+        })
+        .then(newCount => {
+            if(action === 'like') {
+                document.getElementById('like-count').innerText = newCount;
+            } else {
+                document.getElementById('dislike-count').innerText = newCount;
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 </script>
 </body>
 </html>

@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers("/info", "/info.html", "/regulamin", "/regulamin.html").permitAll()
                         .requestMatchers("/game", "/game.html").permitAll()
                         .requestMatchers("/category", "/category.html").permitAll()
+                        .requestMatchers("/api/games/**").permitAll()
 
                         .requestMatchers("/login", "/login.html", "/register", "/register.html").permitAll()
                         .requestMatchers("/auth/**").permitAll()

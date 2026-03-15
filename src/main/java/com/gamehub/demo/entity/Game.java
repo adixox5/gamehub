@@ -18,9 +18,15 @@ public class Game {
 
     private String description;
 
-    private String imageUrl; // Ścieżka do ikony gry
+    private String imageUrl;
 
-    private String gameUrl;  // Ścieżka do pliku index.html gry
+    private String gameUrl;
+
+    @Column(columnDefinition = "integer default 0")
+    private int likes = 0;
+
+    @Column(columnDefinition = "integer default 0")
+    private int dislikes = 0;
 
     public Game() {
     }
@@ -33,7 +39,6 @@ public class Game {
         this.gameUrl = gameUrl;
     }
 
-    // Getters and Setters
     public Long getId() { return id; }
 
     public String getTitle() { return title; }
@@ -50,4 +55,10 @@ public class Game {
 
     public String getGameUrl() { return gameUrl; }
     public void setGameUrl(String gameUrl) { this.gameUrl = gameUrl; }
+
+    public int getLikes() { return likes; }
+    public void setLikes(int likes) { this.likes = likes; }
+
+    public int getDislikes() { return dislikes; }
+    public void setDislikes(int dislikes) { this.dislikes = dislikes; }
 }

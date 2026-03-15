@@ -76,10 +76,13 @@ public class PageController {
         long pendingSubmissions = submissionRepository.countByStatus("PENDING");
         List<GameSubmission> submissions = submissionRepository.findByStatus("PENDING");
 
+        List<Game> allGames = gameService.getAllGames();
+
         model.addAttribute("totalGames", totalGames);
         model.addAttribute("totalUsers", totalUsers);
         model.addAttribute("pendingSubmissions", pendingSubmissions);
         model.addAttribute("submissions", submissions);
+        model.addAttribute("allGames", allGames);
 
         return "admin-panel";
     }
@@ -87,7 +90,6 @@ public class PageController {
     @GetMapping("/game")
     public String game(@RequestParam(name = "id", required = false) Long id, Model model) {
         if (id != null) {
-            // Szukamy gry o podanym ID za pomocą GameService
             Game game = gameService.getAllGames().stream()
                     .filter(g -> g.getId().equals(id))
                     .findFirst()
