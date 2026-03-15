@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
-        /* Stylizacja specyficzna dla widoku gry */
         .game-view-container {
             display: flex;
             flex-direction: column;
@@ -62,7 +61,7 @@
             width: 100%;
             max-width: 1200px;
             height: 75vh;
-            background-color: #000; /* Czarne tło za grą */
+            background-color: #000;
             border-radius: 0 0 15px 15px;
             overflow: hidden;
             box-shadow: 0 8px 20px var(--color-shadow);
@@ -106,9 +105,9 @@
                 <button class="btn btn-secondary theme-toggle" onclick="document.body.classList.toggle('dark-mode')">
                     <i class="fas fa-moon"></i>
                 </button>
-                <button class="btn btn-outline-danger" onclick="window.close()">
-                    <i class="fas fa-times"></i> Zamknij kartę
-                </button>
+                <a th:href="@{/}" class="btn btn-outline-danger">
+                    <i class="fas fa-arrow-left"></i> Wróć do strony głównej
+                </a>
             </div>
         </div>
 
@@ -121,7 +120,7 @@
     <div th:if="${game == null}" class="error-state">
         <h2 class="mb-3 text-danger"><i class="fas fa-exclamation-triangle"></i> Nie znaleziono gry!</h2>
         <p class="text-muted mb-4">Przepraszamy, ale gra, której szukasz, nie istnieje lub nie została poprawnie załadowana.</p>
-        <button class="btn btn-primary" onclick="window.close()"><i class="fas fa-times"></i> Zamknij tę kartę</button>
+        <a th:href="@{/}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Wróć do strony głównej</a>
     </div>
 
 </main>
@@ -132,7 +131,6 @@
 <script th:src="@{/js/main.js}"></script>
 
 <script>
-    // Ustawienie focusu na iframe, aby gra wyłapywała klawiaturę bez konieczności klikania w nią (np. strzałki)
     document.addEventListener("DOMContentLoaded", function() {
         const gameIframe = document.getElementById("game-iframe");
         if (gameIframe) {
