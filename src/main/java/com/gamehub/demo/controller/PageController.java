@@ -84,8 +84,17 @@ public class PageController {
         return "admin-panel";
     }
 
-    @GetMapping("/game.html")
-    public String game() {
+    @GetMapping("/game")
+    public String game(@RequestParam(name = "id", required = false) Long id, Model model) {
+        if (id != null) {
+            // Szukamy gry o podanym ID za pomocą GameService
+            Game game = gameService.getAllGames().stream()
+                    .filter(g -> g.getId().equals(id))
+                    .findFirst()
+                    .orElse(null);
+
+            model.addAttribute("game", game);
+        }
         return "game";
     }
 }
