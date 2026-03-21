@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameHub - Mój Profil</title>
+    <link rel="stylesheet" th:href="@{/style/style.css}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .profile-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .profile-avatar {
+            font-size: 4rem;
+            color: var(--color-accent);
+        }
+        .records-container {
+            background-color: var(--color-bg-card);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px var(--color-shadow);
+            border: 1px solid var(--color-border);
+            overflow-x: auto;
+        }
+        .records-table {
+            width: 100%;
+            border-collapse: collapse;
+            color: var(--color-text-primary);
+        }
+        .records-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--color-border);
+            color: var(--color-text-secondary);
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+        .records-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--color-border);
+            vertical-align: middle;
+        }
+        .records-table tr:last-child td { border-bottom: none; }
+        .score-badge {
+            background-color: rgba(233, 69, 96, 0.2);
+            color: var(--color-accent);
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+<nav th:replace="~{fragments :: navbar}"></nav>
+
+<main class="container" style="margin-top: 40px;">
+    <div class="profile-header">
+        <i class="fas fa-user-circle profile-avatar"></i>
+        <div>
+            <h1>Witaj, <span id="username-display">Gracz</span>!</h1>
+            <p style="color: var(--color-text-secondary);">Oto twoja historia rekordów w grach.</p>
+        </div>
+    </div>
+
+    <section>
+        <h2 style="margin-bottom: 20px;">Twoje najlepsze wyniki</h2>
+        <div class="records-container">
+            <table class="records-table">
+                <thead>
+                <tr>
+                    <th>Gra</th>
+                    <th>Wynik</th>
+                    <th>Data ustanowienia</th>
+                </tr>
+                </thead>
+                <tbody id="records-body">
+                <tr><td colspan="3" style="text-align: center;">Ładowanie rekordów...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<footer th:replace="~{fragments :: footer}"></footer>
+
+<script th:src="@{/js/main.js}"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('/me')
+            .then(response => response.json())
+            .then(userData => {
+                if (userData.authenticated) {
+                    document.getElementById('username-display').innerText = userData.name;
+                    loadRecords(userData.name);
+                } else {
+                    window.location.href = '/login';
+                }
+            });
+
+        function loadRecords(username) {
+            fetch('/api/records/user/' + username)
+                .then(response => response.json())
+                .then(records => {
+                    const tbody = document.getElementById('records-body');
+                    tbody.innerHTML = '';
+
+                    if (records.length === 0) {
+                        tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Nie masz jeszcze żadnych rekordów. Zagraj w coś!</td></tr>';
+                        return;
+                    }
+
+                    records.forEach(record => {
+                        const date = new Date(record.recordDate).toLocaleString('pl-PL');
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td><strong>${record.gameTitle}</strong></td>
+                            <td><span class="score-badge">${record.score}</span></td>
+                            <td>${date}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                });
+        }
+    });
+</script>
+</body>
+</html>

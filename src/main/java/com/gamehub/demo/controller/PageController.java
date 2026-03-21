@@ -99,4 +99,8 @@ public class PageController {
         }
         return "game";
     }
+    @GetMapping("/profile")
+    public String profile() {
+        return "profile";
+    }
 }
