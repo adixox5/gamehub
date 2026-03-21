@@ -10,7 +10,7 @@
         <div class="nav-links">
             <a sec:authorize="isAuthenticated()" th:href="@{/add-game}">Dodaj Grę</a>
             <a sec:authorize="isAuthenticated()" th:href="@{/profile}">Profil</a>
-            <a sec:authorize="hasRole('admin123')" th:href="@{/admin/panel}" style="color: var(--color-accent);">Panel Moderatora</a>
+            <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/panel}" style="color: var(--color-accent);">Panel Moderatora</a>
         </div>
 
         <div class="nav-controls">
