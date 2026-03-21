@@ -3,191 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${game != null ? game.title + ' - GameHub' : 'Błąd Gry - GameHub'}">Gra - GameHub</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title th:text="${game.title} + ' - GameHub'">Gra</title>
     <link rel="stylesheet" th:href="@{/style/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
     <style>
-        .game-view-container {
+        .game-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: 30px;
-            margin-bottom: 50px;
+            margin-top: 20px;
         }
-
-        .game-header-bar {
+        .game-frame {
             width: 100%;
-            max-width: 1200px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--color-bg-card);
-            padding: 15px 25px;
-            border-radius: 15px 15px 0 0;
-            box-shadow: 0 4px 10px var(--color-shadow);
-            border-bottom: 2px solid var(--color-accent);
-        }
-
-        .game-title-info {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .game-title-info img {
-            width: 50px;
-            height: 50px;
+            max-width: 800px;
+            height: 600px;
+            border: 2px solid var(--color-border);
             border-radius: 10px;
-            object-fit: cover;
+            box-shadow: 0 4px 10px var(--color-shadow);
+        }
+        .game-info {
+            max-width: 800px;
+            width: 100%;
+            margin-top: 20px;
+            background-color: var(--color-bg-card);
+            padding: 20px;
+            border-radius: 10px;
             border: 1px solid var(--color-border);
         }
 
-        .game-title-info h2 {
-            margin: 0;
-            font-size: 1.8rem;
-            color: var(--color-text-primary);
-        }
-
-        .game-actions-group {
+        .leaderboard-btn {
+            background-color: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 15px;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+        .leaderboard-btn:hover {
+            transform: scale(1.05);
         }
 
-        .game-iframe-wrapper {
-            width: 100%;
-            max-width: 1200px;
-            height: 75vh;
-            background-color: #000;
-            border-radius: 0 0 15px 15px;
-            overflow: hidden;
-            box-shadow: 0 8px 20px var(--color-shadow);
-        }
-
-        .game-iframe-wrapper iframe {
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            border: none;
-            display: block;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
         }
-
-        .error-state {
-            text-align: center;
-            padding: 80px 20px;
+        .modal-content {
             background-color: var(--color-bg-card);
-            border-radius: 20px;
-            width: 100%;
-            box-shadow: 0 4px 10px var(--color-shadow);
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid var(--color-border);
+            border-radius: 15px;
+            width: 80%;
+            max-width: 500px;
+            color: var(--color-text-primary);
         }
+        .close-btn {
+            color: var(--color-text-secondary);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            color: var(--color-accent);
+        }
+        .lb-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .lb-table th, .lb-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--color-border);
+            text-align: left;
+        }
+        .lb-table th {
+            color: var(--color-text-secondary);
+        }
+        .lb-rank-1 { color: gold; font-weight: bold; }
+        .lb-rank-2 { color: silver; font-weight: bold; }
+        .lb-rank-3 { color: #cd7f32; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <nav th:replace="~{fragments :: navbar}"></nav>
 
-<main class="container game-view-container">
+<main class="container">
+    <div th:if="${game != null}" class="game-container">
+        <h1 th:text="${game.title}" style="margin-bottom: 10px;"></h1>
+        <iframe th:src="@{${game.gameUrl}}" class="game-frame" frameborder="0"></iframe>
 
-    <div th:if="${game != null}" style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div class="game-info">
+            <h3 style="margin-bottom: 10px;">Opis gry</h3>
+            <p th:text="${game.description}" style="color: var(--color-text-secondary);"></p>
 
-        <div class="game-header-bar">
-            <div class="game-title-info">
-                <img th:src="@{${game.imageUrl}}" alt="Ikona gry">
-                <div>
-                    <h2 th:text="${game.title}">Tytuł gry</h2>
-                    <span class="badge bg-primary" th:text="${game.category}">Kategoria</span>
-                </div>
-            </div>
-
-            <div class="game-actions-group">
-                <div class="btn-group me-3" role="group" id="vote-buttons-group">
-                    <button type="button" class="btn btn-outline-success" th:onclick="'reactGame(' + ${game.id} + ', \'like\')'">
-                        <i class="fas fa-thumbs-up"></i> <span id="like-count" th:text="${game.likes}">0</span>
-                    </button>
-                    <button type="button" class="btn btn-outline-danger" th:onclick="'reactGame(' + ${game.id} + ', \'dislike\')'">
-                        <i class="fas fa-thumbs-down"></i> <span id="dislike-count" th:text="${game.dislikes}">0</span>
-                    </button>
-                </div>
-                <a th:href="@{/}" class="btn btn-outline-danger">
-                    <i class="fas fa-arrow-left"></i> Wróć do strony głównej
-                </a>
-            </div>
+            <button id="openLeaderboardBtn" class="leaderboard-btn" th:data-game="${game.title}">
+                <i class="fas fa-trophy"></i> Tabela liderów
+            </button>
         </div>
-
-        <div class="game-iframe-wrapper">
-            <iframe id="game-iframe" th:src="@{${game.gameUrl}}" allowfullscreen tabindex="0"></iframe>
-        </div>
-
     </div>
 
-    <div th:if="${game == null}" class="error-state">
-        <h2 class="mb-3 text-danger"><i class="fas fa-exclamation-triangle"></i> Nie znaleziono gry!</h2>
-        <p class="text-muted mb-4">Przepraszamy, ale gra, której szukasz, nie istnieje lub nie została poprawnie załadowana.</p>
-        <a th:href="@{/}" class="btn btn-primary"><i class="fas fa-arrow-left"></i> Wróć do strony głównej</a>
+    <div th:if="${game == null}" style="text-align: center; margin-top: 50px;">
+        <h2>Nie znaleziono gry</h2>
+        <a th:href="@{/}" style="color: var(--color-accent);">Wróć na stronę główną</a>
+    </div>
+
+    <div id="leaderboardModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Top 10 - <span id="lb-game-title"></span></h2>
+            <table class="lb-table">
+                <thead>
+                <tr>
+                    <th>Miejsce</th>
+                    <th>Gracz</th>
+                    <th>Wynik</th>
+                </tr>
+                </thead>
+                <tbody id="lb-body">
+                <tr><td colspan="3" style="text-align: center;">Ładowanie...</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </main>
 
 <footer th:replace="~{fragments :: footer}"></footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script th:src="@{/js/main.js}"></script>
-
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    var currentGameId = /*[[${game != null ? game.id : null}]]*/ null;
-
+<script>
     document.addEventListener("DOMContentLoaded", function() {
-        const gameIframe = document.getElementById("game-iframe");
-        if (gameIframe) {
-            gameIframe.onload = function() {
-                gameIframe.contentWindow.focus();
-            };
+        const modal = document.getElementById("leaderboardModal");
+        const btn = document.getElementById("openLeaderboardBtn");
+        const span = document.getElementsByClassName("close-btn")[0];
+
+        if(btn) {
+            btn.onclick = function() {
+                const gameTitle = this.getAttribute("data-game");
+                document.getElementById("lb-game-title").innerText = gameTitle;
+                modal.style.display = "block";
+
+                fetch('/api/records/top/' + gameTitle)
+                    .then(response => response.json())
+                    .then(records => {
+                        const tbody = document.getElementById('lb-body');
+                        tbody.innerHTML = '';
+
+                        if (records.length === 0) {
+                            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Brak rekordów. Bądź pierwszy!</td></tr>';
+                            return;
+                        }
+
+                        records.forEach((record, index) => {
+                            const tr = document.createElement('tr');
+                            let rankClass = '';
+                            if(index === 0) rankClass = 'lb-rank-1';
+                            else if(index === 1) rankClass = 'lb-rank-2';
+                            else if(index === 2) rankClass = 'lb-rank-3';
+
+                            tr.innerHTML = `
+                                <td class="${rankClass}">#${index + 1}</td>
+                                <td><strong>${record.username}</strong></td>
+                                <td><span style="color: var(--color-accent); font-weight: bold;">${record.score}</span></td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    });
+            }
         }
 
-        if (currentGameId && localStorage.getItem('voted_game_' + currentGameId)) {
-            disableVoteButtons();
+        if(span) {
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
     });
-
-    function disableVoteButtons() {
-        var group = document.getElementById('vote-buttons-group');
-        if(group) {
-            var buttons = group.querySelectorAll('button');
-            buttons.forEach(function(btn) {
-                btn.disabled = true;
-                btn.classList.add('disabled');
-            });
-        }
-    }
-
-    function reactGame(gameId, action) {
-        if (localStorage.getItem('voted_game_' + gameId)) {
-            return;
-        }
-
-        fetch(`/api/games/${gameId}/${action}`, {
-            method: 'POST'
-        })
-        .then(response => {
-            if(response.ok) return response.text();
-            throw new Error('Network error');
-        })
-        .then(newCount => {
-            if(action === 'like') {
-                document.getElementById('like-count').innerText = newCount;
-            } else {
-                document.getElementById('dislike-count').innerText = newCount;
-            }
-
-            localStorage.setItem('voted_game_' + gameId, 'true');
-            disableVoteButtons();
-        })
-        .catch(error => console.error('Error:', error));
-    }
-    /*]]>*/
 </script>
 </body>
 </html>

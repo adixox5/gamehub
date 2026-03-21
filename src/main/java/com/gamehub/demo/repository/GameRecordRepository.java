@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface GameRecordRepository extends JpaRepository<GameRecord, Long> {
     List<GameRecord> findByUsernameOrderByScoreDesc(String username);
-    List<GameRecord> findTop10ByGameTitleOrderByScoreDesc(String gameTitle);
+    List<GameRecord> findByGameTitleOrderByScoreDesc(String gameTitle);
 }

@@ -5,8 +5,11 @@ import com.gamehub.demo.repository.GameRecordRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/records")
@@ -39,6 +42,18 @@ public class GameRecordController {
 
     @GetMapping("/top/{gameTitle}")
     public ResponseEntity<List<GameRecord>> getTopRecords(@PathVariable("gameTitle") String gameTitle) {
-        return ResponseEntity.ok(recordRepository.findTop10ByGameTitleOrderByScoreDesc(gameTitle));
+        List<GameRecord> allRecords = recordRepository.findByGameTitleOrderByScoreDesc(gameTitle);
+        List<GameRecord> topUnique = new ArrayList<>();
+        Set<String> seenUsers = new HashSet<>();
+
+        for (GameRecord record : allRecords) {
+            if (seenUsers.add(record.getUsername())) {
+                topUnique.add(record);
+                if (topUnique.size() == 10) {
+                    break;
+                }
+            }
+        }
+        return ResponseEntity.ok(topUnique);
     }
 }
