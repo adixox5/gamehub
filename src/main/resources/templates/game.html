@@ -31,6 +31,14 @@
             border: 1px solid var(--color-border);
         }
 
+        .actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
         .leaderboard-btn {
             background-color: var(--color-accent);
             color: white;
@@ -39,7 +47,6 @@
             border-radius: 8px;
             cursor: pointer;
             font-size: 1rem;
-            margin-top: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -47,6 +54,42 @@
         }
         .leaderboard-btn:hover {
             transform: scale(1.05);
+        }
+
+        .vote-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            border: 1px solid;
+            background-color: transparent;
+        }
+        .vote-btn-like {
+            color: #2ecc71;
+            border-color: #2ecc71;
+        }
+        .vote-btn-like:hover {
+            background-color: #2ecc71;
+            color: white;
+            transform: scale(1.05);
+        }
+        .vote-btn-dislike {
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        .vote-btn-dislike:hover {
+            background-color: #e74c3c;
+            color: white;
+            transform: scale(1.05);
+        }
+        .vote-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
         }
 
         .modal {
@@ -105,15 +148,23 @@
 <main class="container">
     <div th:if="${game != null}" class="game-container">
         <h1 th:text="${game.title}" style="margin-bottom: 10px;"></h1>
-        <iframe th:src="@{${game.gameUrl}}" class="game-frame" frameborder="0"></iframe>
+        <iframe th:src="@{${game.gameUrl}}" class="game-frame" frameborder="0" id="game-iframe"></iframe>
 
         <div class="game-info">
             <h3 style="margin-bottom: 10px;">Opis gry</h3>
             <p th:text="${game.description}" style="color: var(--color-text-secondary);"></p>
 
-            <button id="openLeaderboardBtn" class="leaderboard-btn" th:data-game="${game.title}">
-                <i class="fas fa-trophy"></i> Tabela liderów
-            </button>
+            <div class="actions-bar" id="vote-buttons-group">
+                <button type="button" class="vote-btn vote-btn-like" th:onclick="'reactGame(' + ${game.id} + ', \'like\')'">
+                    <i class="fas fa-thumbs-up"></i> <span id="like-count" th:text="${game.likes}">0</span>
+                </button>
+                <button type="button" class="vote-btn vote-btn-dislike" th:onclick="'reactGame(' + ${game.id} + ', \'dislike\')'">
+                    <i class="fas fa-thumbs-down"></i> <span id="dislike-count" th:text="${game.dislikes}">0</span>
+                </button>
+                <button id="openLeaderboardBtn" class="leaderboard-btn" th:data-game="${game.title}">
+                    <i class="fas fa-trophy"></i> Tabela liderów
+                </button>
+            </div>
         </div>
     </div>
 
@@ -146,8 +197,23 @@
 <footer th:replace="~{fragments :: footer}"></footer>
 
 <script th:src="@{/js/main.js}"></script>
-<script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var currentGameId = /*[[${game != null ? game.id : null}]]*/ null;
+
     document.addEventListener("DOMContentLoaded", function() {
+        const gameIframe = document.getElementById("game-iframe");
+        if (gameIframe) {
+            gameIframe.onload = function() {
+                gameIframe.contentWindow.focus();
+            };
+        }
+
+        if (currentGameId && localStorage.getItem('voted_game_' + currentGameId)) {
+            disableVoteButtons();
+        }
+
         const modal = document.getElementById("leaderboardModal");
         const btn = document.getElementById("openLeaderboardBtn");
         const span = document.getElementsByClassName("close-btn")[0];
@@ -183,6 +249,9 @@
                             `;
                             tbody.appendChild(tr);
                         });
+                    })
+                    .catch(err => {
+                        document.getElementById('lb-body').innerHTML = '<tr><td colspan="3" style="text-align: center;">Błąd ładowania wyników.</td></tr>';
                     });
             }
         }
@@ -199,6 +268,43 @@
             }
         }
     });
+
+    function disableVoteButtons() {
+        var group = document.getElementById('vote-buttons-group');
+        if(group) {
+            var buttons = group.querySelectorAll('.vote-btn');
+            buttons.forEach(function(btn) {
+                btn.disabled = true;
+                btn.classList.add('disabled');
+            });
+        }
+    }
+
+    function reactGame(gameId, action) {
+        if (localStorage.getItem('voted_game_' + gameId)) {
+            return;
+        }
+
+        fetch(`/api/games/${gameId}/${action}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if(response.ok) return response.text();
+            throw new Error('Network error');
+        })
+        .then(newCount => {
+            if(action === 'like') {
+                document.getElementById('like-count').innerText = newCount;
+            } else {
+                document.getElementById('dislike-count').innerText = newCount;
+            }
+
+            localStorage.setItem('voted_game_' + gameId, 'true');
+            disableVoteButtons();
+        })
+        .catch(error => console.error('Error:', error));
+    }
+    /*]]>*/
 </script>
 </body>
 </html>

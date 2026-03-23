@@ -18,21 +18,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .authorizeHttpRequests(auth -> auth
-
                         .requestMatchers("/style/**", "/js/**", "/css/**", "/images/**", "/games/**", "/static/**").permitAll()
-
                         .requestMatchers("/", "/index", "/index.html").permitAll()
                         .requestMatchers("/info", "/info.html", "/regulamin", "/regulamin.html").permitAll()
                         .requestMatchers("/game", "/game.html").permitAll()
                         .requestMatchers("/category", "/category.html").permitAll()
-                        .requestMatchers("/api/games/**").permitAll()
-
+                        .requestMatchers("/api/records/**", "/api/games/**").permitAll()
                         .requestMatchers("/login", "/login.html", "/register", "/register.html").permitAll()
                         .requestMatchers("/auth/**").permitAll()
-
                         .requestMatchers("/add-game").authenticated()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
-
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
