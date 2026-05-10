@@ -7,183 +7,139 @@
     <link rel="stylesheet" th:href="@{/style/style.css}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root {
-            --game-max-width: 1000px;
-        }
-
-        .game-page-header {
-            margin-bottom: 30px;
-            text-align: left;
-            border-left: 5px solid var(--color-accent);
-            padding-left: 20px;
-        }
-
-        .game-page-header h1 {
-            font-size: 2.5rem;
-            margin: 0;
-            color: var(--color-text-primary);
-        }
-
-        .game-main-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 992px) {
-            .game-main-wrapper {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Sekcja Gry */
-        .game-display-section {
+        .game-container {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-        }
-
-        .game-viewport {
-            position: relative;
+            align-items: center;
+            margin-top: 20px;
             width: 100%;
-            background: #000;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px var(--color-shadow);
-            border: 1px solid var(--color-border);
-            aspect-ratio: 16 / 9;
-            min-height: 500px;
         }
-
         .game-frame {
             width: 100%;
-            height: 100%;
+            max-width: 100%;
+            height: calc(100vh - 280px);
+            min-height: 500px;
             border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px var(--color-shadow);
         }
-
-        /* Panel boczny / Informacje */
-        .game-details-card {
+        .game-info {
+            max-width: 800px;
+            width: 100%;
+            margin-top: 20px;
             background-color: var(--color-bg-card);
-            border-radius: 15px;
-            border: 1px solid var(--color-border);
-            padding: 25px;
-            box-shadow: 0 4px 15px var(--color-shadow);
-            height: fit-content;
-        }
-
-        .game-description-box {
-            margin-bottom: 25px;
-        }
-
-        .game-description-box h3 {
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-            color: var(--color-accent);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .game-description-text {
-            color: var(--color-text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        /* Przyciski Akcji */
-        .game-actions-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .vote-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .action-btn {
-            padding: 12px;
+            padding: 20px;
             border-radius: 10px;
             border: 1px solid var(--color-border);
-            background: var(--color-bg);
-            color: var(--color-text-primary);
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
+        }
+
+        .actions-bar {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-size: 0.9rem;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
         }
 
-        .btn-like:hover:not(.disabled) {
-            background-color: #2ecc71;
-            color: white;
-            border-color: #2ecc71;
-            transform: translateY(-2px);
-        }
-
-        .btn-dislike:hover:not(.disabled) {
-            background-color: #e74c3c;
-            color: white;
-            border-color: #e74c3c;
-            transform: translateY(-2px);
-        }
-
-        .btn-leaderboard {
+        .leaderboard-btn {
             background-color: var(--color-accent);
             color: white;
             border: none;
-            width: 100%;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.2s;
+        }
+        .leaderboard-btn:hover {
+            transform: scale(1.05);
         }
 
-        .btn-leaderboard:hover {
-            filter: brightness(1.1);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,123,255,0.3);
+        .vote-btn {
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+            border: 1px solid;
+            background-color: transparent;
         }
-
-        .action-btn.disabled {
-            opacity: 0.5;
-            cursor: default;
+        .vote-btn-like {
+            color: #2ecc71;
+            border-color: #2ecc71;
         }
-
-        /* Modal Tablei Liderów */
-        .modal-content {
-            border-radius: 20px;
-            overflow: hidden;
-            border: none;
-        }
-
-        .modal-header {
-            background: var(--color-accent);
+        .vote-btn-like:hover {
+            background-color: #2ecc71;
             color: white;
+            transform: scale(1.05);
+        }
+        .vote-btn-dislike {
+            color: #e74c3c;
+            border-color: #e74c3c;
+        }
+        .vote-btn-dislike:hover {
+            background-color: #e74c3c;
+            color: white;
+            transform: scale(1.05);
+        }
+        .vote-btn.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background-color: var(--color-bg-card);
+            margin: 10% auto;
             padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            border: 1px solid var(--color-border);
+            border-radius: 15px;
+            width: 80%;
+            max-width: 500px;
+            color: var(--color-text-primary);
         }
-
-        .lb-table th {
-            text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-        }
-
-        .lb-rank-badge {
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            background: var(--color-bg);
+        .close-btn {
+            color: var(--color-text-secondary);
+            float: right;
+            font-size: 28px;
             font-weight: bold;
+            cursor: pointer;
         }
+        .close-btn:hover {
+            color: var(--color-accent);
+        }
+        .lb-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        .lb-table th, .lb-table td {
+            padding: 10px;
+            border-bottom: 1px solid var(--color-border);
+            text-align: left;
+        }
+        .lb-table th {
+            color: var(--color-text-secondary);
+        }
+        .lb-rank-1 { color: gold; font-weight: bold; }
+        .lb-rank-2 { color: silver; font-weight: bold; }
+        .lb-rank-3 { color: #cd7f32; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -191,75 +147,52 @@
 <nav th:replace="~{fragments :: navbar}"></nav>
 
 <main class="container">
-    <div th:if="${game != null}">
-        <header class="game-page-header">
-            <h1 th:text="${game.title}">Tytuł Gry</h1>
-            <span style="color: var(--color-text-secondary); font-size: 0.9rem;">
-                Kategoria: <strong th:text="${game.category}">Akcja</strong>
-            </span>
-        </header>
+    <div th:if="${game != null}" class="game-container">
+        <h1 th:text="${game.title}" style="margin-bottom: 10px;"></h1>
+        <iframe th:src="@{${game.gameUrl}}" class="game-frame" frameborder="0" id="game-iframe"></iframe>
 
-        <div class="game-main-wrapper">
-            <section class="game-display-section">
-                <div class="game-viewport">
-                    <iframe th:src="@{${game.gameUrl}}" class="game-frame" frameborder="0" id="game-iframe" allowfullscreen></iframe>
-                </div>
-            </section>
+        <div class="game-info">
+            <h3 style="margin-bottom: 10px;">Opis gry</h3>
+            <p th:text="${game.description}" style="color: var(--color-text-secondary);"></p>
 
-            <aside class="game-details-card">
-                <div class="game-description-box">
-                    <h3><i class="fas fa-info-circle"></i> O grze</h3>
-                    <p class="game-description-text" th:text="${game.description}">Opis gry pojawi się tutaj.</p>
-                </div>
-
-                <div class="game-actions-stack" id="vote-buttons-group">
-                    <div class="vote-row">
-                        <button type="button" class="action-btn btn-like" th:onclick="'reactGame(' + ${game.id} + ', \'like\')'">
-                            <i class="fas fa-thumbs-up"></i> <span id="like-count" th:text="${game.likes}">0</span>
-                        </button>
-                        <button type="button" class="action-btn btn-dislike" th:onclick="'reactGame(' + ${game.id} + ', \'dislike\')'">
-                            <i class="fas fa-thumbs-down"></i> <span id="dislike-count" th:text="${game.dislikes}">0</span>
-                        </button>
-                    </div>
-
-                    <button id="openLeaderboardBtn" class="action-btn btn-leaderboard" th:data-game="${game.title}">
-                        <i class="fas fa-trophy"></i> Zobacz Ranking
-                    </button>
-                </div>
-            </aside>
+            <div class="actions-bar" id="vote-buttons-group">
+                <button type="button" class="vote-btn vote-btn-like" th:attr="data-id=${game.id}" onclick="reactGame(this.getAttribute('data-id'), 'like')">
+                    <i class="fas fa-thumbs-up"></i> <span id="like-count" th:text="${game.likes}">0</span>
+                </button>
+                <button type="button" class="vote-btn vote-btn-dislike" th:attr="data-id=${game.id}" onclick="reactGame(this.getAttribute('data-id'), 'dislike')">
+                    <i class="fas fa-thumbs-down"></i> <span id="dislike-count" th:text="${game.dislikes}">0</span>
+                </button>
+                <button id="openLeaderboardBtn" class="leaderboard-btn" th:data-game="${game.title}">
+                    <i class="fas fa-trophy"></i> Tabela liderów
+                </button>
+            </div>
         </div>
     </div>
 
-    <div th:if="${game == null}" style="text-align: center; padding: 100px 20px;">
-        <i class="fas fa-exclamation-triangle" style="font-size: 4rem; color: var(--color-text-secondary); margin-bottom: 20px;"></i>
-        <h2>Ups! Nie znaleźliśmy tej gry.</h2>
-        <p style="margin-bottom: 30px;">Możliwe, że została usunięta lub link jest niepoprawny.</p>
-        <a th:href="@{/}" class="btn">Wróć do katalogu</a>
+    <div th:if="${game == null}" style="text-align: center; margin-top: 50px;">
+        <h2>Nie znaleziono gry</h2>
+        <a th:href="@{/}" style="color: var(--color-accent);">Wróć na stronę główną</a>
     </div>
 
     <div id="leaderboardModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
-                <h2 style="margin:0;"><i class="fas fa-crown"></i> Top 10 Graczy</h2>
-                <span class="close-btn">&times;</span>
-            </div>
-            <div style="padding: 20px;">
-                <p style="text-align:center; font-weight: bold; margin-bottom: 15px;" id="lb-game-title"></p>
-                <table class="lb-table">
-                    <thead>
-                    <tr>
-                        <th>Poz.</th>
-                        <th>Gracz</th>
-                        <th>Wynik</th>
-                    </tr>
-                    </thead>
-                    <tbody id="lb-body">
-                    <tr><td colspan="3" style="text-align: center;">Ładowanie...</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            <span class="close-btn">&times;</span>
+            <h2>Top 10 - <span id="lb-game-title"></span></h2>
+            <table class="lb-table">
+                <thead>
+                <tr>
+                    <th>Miejsce</th>
+                    <th>Gracz</th>
+                    <th>Wynik</th>
+                </tr>
+                </thead>
+                <tbody id="lb-body">
+                <tr><td colspan="3" style="text-align: center;">Ładowanie...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
+
 </main>
 
 <footer th:replace="~{fragments :: footer}"></footer>
@@ -284,7 +217,7 @@
 
         const modal = document.getElementById("leaderboardModal");
         const btn = document.getElementById("openLeaderboardBtn");
-        const span = document.querySelector(".close-btn");
+        const span = document.getElementsByClassName("close-btn")[0];
 
         if(btn) {
             btn.onclick = function() {
@@ -299,19 +232,19 @@
                         tbody.innerHTML = '';
 
                         if (records.length === 0) {
-                            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 20px;">Brak rekordów. Bądź pierwszy!</td></tr>';
+                            tbody.innerHTML = '<tr><td colspan="3" style="text-align: center;">Brak rekordów. Bądź pierwszy!</td></tr>';
                             return;
                         }
 
                         records.forEach((record, index) => {
                             const tr = document.createElement('tr');
-                            let rankColor = 'var(--color-text-secondary)';
-                            if(index === 0) rankColor = 'gold';
-                            else if(index === 1) rankColor = 'silver';
-                            else if(index === 2) rankColor = '#cd7f32';
+                            let rankClass = '';
+                            if(index === 0) rankClass = 'lb-rank-1';
+                            else if(index === 1) rankClass = 'lb-rank-2';
+                            else if(index === 2) rankClass = 'lb-rank-3';
 
                             tr.innerHTML = `
-                                <td><div class="lb-rank-badge" style="color: ${rankColor}">#${index + 1}</div></td>
+                                <td class="${rankClass}">#${index + 1}</td>
                                 <td><strong>${record.username}</strong></td>
                                 <td><span style="color: var(--color-accent); font-weight: bold;">${record.score}</span></td>
                             `;
@@ -319,27 +252,54 @@
                         });
                     })
                     .catch(err => {
-                        document.getElementById('lb-body').innerHTML = '<tr><td colspan="3" style="text-align: center; color: red;">Błąd ładowania danych.</td></tr>';
+                        document.getElementById('lb-body').innerHTML = '<tr><td colspan="3" style="text-align: center;">Błąd ładowania wyników.</td></tr>';
                     });
             }
         }
 
-        if(span) span.onclick = () => modal.style.display = "none";
-        window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
+        if(span) {
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     });
 
     function disableVoteButtons() {
-        const buttons = document.querySelectorAll('.action-btn.btn-like, .action-btn.btn-dislike');
-        buttons.forEach(btn => btn.classList.add('disabled'));
+        var group = document.getElementById('vote-buttons-group');
+        if(group) {
+            var buttons = group.querySelectorAll('.vote-btn');
+            buttons.forEach(function(btn) {
+                btn.classList.add('disabled');
+            });
+        }
     }
 
     function reactGame(gameId, action) {
-        if (localStorage.getItem('voted_game_' + gameId)) return;
+        if (localStorage.getItem('voted_game_' + gameId)) {
+            alert('Już oddałeś swój głos na tę grę!');
+            return;
+        }
 
-        fetch(`/api/games/${gameId}/${action}`, { method: 'POST' })
-        .then(response => response.ok ? response.text() : Promise.reject())
+        fetch(`/api/games/${gameId}/${action}`, {
+            method: 'POST'
+        })
+        .then(response => {
+            if(response.ok) return response.text();
+            throw new Error('Network error');
+        })
         .then(newCount => {
-            document.getElementById(action + '-count').innerText = newCount;
+            if(action === 'like') {
+                document.getElementById('like-count').innerText = newCount;
+            } else {
+                document.getElementById('dislike-count').innerText = newCount;
+            }
+
             localStorage.setItem('voted_game_' + gameId, 'true');
             disableVoteButtons();
         })
