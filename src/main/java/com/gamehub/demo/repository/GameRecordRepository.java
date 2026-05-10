@@ -1,3 +1,4 @@
+// src/main/java/com/gamehub/demo/repository/GameRecordRepository.java
 package com.gamehub.demo.repository;
 
 import com.gamehub.demo.entity.GameRecord;
@@ -6,5 +7,6 @@ import java.util.List;
 
 public interface GameRecordRepository extends JpaRepository<GameRecord, Long> {
     List<GameRecord> findByUsernameOrderByScoreDesc(String username);
+    List<GameRecord> findAllByUsernameOrderByScoreDesc(String username);
     List<GameRecord> findByGameTitleOrderByScoreDesc(String gameTitle);
 }

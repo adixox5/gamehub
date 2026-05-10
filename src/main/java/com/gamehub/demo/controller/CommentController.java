@@ -22,8 +22,12 @@ public class CommentController {
     @PostMapping("/add/{gameId}")
     public String addComment(@PathVariable Long gameId, @RequestParam String content, Authentication auth) {
         Game game = gameRepository.findById(gameId).orElseThrow();
-        String author = (auth != null) ? auth.getName() : "Anonim";
+        // Jeśli użytkownik jest zalogowany, bierzemy jego email/login, w przeciwnym razie Anonim
+        String author = (auth != null && auth.isAuthenticated() && !auth.getName().equals("anonymousUser")) ? auth.getName() : "Anonim";
+
         commentRepository.save(new Comment(game, author, content));
-        return "redirect:/game/" + gameId;
+
+        // POPRAWKA: Przekierowanie na adres z parametrem ?id=
+        return "redirect:/game?id=" + gameId;
     }
 }

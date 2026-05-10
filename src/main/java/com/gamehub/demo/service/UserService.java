@@ -1,3 +1,4 @@
+// src/main/java/com/gamehub/demo/service/UserService.java
 package com.gamehub.demo.service;
 
 import com.gamehub.demo.entity.User;
@@ -52,6 +53,11 @@ public class UserService implements UserDetailsService {
                 u.getPasswordHash(),
                 List.of(new SimpleGrantedAuthority(role))
         );
+    }
+
+    public User findByUsername(String username) {
+        String email = normalizeEmail(username);
+        return userRepository.findByUsername(email).orElse(null);
     }
 
     private static String normalizeEmail(String email) {

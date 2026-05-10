@@ -1,52 +1,52 @@
 package com.gamehub.demo.controller;
 
+import com.gamehub.demo.entity.Comment;
 import com.gamehub.demo.entity.Game;
-import com.gamehub.demo.entity.GameSubmission;
-import com.gamehub.demo.repository.GameSubmissionRepository;
-import com.gamehub.demo.repository.UserRepository;
-import com.gamehub.demo.service.GameService;
+import com.gamehub.demo.entity.GameRecord;
+import com.gamehub.demo.entity.User;
+import com.gamehub.demo.repository.CommentRepository;
+import com.gamehub.demo.repository.GameRecordRepository;
+import com.gamehub.demo.repository.GameRepository;
+import com.gamehub.demo.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class PageController {
 
-    private final GameService gameService;
-    private final UserRepository userRepository;
-    private final GameSubmissionRepository submissionRepository;
+    private final GameRepository gameRepository;
+    private final GameRecordRepository gameRecordRepository;
+    private final UserService userService;
+    private final CommentRepository commentRepository;
 
-    public PageController(GameService gameService, UserRepository userRepository, GameSubmissionRepository submissionRepository) {
-        this.gameService = gameService;
-        this.userRepository = userRepository;
-        this.submissionRepository = submissionRepository;
+    public PageController(GameRepository gameRepository,
+                          GameRecordRepository gameRecordRepository,
+                          UserService userService,
+                          CommentRepository commentRepository) {
+        this.gameRepository = gameRepository;
+        this.gameRecordRepository = gameRecordRepository;
+        this.userService = userService;
+        this.commentRepository = commentRepository;
     }
 
     @GetMapping("/")
-    public String index(@RequestParam(name = "category", required = false) String category,
-                        @RequestParam(name = "search", required = false) String search,
-                        Model model) {
-        List<Game> games = gameService.getGames(category, search);
-        List<String> categories = gameService.getAllCategories();
-        List<String> allTitles = gameService.getAllGameTitles();
-
+    public String index(@RequestParam(required = false) String search, Model model) {
+        List<Game> games;
+        if (search != null && !search.isBlank()) {
+            games = gameRepository.findAll().stream()
+                    .filter(g -> g.getTitle().toLowerCase().contains(search.toLowerCase()))
+                    .collect(Collectors.toList());
+        } else {
+            games = gameRepository.findAll();
+        }
         model.addAttribute("games", games);
-        model.addAttribute("categories", categories);
-        model.addAttribute("currentCategory", category);
-        model.addAttribute("search", search);
-        model.addAttribute("suggestionTitles", allTitles);
-
         return "index";
-    }
-
-    @GetMapping("/index.html")
-    public String indexHtml(@RequestParam(name = "category", required = false) String category,
-                            @RequestParam(name = "search", required = false) String search,
-                            Model model) {
-        return index(category, search, model);
     }
 
     @GetMapping("/login")
@@ -54,53 +54,65 @@ public class PageController {
         return "login";
     }
 
-    @GetMapping("/add-game")
-    public String addGame() {
-        return "add-game";
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @GetMapping("/game")
+    public String gamePage(@RequestParam Long id, Model model) {
+        Game game = gameRepository.findById(id).orElse(null);
+        model.addAttribute("game", game);
+
+        if (game != null) {
+            List<Comment> comments = commentRepository.findByGameOrderByCreatedAtDesc(game);
+            model.addAttribute("comments", comments);
+        }
+
+        return "game";
+    }
+
+    @GetMapping("/category")
+    public String categoryPage(@RequestParam(required = false) String name, Model model) {
+        List<Game> games;
+        if (name != null && !name.isBlank()) {
+            games = gameRepository.findAll().stream()
+                    .filter(g -> g.getCategory().equalsIgnoreCase(name))
+                    .collect(Collectors.toList());
+            model.addAttribute("categoryName", name);
+        } else {
+            games = gameRepository.findAll();
+            model.addAttribute("categoryName", "Wszystkie");
+        }
+        model.addAttribute("games", games);
+        return "category";
     }
 
     @GetMapping("/info")
-    public String info() {
+    public String infoPage() {
         return "info";
     }
 
     @GetMapping("/regulamin")
-    public String regulamin() {
+    public String regulaminPage() {
         return "regulamin";
     }
 
-    @GetMapping("/admin/panel")
-    public String adminPanel(Model model) {
-        long totalGames = gameService.getGames(null, null).size();
-        long totalUsers = userRepository.count();
-        long pendingSubmissions = submissionRepository.countByStatus("PENDING");
-        List<GameSubmission> submissions = submissionRepository.findByStatus("PENDING");
-
-        List<Game> allGames = gameService.getAllGames();
-
-        model.addAttribute("totalGames", totalGames);
-        model.addAttribute("totalUsers", totalUsers);
-        model.addAttribute("pendingSubmissions", pendingSubmissions);
-        model.addAttribute("submissions", submissions);
-        model.addAttribute("allGames", allGames);
-
-        return "admin-panel";
-    }
-
-    @GetMapping("/game")
-    public String game(@RequestParam(name = "id", required = false) Long id, Model model) {
-        if (id != null) {
-            Game game = gameService.getAllGames().stream()
-                    .filter(g -> g.getId().equals(id))
-                    .findFirst()
-                    .orElse(null);
-
-            model.addAttribute("game", game);
-        }
-        return "game";
-    }
     @GetMapping("/profile")
-    public String profile() {
+    public String profilePage(Authentication auth, Model model) {
+        if (auth == null) return "redirect:/login";
+
+        User user = userService.findByUsername(auth.getName());
+        model.addAttribute("user", user);
+
+        List<GameRecord> records = gameRecordRepository.findAllByUsernameOrderByScoreDesc(user.getUsername());
+        model.addAttribute("records", records);
+
         return "profile";
+    }
+
+    @GetMapping("/add-game")
+    public String addGamePage() {
+        return "add-game";
     }
 }
