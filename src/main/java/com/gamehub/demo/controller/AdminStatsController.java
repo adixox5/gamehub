@@ -49,6 +49,12 @@ public class AdminStatsController {
         response.put("month", month);
         response.put("year", year);
 
+
         return response;
     }
+    @GetMapping("/comments")
+    public List<Map<String, Object>> getCommentStats() {
+        return commentRepository.getCommentStatsPerGame();
+    }
+
 }
