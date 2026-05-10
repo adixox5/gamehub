@@ -17,17 +17,15 @@
 
     <section class="featured-slider mb-5">
         <div id="featured-slider-container">
-            <a th:href="@{/game(id=1)}" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/007bff/fff?text=2048');">
-                <span class="slide-play-btn"><i class="fas fa-play"></i> Graj</span>
-            </a>
-            <a th:href="@{/game(id=2)}" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/e75e8d/fff?text=Clumsy+Bird');">
-                <span class="slide-play-btn"><i class="fas fa-play"></i> Graj</span>
-            </a>
-            <a th:href="@{/game(id='mk')}" class="featured-slide" style="background-image: url('/games/mk/images/arenas/0/arena.png');">
-                <span class="slide-play-btn"><i class="fas fa-play"></i> Graj w MK</span>
-                <div class="slide-content">
-                    <h3>Mortal Kombat</h3>
-                </div>
+            <a th:each="game : ${featuredGames}"
+               th:href="@{/game(id=${game.id})}"
+               class="featured-slide"
+               th:style="'background-image: url(' + ${game.imageUrl} + '); background-size: cover; background-position: center;'">
+
+            <span class="slide-play-btn">
+                <i class="fas fa-play"></i> Graj w <span th:text="${game.title}"></span>
+            </span>
+
             </a>
         </div>
     </section>

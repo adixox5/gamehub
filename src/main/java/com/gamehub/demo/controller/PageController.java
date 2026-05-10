@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,18 @@ public class PageController {
             games = gameRepository.findAll();
         }
         model.addAttribute("games", games);
+
+        List<Game> allGamesForSlider = gameRepository.findAll();
+        // Tasujemy listę (losowa kolejność)
+        Collections.shuffle(allGamesForSlider);
+        // Wybieramy maksymalnie 3 pierwsze z potasowanej listy
+        List<Game> featuredGames = allGamesForSlider.stream()
+                .limit(3)
+                .collect(Collectors.toList());
+
+        // Przekazujemy wylosowane gry do widoku (do HTML)
+        model.addAttribute("featuredGames", featuredGames);
+
         return "index";
     }
 
