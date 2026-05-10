@@ -163,14 +163,24 @@
                 <button type="submit" class="btn" style="margin-top: 10px;">Dodaj komentarz</button>
             </form>
 
-            <div id="comments-list" style="margin-top: 20px;">
+            <div id="comments-list" style="margin-top: 20px; margin-bottom: 20px;">
                 <div th:each="comment : ${comments}" style="padding: 15px; border-bottom: 1px solid var(--color-border);">
                     <strong th:text="${comment.author}" style="color: var(--color-accent);"></strong>
                     <small th:text="${#temporals.format(comment.createdAt, 'dd.MM.yyyy HH:mm')}" style="margin-left: 10px; color: var(--color-text-secondary);"></small>
                     <p th:text="${comment.content}" style="margin-top: 8px;"></p>
                 </div>
             </div>
+
             <div class="actions-bar" id="vote-buttons-group">
+                <button type="button" class="vote-btn vote-btn-like" th:attr="data-id=${game.id}" onclick="reactGame(this.getAttribute('data-id'), 'like')">
+                    <i class="fas fa-thumbs-up"></i> <span id="like-count" th:text="${game.likes}">0</span>
+                </button>
+                <button type="button" class="vote-btn vote-btn-dislike" th:attr="data-id=${game.id}" onclick="reactGame(this.getAttribute('data-id'), 'dislike')">
+                    <i class="fas fa-thumbs-down"></i> <span id="dislike-count" th:text="${game.dislikes}">0</span>
+                </button>
+                <button id="openLeaderboardBtn" class="leaderboard-btn" th:data-game="${game.title}">
+                    <i class="fas fa-trophy"></i> Tabela liderów
+                </button>
             </div>
         </div>
     </div>
