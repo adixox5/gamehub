@@ -16,18 +16,18 @@
 <main class="container mt-4">
 
     <section class="featured-slider mb-5">
-        <div id="gameBannerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000">
+        <div id="gameBannerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000" style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
 
-            <div class="carousel-inner" id="featured-slider-container" style="border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+            <div class="carousel-inner">
 
                 <div th:each="game, iterStat : ${featuredGames}"
-                     th:classappend="${iterStat.index == 0} ? 'carousel-item active' : 'carousel-item'">
+                     th:class="${iterStat.index == 0 ? 'carousel-item active' : 'carousel-item'}">
 
                     <a th:href="@{/game(id=${game.id})}" class="featured-slide"
                        th:style="'background-image: url(' +
                              (${game.imageUrl != null and !game.imageUrl.isEmpty()} ?
                              ${game.imageUrl} : 'https://placehold.co/1100x400/2c3e50/FFF?text=Gra+Czeka!') +
-                             '); background-size: cover; background-position: center; display: block; width: 100%; height: 100%;'">
+                             '); background-size: cover; background-position: center; display: block; width: 100%; height: 350px;'">
 
                     <span class="slide-play-btn">
                         <i class="fas fa-play"></i> Graj w <span th:text="${game.title}"></span>
