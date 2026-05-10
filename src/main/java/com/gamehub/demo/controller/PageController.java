@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Random;
 
 import java.util.Collections;
 import java.util.List;
@@ -60,6 +61,24 @@ public class PageController {
         model.addAttribute("featuredGames", featuredGames);
 
         return "index";
+    }
+
+    @GetMapping("/random-game")
+    public String randomGame() {
+        // Pobieramy wszystkie gry z bazy
+        List<Game> games = gameRepository.findAll();
+
+        // Zabezpieczenie na wypadek, gdyby baza była pusta
+        if (games.isEmpty()) {
+            return "redirect:/";
+        }
+
+        // Losujemy jeden indeks z listy
+        int randomIndex = new Random().nextInt(games.size());
+        Game randomGame = games.get(randomIndex);
+
+        // Przekierowujemy gracza bezpośrednio na stronę wylosowanej gry!
+        return "redirect:/game?id=" + randomGame.getId();
     }
 
     @GetMapping("/login")
