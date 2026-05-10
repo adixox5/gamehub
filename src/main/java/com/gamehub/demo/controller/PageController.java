@@ -115,4 +115,9 @@ public class PageController {
     public String addGamePage() {
         return "add-game";
     }
+
+    @GetMapping("/admin")
+    public String adminPanel() {
+        return "admin-panel";
+    }
 }
