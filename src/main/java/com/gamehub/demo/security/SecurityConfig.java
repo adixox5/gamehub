@@ -27,7 +27,7 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/login.html", "/register", "/register.html").permitAll()
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/add-game").authenticated()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/admin", "/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
