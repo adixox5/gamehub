@@ -2,6 +2,7 @@ package com.gamehub.demo.controller;
 
 import com.gamehub.demo.entity.UserLoginLog;
 import com.gamehub.demo.repository.UserLoginLogRepository;
+import com.gamehub.demo.repository.CommentRepository; // <-- Nowy import
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +15,12 @@ import java.util.*;
 public class AdminStatsController {
 
     private final UserLoginLogRepository repository;
+    private final CommentRepository commentRepository; // <-- Nowe pole
 
-    public AdminStatsController(UserLoginLogRepository repository) {
+    // Zaktualizowany konstruktor
+    public AdminStatsController(UserLoginLogRepository repository, CommentRepository commentRepository) {
         this.repository = repository;
+        this.commentRepository = commentRepository;
     }
 
     @GetMapping("/logins")
@@ -49,12 +53,12 @@ public class AdminStatsController {
         response.put("month", month);
         response.put("year", year);
 
-
         return response;
     }
+
+    // <-- Nowy endpoint dla komentarzy
     @GetMapping("/comments")
     public List<Map<String, Object>> getCommentStats() {
         return commentRepository.getCommentStatsPerGame();
     }
-
 }
