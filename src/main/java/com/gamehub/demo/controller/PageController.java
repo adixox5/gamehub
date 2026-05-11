@@ -15,7 +15,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -37,36 +40,48 @@ public class PageController {
     }
 
     @GetMapping("/")
-    public String index(@RequestParam(required = false) String search,
-                        @RequestParam(required = false) String category,
-                        Model model) {
+    public String index(
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String category, // <--- Dodaliśmy nasłuchiwanie na wybraną kategorię
+            Model model) {
 
+        // Pobieramy wszystkie gry
         List<Game> allGames = gameRepository.findAll();
 
-        List<String> categories = allGames.stream()
+        // 1. ZBIERANIE KATEGORII: Wyciągamy z gier unikalne kategorie i przekazujemy na front
+        Set<String> categories = allGames.stream()
                 .map(Game::getCategory)
                 .filter(c -> c != null && !c.isBlank())
-                .distinct()
-                .sorted()
-                .collect(Collectors.toList());
-
-        List<Game> games = allGames.stream()
-                .filter(g -> {
-                    boolean matchSearch = (search == null || search.isBlank() || g.getTitle().toLowerCase().contains(search.toLowerCase()));
-                    boolean matchCategory = (category == null || category.isBlank() || g.getCategory().equalsIgnoreCase(category));
-                    return matchSearch && matchCategory;
-                })
-                .collect(Collectors.toList());
-
-        List<String> suggestionTitles = allGames.stream()
-                .map(Game::getTitle)
-                .collect(Collectors.toList());
-
-        model.addAttribute("games", games);
+                .collect(Collectors.toSet());
         model.addAttribute("categories", categories);
-        model.addAttribute("currentCategory", category);
-        model.addAttribute("search", search);
-        model.addAttribute("suggestionTitles", suggestionTitles);
+
+        // 2. FILTROWANIE WYNIKÓW
+        List<Game> gamesToDisplay = allGames;
+
+        // Jeśli ktoś coś wpisał w wyszukiwarkę...
+        if (search != null && !search.isBlank()) {
+            gamesToDisplay = gamesToDisplay.stream()
+                    .filter(g -> g.getTitle().toLowerCase().contains(search.toLowerCase()))
+                    .collect(Collectors.toList());
+        }
+
+        // Jeśli ktoś wybrał kategorię z menu...
+        if (category != null && !category.isBlank()) {
+            gamesToDisplay = gamesToDisplay.stream()
+                    .filter(g -> category.equalsIgnoreCase(g.getCategory()))
+                    .collect(Collectors.toList());
+        }
+
+        model.addAttribute("games", gamesToDisplay);
+
+        // --- KOD WASZEGO BANERU (Zostaje jak był) ---
+        List<Game> allGamesForSlider = new ArrayList<>(allGames);
+        Collections.shuffle(allGamesForSlider);
+        List<Game> featuredGames = allGamesForSlider.stream()
+                .limit(3)
+                .collect(Collectors.toList());
+        model.addAttribute("featuredGames", featuredGames);
+        // ------------------------------------------
 
         return "index";
     }
