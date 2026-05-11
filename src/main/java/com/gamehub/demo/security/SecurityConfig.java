@@ -20,8 +20,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/style/**", "/js/**", "/css/**", "/images/**", "/games/**", "/static/**").permitAll()
                         .requestMatchers("/", "/index", "/index.html").permitAll()
-                        .requestMatchers("/info", "/info.html", "/regulamin", "/regulamin.html").permitAll()
-                        .requestMatchers("/game", "/game.html").permitAll()
+                        .requestMatchers("/info", "/error/**", "/info.html", "/regulamin", "/regulamin.html").permitAll()
+                        .requestMatchers("/game", "/game.html", "/random-game").permitAll()
                         .requestMatchers("/category", "/category.html").permitAll()
                         .requestMatchers("/api/records/**", "/api/games/**").permitAll()
                         .requestMatchers("/login", "/login.html", "/register", "/register.html").permitAll()

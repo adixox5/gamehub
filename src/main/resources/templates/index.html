@@ -16,19 +16,37 @@
 <main class="container mt-4">
 
     <section class="featured-slider mb-5">
-        <div id="featured-slider-container">
-            <a th:href="@{/game(id=1)}" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/007bff/fff?text=2048');">
-                <span class="slide-play-btn"><i class="fas fa-play"></i> Graj</span>
-            </a>
-            <a th:href="@{/game(id=2)}" class="featured-slide" style="background-image: url('https://placehold.co/1100x400/e75e8d/fff?text=Clumsy+Bird');">
-                <span class="slide-play-btn"><i class="fas fa-play"></i> Graj</span>
-            </a>
-            <a th:href="@{/game(id='mk')}" class="featured-slide" style="background-image: url('/games/mk/images/arenas/0/arena.png');">
-                <span class="slide-play-btn"><i class="fas fa-play"></i> Graj w MK</span>
-                <div class="slide-content">
-                    <h3>Mortal Kombat</h3>
+        <div id="gameBannerCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="4000" style="border-radius: 15px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+
+            <div class="carousel-inner">
+
+                <div th:each="game, iterStat : ${featuredGames}"
+                     th:class="${iterStat.index == 0 ? 'carousel-item active' : 'carousel-item'}">
+
+                    <a th:href="@{/game(id=${game.id})}" class="featured-slide"
+                       th:style="'background-image: url(' +
+                             (${game.imageUrl != null and !game.imageUrl.isEmpty()} ?
+                             ${game.imageUrl} : 'https://placehold.co/1100x400/2c3e50/FFF?text=Gra+Czeka!') +
+                             '); background-size: cover; background-position: center; display: block; width: 100%; height: 350px;'">
+
+                    <span class="slide-play-btn">
+                        <i class="fas fa-play"></i> Graj w <span th:text="${game.title}"></span>
+                    </span>
+                    </a>
+
                 </div>
-            </a>
+
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#gameBannerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Poprzedni</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#gameBannerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Następny</span>
+            </button>
+
         </div>
     </section>
 
@@ -63,7 +81,12 @@
             <button type="submit" class="btn btn-outline-secondary">
                 <i class="fas fa-search"></i>
             </button>
+
         </form>
+        <a th:href="@{/random-game}" class="btn btn-warning ms-2" title="Zaskocz mnie!" style="display: flex; align-items: center; justify-content: center; border-radius: 20px;">
+            <i class="fas fa-dice fs-4"></i>
+        </a>
+
     </section>
 
     <section class="popular-games-section">
