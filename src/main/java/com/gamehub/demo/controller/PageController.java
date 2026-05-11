@@ -1,3 +1,4 @@
+
 package com.gamehub.demo.controller;
 
 import com.gamehub.demo.entity.Comment;
@@ -36,16 +37,37 @@ public class PageController {
     }
 
     @GetMapping("/")
-    public String index(@RequestParam(required = false) String search, Model model) {
-        List<Game> games;
-        if (search != null && !search.isBlank()) {
-            games = gameRepository.findAll().stream()
-                    .filter(g -> g.getTitle().toLowerCase().contains(search.toLowerCase()))
-                    .collect(Collectors.toList());
-        } else {
-            games = gameRepository.findAll();
-        }
+    public String index(@RequestParam(required = false) String search,
+                        @RequestParam(required = false) String category,
+                        Model model) {
+
+        List<Game> allGames = gameRepository.findAll();
+
+        List<String> categories = allGames.stream()
+                .map(Game::getCategory)
+                .filter(c -> c != null && !c.isBlank())
+                .distinct()
+                .sorted()
+                .collect(Collectors.toList());
+
+        List<Game> games = allGames.stream()
+                .filter(g -> {
+                    boolean matchSearch = (search == null || search.isBlank() || g.getTitle().toLowerCase().contains(search.toLowerCase()));
+                    boolean matchCategory = (category == null || category.isBlank() || g.getCategory().equalsIgnoreCase(category));
+                    return matchSearch && matchCategory;
+                })
+                .collect(Collectors.toList());
+
+        List<String> suggestionTitles = allGames.stream()
+                .map(Game::getTitle)
+                .collect(Collectors.toList());
+
         model.addAttribute("games", games);
+        model.addAttribute("categories", categories);
+        model.addAttribute("currentCategory", category);
+        model.addAttribute("search", search);
+        model.addAttribute("suggestionTitles", suggestionTitles);
+
         return "index";
     }
 
