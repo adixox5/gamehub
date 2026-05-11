@@ -663,3 +663,32 @@ body.dark-mode .category-btn {
     font-size: 0.9rem;
     font-weight: normal;
 }
+/* --- Style dla listy kategorii --- */
+.custom-category-select {
+    background-color: var(--color-bg-card, #2c3e50); /* Używa Twoich zmiennych lub domyślnego granatu */
+    color: var(--color-text-primary, #ffffff);
+    border: 1px solid var(--color-border, #34495e);
+    padding: 8px 16px;
+    border-radius: 8px; /* Zaokrąglone rogi jak w reszcie inputów */
+    font-size: 1rem;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    /* Strzałka rozwijania dostosowana do motywu */
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 1em;
+    padding-right: 35px; /* Miejsce na strzałkę */
+}
+
+.custom-category-select:focus {
+    border-color: var(--color-accent, #e94560);
+    box-shadow: 0 0 5px rgba(233, 69, 96, 0.5);
+}
+
+.custom-category-select option {
+    background-color: var(--color-bg-card, #1a1a2e);
+    color: var(--color-text-primary, #ffffff);
+}

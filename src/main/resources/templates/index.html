@@ -52,9 +52,8 @@
 
     <section class="search-bar-container mb-4 d-flex align-items-center">
         <form id="search-form" class="search-form d-flex gap-2 w-100" th:action="@{/}" method="get">
-            <select name="category" class="form-select" style="max-width: 200px;" onchange="this.form.submit()">
+            <select name="category" class="custom-category-select" onchange="this.form.submit()">
                 <option value="">Wszystkie gry</option>
-
                 <option th:each="cat : ${categories}"
                         th:value="${cat}"
                         th:text="${cat}"

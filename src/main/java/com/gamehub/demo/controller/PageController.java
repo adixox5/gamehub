@@ -157,4 +157,15 @@ public class PageController {
     public String adminPanel() {
         return "admin-panel";
     }
+
+    @GetMapping("/random-game")
+    public String randomGame() {
+        List<Game> games = gameRepository.findAll();
+        if (games.isEmpty()) {
+            return "redirect:/";
+        }
+        int randomIndex = new java.util.Random().nextInt(games.size());
+        Game randomGame = games.get(randomIndex);
+        return "redirect:/game?id=" + randomGame.getId();
+    }
 }
