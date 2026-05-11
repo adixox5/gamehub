@@ -1,3 +1,4 @@
+
 package com.gamehub.demo.controller;
 
 import com.gamehub.demo.entity.Comment;
@@ -13,9 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.Random;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,47 +37,38 @@ public class PageController {
     }
 
     @GetMapping("/")
-    public String index(@RequestParam(required = false) String search, Model model) {
-        List<Game> games;
-        if (search != null && !search.isBlank()) {
-            games = gameRepository.findAll().stream()
-                    .filter(g -> g.getTitle().toLowerCase().contains(search.toLowerCase()))
-                    .collect(Collectors.toList());
-        } else {
-            games = gameRepository.findAll();
-        }
-        model.addAttribute("games", games);
+    public String index(@RequestParam(required = false) String search,
+                        @RequestParam(required = false) String category,
+                        Model model) {
 
-        List<Game> allGamesForSlider = gameRepository.findAll();
-        // Tasujemy listę (losowa kolejność)
-        Collections.shuffle(allGamesForSlider);
-        // Wybieramy maksymalnie 3 pierwsze z potasowanej listy
-        List<Game> featuredGames = allGamesForSlider.stream()
-                .limit(3)
+        List<Game> allGames = gameRepository.findAll();
+
+        List<String> categories = allGames.stream()
+                .map(Game::getCategory)
+                .filter(c -> c != null && !c.isBlank())
+                .distinct()
+                .sorted()
                 .collect(Collectors.toList());
 
-        // Przekazujemy wylosowane gry do widoku (do HTML)
-        model.addAttribute("featuredGames", featuredGames);
+        List<Game> games = allGames.stream()
+                .filter(g -> {
+                    boolean matchSearch = (search == null || search.isBlank() || g.getTitle().toLowerCase().contains(search.toLowerCase()));
+                    boolean matchCategory = (category == null || category.isBlank() || g.getCategory().equalsIgnoreCase(category));
+                    return matchSearch && matchCategory;
+                })
+                .collect(Collectors.toList());
+
+        List<String> suggestionTitles = allGames.stream()
+                .map(Game::getTitle)
+                .collect(Collectors.toList());
+
+        model.addAttribute("games", games);
+        model.addAttribute("categories", categories);
+        model.addAttribute("currentCategory", category);
+        model.addAttribute("search", search);
+        model.addAttribute("suggestionTitles", suggestionTitles);
 
         return "index";
-    }
-
-    @GetMapping("/random-game")
-    public String randomGame() {
-        // Pobieramy wszystkie gry z bazy
-        List<Game> games = gameRepository.findAll();
-
-        // Zabezpieczenie na wypadek, gdyby baza była pusta
-        if (games.isEmpty()) {
-            return "redirect:/";
-        }
-
-        // Losujemy jeden indeks z listy
-        int randomIndex = new Random().nextInt(games.size());
-        Game randomGame = games.get(randomIndex);
-
-        // Przekierowujemy gracza bezpośrednio na stronę wylosowanej gry!
-        return "redirect:/game?id=" + randomGame.getId();
     }
 
     @GetMapping("/login")
