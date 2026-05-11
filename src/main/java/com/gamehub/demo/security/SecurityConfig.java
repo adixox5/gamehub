@@ -18,7 +18,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/style/**", "/js/**", "/css/**", "/images/**", "/games/**", "/static/**").permitAll()
+                        // DODANO "/Images/**"
+                        .requestMatchers("/style/**", "/js/**", "/css/**", "/images/**", "/Images/**", "/games/**", "/static/**").permitAll()
                         .requestMatchers("/", "/index", "/index.html").permitAll()
                         .requestMatchers("/info", "/error/**", "/info.html", "/regulamin", "/regulamin.html").permitAll()
                         .requestMatchers("/game", "/game.html", "/random-game").permitAll()
