@@ -24,10 +24,7 @@
                      th:class="${iterStat.index == 0 ? 'carousel-item active' : 'carousel-item'}">
 
                     <a th:href="@{/game(id=${game.id})}" class="featured-slide"
-                       th:style="'background-image: url(' +
-                             (${game.imageUrl != null and !game.imageUrl.isEmpty()} ?
-                             ${game.imageUrl} : 'https://placehold.co/1100x400/2c3e50/FFF?text=Gra+Czeka!') +
-                             '); background-size: cover; background-position: center; display: block; width: 100%; height: 350px;'">
+                       th:style="|background-image: url('${game.imageUrl != null and !game.imageUrl.isEmpty() ? game.imageUrl : 'https://placehold.co/1100x400/2c3e50/FFF?text=Gra+Czeka!'}'); background-size: cover; background-position: center; display: block; width: 100%; height: 350px;|">
 
                     <span class="slide-play-btn">
                         <i class="fas fa-play"></i> Graj w <span th:text="${game.title}"></span>
@@ -86,7 +83,7 @@
             <div class="col-md-4 mb-4" th:each="game : ${games}">
                 <div class="card h-100 shadow-sm">
                     <div style="height: 200px; overflow: hidden; display: flex; align-items: center; justify-content: center; background: #f0f0f0;">
-                        <img th:src="@{${game.imageUrl}}" class="card-img-top" alt="Game Image" style="object-fit: cover; width: 100%; height: 100%;">
+                        <img th:src="${game.imageUrl != null and !game.imageUrl.isEmpty()} ? @{${game.imageUrl}} : 'https://placehold.co/400x200/2c3e50/FFF?text=Brak+Obrazka'" class="card-img-top" alt="Game Image" style="object-fit: cover; width: 100%; height: 100%;">
                     </div>
                     <div class="card-body text-center">
                         <h5 class="card-title" th:text="${game.title}">Tytuł gry</h5>
