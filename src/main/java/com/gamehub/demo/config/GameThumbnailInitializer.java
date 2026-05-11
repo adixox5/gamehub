@@ -24,13 +24,13 @@ public class GameThumbnailInitializer implements CommandLineRunner {
             String title = game.getTitle().toLowerCase();
 
             if (title.contains("2048")) {
-                game.setImageUrl("/images/2048-game.png");
+                game.setImageUrl("/Images/2048-game.png");
                 gameRepository.save(game);
             } else if (title.contains("pacman")) {
-                game.setImageUrl("/images/images.jpg");
+                game.setImageUrl("/Images/images.jpg");
                 gameRepository.save(game);
             } else if (title.contains("hextris")) {
-                game.setImageUrl("/images/facebook-promotion.png");
+                game.setImageUrl("/Images/facebook-promotion.png");
                 gameRepository.save(game);
             }
         }
