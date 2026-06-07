@@ -121,9 +121,20 @@
             </div>
 
             <div id="daily-active-players" class="tab-content">
-                <h2>Dzienna liczba aktywnych graczy (Ostatnie 30 dni)</h2>
-                <div class="chart-container">
-                    <canvas id="dailyActivePlayersChart"></canvas>
+                <h2>Dzienna Aktywność Graczy (Ostatnie 30 dni)</h2>
+                <div class="submissions-table-container">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Data</th>
+                                <th>Liczba graczy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dane zostaną wstrzyknięte przez JS -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -177,7 +188,7 @@
 <script th:src="@{/js/main.js}"></script>
 
 <script>
-    let loginsChart, commentsChart, reactionsChart, mostPlayedGamesChart, dailyActivePlayersChart;
+    let loginsChart, commentsChart, reactionsChart, mostPlayedGamesChart;
 
     // Funkcja do pobierania aktualnego koloru tekstu ze zmiennych CSS
     function getChartTextColor() {
@@ -196,38 +207,24 @@
         if (tabId === 'reactions-stats') loadReactionsChart();
         if (tabId === 'submissions-content') loadSubmissions();
         if (tabId === 'most-played-games') loadMostPlayedGamesChart();
-        if (tabId === 'daily-active-players') loadDailyActivePlayersChart();
+        if (tabId === 'daily-active-players') loadDailyActivePlayersTable();
     }
 
-    function loadDailyActivePlayersChart() {
+    function loadDailyActivePlayersTable() {
         fetch('/api/admin/stats/daily-active-players')
             .then(res => res.json())
             .then(data => {
-                const ctx = document.getElementById('dailyActivePlayersChart').getContext('2d');
-                if (dailyActivePlayersChart) dailyActivePlayersChart.destroy();
-
-                dailyActivePlayersChart = new Chart(ctx, {
-                    type: 'line',
-                    data: {
-                        labels: data.map(d => d.date),
-                        datasets: [{
-                            label: 'Liczba aktywnych graczy',
-                            data: data.map(d => d.playerCount),
-                            borderColor: '#fd7e14',
-                            backgroundColor: 'rgba(253, 126, 20, 0.1)',
-                            fill: true,
-                            tension: 0.4
-                        }]
-                    },
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        plugins: { legend: { labels: { color: getChartTextColor() } } },
-                        scales: {
-                            x: { ticks: { color: getChartTextColor() } },
-                            y: { beginAtZero: true, ticks: { color: getChartTextColor() } }
-                        }
-                    }
+                const tbody = document.querySelector('#daily-active-players .submissions-table tbody');
+                tbody.innerHTML = '';
+                data.forEach((item, index) => {
+                    const row = `
+                        <tr>
+                            <td>${index}</td>
+                            <td>${item.date}</td>
+                            <td>${item.playerCount}</td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
                 });
             });
     }
@@ -358,7 +355,7 @@
         fetch('/api/admin/submissions')
             .then(res => res.json())
             .then(data => {
-                const tbody = document.querySelector('.submissions-table tbody');
+                const tbody = document.querySelector('#submissions-content .submissions-table tbody');
                 tbody.innerHTML = '';
                 data.forEach(sub => {
                     const row = `
@@ -401,7 +398,7 @@
             if (tabId === 'reactions-stats') loadReactionsChart();
             if (tabId === 'submissions-content') loadSubmissions();
             if (tabId === 'most-played-games') loadMostPlayedGamesChart();
-            if (tabId === 'daily-active-players') loadDailyActivePlayersChart();
+            if (tabId === 'daily-active-players') loadDailyActivePlayersTable();
         }
     });
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
