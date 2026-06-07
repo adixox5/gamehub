@@ -7,6 +7,9 @@ import com.gamehub.demo.repository.GameSubmissionRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/admin/submissions")
 public class AdminSubmissionController {
@@ -17,6 +20,11 @@ public class AdminSubmissionController {
     public AdminSubmissionController(GameSubmissionRepository submissionRepository, GameRepository gameRepository) {
         this.submissionRepository = submissionRepository;
         this.gameRepository = gameRepository;
+    }
+
+    @GetMapping
+    public List<GameSubmission> getSubmissions() {
+        return submissionRepository.findAll();
     }
 
     @PostMapping("/{id}/approve")

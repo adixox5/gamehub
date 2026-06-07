@@ -692,3 +692,69 @@ body.dark-mode .category-btn {
     background-color: var(--color-bg-card, #1a1a2e);
     color: var(--color-text-primary, #ffffff);
 }
+
+/* Styl dla tabeli zgłoszeń */
+.submissions-table-container {
+    overflow-x: auto;
+}
+
+.submissions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.submissions-table th, .submissions-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.submissions-table th {
+    background-color: var(--color-bg);
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.submissions-table tbody tr:hover {
+    background-color: var(--color-bg);
+}
+
+/* Status badges */
+.status-pending {
+    background-color: #ffc107;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.status-approved {
+    background-color: #28a745;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+.status-rejected {
+    background-color: #dc3545;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+/* Action buttons */
+.actions .btn-approve, .actions .btn-reject {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+.btn-approve { background-color: #28a745; }
+.btn-reject { background-color: #dc3545; margin-left: 5px; }

@@ -90,8 +90,8 @@
 <main class="container">
     <div class="admin-container">
         <aside class="admin-sidebar">
-            <h3 style="margin-bottom: 20px; padding-left: 10px; color: var(--color-text-primary);">Statystyki</h3>
-            <button class="tab-btn active" onclick="showTab('logins-stats')">
+            <h3 class="admin-sidebar-header">Statystyki</h3>
+            <button class="tab-btn" onclick="showTab('logins-stats')">
                 <i class="fas fa-chart-line"></i> Logowania
             </button>
             <button class="tab-btn" onclick="showTab('comments-stats')">
@@ -100,10 +100,14 @@
             <button class="tab-btn" onclick="showTab('reactions-stats')">
                 <i class="fas fa-thumbs-up"></i> Oceny gier
             </button>
+            <h3 class="admin-sidebar-header" style="margin-top: 20px;">Zarządzanie</h3>
+            <button class="tab-btn active" onclick="showTab('submissions-content')">
+                <i class="fas fa-gamepad"></i> Zgłoszenia gier
+            </button>
         </aside>
 
         <section class="admin-content">
-            <div id="logins-stats" class="tab-content" style="display: block;">
+            <div id="logins-stats" class="tab-content">
                 <h2>Statystyki Logowań (Ostatnie 7 dni)</h2>
                 <div class="chart-container">
                     <canvas id="loginsChart"></canvas>
@@ -121,6 +125,27 @@
                 <h2>Zestawienie polubień i ocen negatywnych</h2>
                 <div class="chart-container">
                     <canvas id="reactionsChart"></canvas>
+                </div>
+            </div>
+
+            <div id="submissions-content" class="tab-content" style="display: block;">
+                <h2>Nowe zgłoszenia gier</h2>
+                <div class="submissions-table-container">
+                    <table class="submissions-table">
+                        <thead>
+                            <tr>
+                                <th>Tytuł</th>
+                                <th>Kategoria</th>
+                                <th>Link</th>
+                                <th>Zgłaszający</th>
+                                <th>Status</th>
+                                <th>Akcje</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Dane zostaną wstrzyknięte przez JS -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
@@ -149,6 +174,7 @@
         if (tabId === 'logins-stats') loadLoginsChart();
         if (tabId === 'comments-stats') loadCommentsChart();
         if (tabId === 'reactions-stats') loadReactionsChart();
+        if (tabId === 'submissions-content') loadSubmissions();
     }
 
     function loadLoginsChart() {
@@ -243,10 +269,44 @@
             });
     }
 
-    document.addEventListener('DOMContentLoaded', loadLoginsChart);
+    function loadSubmissions() {
+        fetch('/api/admin/submissions')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.querySelector('.submissions-table tbody');
+                tbody.innerHTML = '';
+                data.forEach(sub => {
+                    const row = `
+                        <tr>
+                            <td>${sub.title}</td>
+                            <td>${sub.category}</td>
+                            <td><a href="${sub.gameLink}" target="_blank">Link</a></td>
+                            <td>${sub.username}</td>
+                            <td><span class="status-${sub.status.toLowerCase()}">${sub.status}</span></td>
+                            <td class="actions">
+                                ${sub.status === 'PENDING' ? `
+                                    <button class="btn-approve" onclick="approveSubmission(${sub.id})">Akceptuj</button>
+                                    <button class="btn-reject" onclick="rejectSubmission(${sub.id})">Odrzuć</button>
+                                ` : ''}
+                            </td>
+                        </tr>
+                    `;
+                    tbody.innerHTML += row;
+                });
+            });
+    }
 
-    // Dodatkowy nasłuchiwacz: jeśli użytkownik kliknie przycisk w navbarze, odświeżamy wykresy
-    // (Zakładając, że przycisk w navbarze wyzwala zmianę klasy na body)
+    function approveSubmission(id) {
+        fetch(`/api/admin/submissions/${id}/approve`, { method: 'POST' }).then(() => loadSubmissions());
+    }
+
+    function rejectSubmission(id) {
+        fetch(`/api/admin/submissions/${id}/reject`, { method: 'POST' }).then(() => loadSubmissions());
+    }
+
+
+    document.addEventListener('DOMContentLoaded', loadSubmissions);
+
     const observer = new MutationObserver(() => {
         const activeTab = document.querySelector('.tab-btn.active');
         if (activeTab) {
@@ -254,6 +314,7 @@
             if (tabId === 'logins-stats') loadLoginsChart();
             if (tabId === 'comments-stats') loadCommentsChart();
             if (tabId === 'reactions-stats') loadReactionsChart();
+            if (tabId === 'submissions-content') loadSubmissions();
         }
     });
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
