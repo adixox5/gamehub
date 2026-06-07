@@ -1,7 +1,10 @@
 package com.gamehub.demo.controller;
 
+import com.gamehub.demo.dto.DailyActivePlayers;
+import com.gamehub.demo.dto.GamePlayCount;
 import com.gamehub.demo.entity.UserLoginLog;
 import com.gamehub.demo.entity.Game;
+import com.gamehub.demo.repository.GameRecordRepository;
 import com.gamehub.demo.repository.UserLoginLogRepository;
 import com.gamehub.demo.repository.CommentRepository;
 import com.gamehub.demo.repository.GameRepository; // <-- Import repozytorium gier
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/admin/stats")
@@ -19,13 +23,16 @@ public class AdminStatsController {
     private final UserLoginLogRepository repository;
     private final CommentRepository commentRepository;
     private final GameRepository gameRepository; // <-- Pole dla repozytorium gier
+    private final GameRecordRepository gameRecordRepository;
 
     public AdminStatsController(UserLoginLogRepository repository,
                                 CommentRepository commentRepository,
-                                GameRepository gameRepository) { // <-- Dodanie do konstruktora
+                                GameRepository gameRepository,
+                                GameRecordRepository gameRecordRepository) { // <-- Dodanie do konstruktora
         this.repository = repository;
         this.commentRepository = commentRepository;
         this.gameRepository = gameRepository;
+        this.gameRecordRepository = gameRecordRepository;
     }
 
     @GetMapping("/logins")
@@ -69,5 +76,16 @@ public class AdminStatsController {
             stats.add(gameStat);
         }
         return stats;
+    }
+
+    @GetMapping("/most-played-games")
+    public List<GamePlayCount> getMostPlayedGames() {
+        return gameRecordRepository.findGamePlayCounts().stream().limit(10).collect(Collectors.toList());
+    }
+
+    @GetMapping("/daily-active-players")
+    public List<DailyActivePlayers> getDailyActivePlayers() {
+        LocalDateTime since = LocalDateTime.now().minusDays(30);
+        return gameRecordRepository.countDailyActivePlayers(since);
     }
 }

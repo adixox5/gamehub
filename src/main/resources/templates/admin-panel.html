@@ -91,6 +91,9 @@
     <div class="admin-container">
         <aside class="admin-sidebar">
             <h3 class="admin-sidebar-header">Statystyki</h3>
+            <button class="tab-btn active" onclick="showTab('most-played-games')">
+                <i class="fas fa-chart-bar"></i> Najczęściej grane
+            </button>
             <button class="tab-btn" onclick="showTab('logins-stats')">
                 <i class="fas fa-chart-line"></i> Logowania
             </button>
@@ -100,13 +103,30 @@
             <button class="tab-btn" onclick="showTab('reactions-stats')">
                 <i class="fas fa-thumbs-up"></i> Oceny gier
             </button>
+            <button class="tab-btn" onclick="showTab('daily-active-players')">
+                <i class="fas fa-users"></i> Aktywność graczy
+            </button>
             <h3 class="admin-sidebar-header" style="margin-top: 20px;">Zarządzanie</h3>
-            <button class="tab-btn active" onclick="showTab('submissions-content')">
+            <button class="tab-btn" onclick="showTab('submissions-content')">
                 <i class="fas fa-gamepad"></i> Zgłoszenia gier
             </button>
         </aside>
 
         <section class="admin-content">
+            <div id="most-played-games" class="tab-content" style="display: block;">
+                <h2>Najczęściej Grane Gry (Top 10)</h2>
+                <div class="chart-container">
+                    <canvas id="mostPlayedGamesChart"></canvas>
+                </div>
+            </div>
+
+            <div id="daily-active-players" class="tab-content">
+                <h2>Dzienna liczba aktywnych graczy (Ostatnie 30 dni)</h2>
+                <div class="chart-container">
+                    <canvas id="dailyActivePlayersChart"></canvas>
+                </div>
+            </div>
+
             <div id="logins-stats" class="tab-content">
                 <h2>Statystyki Logowań (Ostatnie 7 dni)</h2>
                 <div class="chart-container">
@@ -128,7 +148,7 @@
                 </div>
             </div>
 
-            <div id="submissions-content" class="tab-content" style="display: block;">
+            <div id="submissions-content" class="tab-content">
                 <h2>Nowe zgłoszenia gier</h2>
                 <div class="submissions-table-container">
                     <table class="submissions-table">
@@ -157,7 +177,7 @@
 <script th:src="@{/js/main.js}"></script>
 
 <script>
-    let loginsChart, commentsChart, reactionsChart;
+    let loginsChart, commentsChart, reactionsChart, mostPlayedGamesChart, dailyActivePlayersChart;
 
     // Funkcja do pobierania aktualnego koloru tekstu ze zmiennych CSS
     function getChartTextColor() {
@@ -175,6 +195,71 @@
         if (tabId === 'comments-stats') loadCommentsChart();
         if (tabId === 'reactions-stats') loadReactionsChart();
         if (tabId === 'submissions-content') loadSubmissions();
+        if (tabId === 'most-played-games') loadMostPlayedGamesChart();
+        if (tabId === 'daily-active-players') loadDailyActivePlayersChart();
+    }
+
+    function loadDailyActivePlayersChart() {
+        fetch('/api/admin/stats/daily-active-players')
+            .then(res => res.json())
+            .then(data => {
+                const ctx = document.getElementById('dailyActivePlayersChart').getContext('2d');
+                if (dailyActivePlayersChart) dailyActivePlayersChart.destroy();
+
+                dailyActivePlayersChart = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: data.map(d => d.date),
+                        datasets: [{
+                            label: 'Liczba aktywnych graczy',
+                            data: data.map(d => d.playerCount),
+                            borderColor: '#fd7e14',
+                            backgroundColor: 'rgba(253, 126, 20, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: getChartTextColor() } } },
+                        scales: {
+                            x: { ticks: { color: getChartTextColor() } },
+                            y: { beginAtZero: true, ticks: { color: getChartTextColor() } }
+                        }
+                    }
+                });
+            });
+    }
+
+    function loadMostPlayedGamesChart() {
+        fetch('/api/admin/stats/most-played-games')
+            .then(res => res.json())
+            .then(data => {
+                const ctx = document.getElementById('mostPlayedGamesChart').getContext('2d');
+                if (mostPlayedGamesChart) mostPlayedGamesChart.destroy();
+
+                mostPlayedGamesChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.map(d => d.gameTitle),
+                        datasets: [{
+                            label: 'Liczba rozegranych gier',
+                            data: data.map(d => d.playCount),
+                            backgroundColor: '#20c997'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { labels: { color: getChartTextColor() } } },
+                        scales: {
+                            x: { ticks: { color: getChartTextColor() } },
+                            y: { beginAtZero: true, ticks: { color: getChartTextColor() } }
+                        }
+                    }
+                });
+            });
     }
 
     function loadLoginsChart() {
@@ -305,7 +390,7 @@
     }
 
 
-    document.addEventListener('DOMContentLoaded', loadSubmissions);
+    document.addEventListener('DOMContentLoaded', loadMostPlayedGamesChart);
 
     const observer = new MutationObserver(() => {
         const activeTab = document.querySelector('.tab-btn.active');
@@ -315,6 +400,8 @@
             if (tabId === 'comments-stats') loadCommentsChart();
             if (tabId === 'reactions-stats') loadReactionsChart();
             if (tabId === 'submissions-content') loadSubmissions();
+            if (tabId === 'most-played-games') loadMostPlayedGamesChart();
+            if (tabId === 'daily-active-players') loadDailyActivePlayersChart();
         }
     });
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
