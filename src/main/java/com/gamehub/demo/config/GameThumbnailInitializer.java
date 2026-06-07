@@ -33,6 +33,9 @@ public class GameThumbnailInitializer implements CommandLineRunner {
                 game.setImageUrl("/Images/images.jpg");
                 gameRepository.save(game);
             } else if (title.contains("hextris")) {
+                game.setImageUrl("/games/hextris/images/facebook-opengraph.png");
+                gameRepository.save(game);
+            } else if (title.contains("0hh1")) {
                 game.setImageUrl("/Images/facebook-promotion.png");
                 gameRepository.save(game);
             }
