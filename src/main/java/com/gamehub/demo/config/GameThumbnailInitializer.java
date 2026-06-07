@@ -27,6 +27,9 @@ public class GameThumbnailInitializer implements CommandLineRunner {
                 game.setImageUrl("/Images/2048-game.png");
                 gameRepository.save(game);
             } else if (title.contains("pacman")) {
+                game.setImageUrl("/games/pacman/img/Pacman-Icon.svg");
+                gameRepository.save(game);
+            } else if (title.contains("tetris")) {
                 game.setImageUrl("/Images/images.jpg");
                 gameRepository.save(game);
             } else if (title.contains("hextris")) {
